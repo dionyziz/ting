@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8' />
+        <title>Chat</title>
+        <script src='bower_components/jquery/dist/jquery.min.js'></script>
+        <script src='bower_components/angular/angular.min.js'></script>
+        <script src='bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
+        <script src='socket.io/socket.io.js'></script>
+        <script src='bower_components/angular-socket-io/socket.min.js'></script>
+        <script src='bower_components/lodash/lodash.min.js'></script>
+        <script src='models/user.js'></script>
+        <script src='models/channel.js'></script>
+        <script src='models/message.js'></script>
+        <script src='controllers/messages.js'></script>
+        <script src='controllers/nicklist.js'></script>
+        <script src='chat.js'></script>
+        <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.min.css' />
+    </head>
+    <body ng-app='chat'>
+        <div id='chat'>
+            <div id='nicklist' ng-controller='NicklistCtrl'>
+                <ul>
+                    <li ng-repeat='user in users'>
+                        {{user.nickname}}
+                    </li>
+                </ul>
+            </div>
+            <div id='messages' ng-controller='MessagesCtrl'>
+                <ol>
+                    <li ng-repeat='message in messages'>
+                        {{message.source.nickname}} says: {{message.text}}
+                    </li>
+                </ol>
+                <form ng-submit='sendMessage()'>
+                    <input type='text' ng-model='outgoingMessage' />
+                    <input type='submit' value='Chat' />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
