@@ -4,7 +4,12 @@ var channel = new Channel('hellas');
 var me = null;
 
 chat.factory('chatServer', function (socketFactory) {
-    return socketFactory({ioSocket: io.connect(':3000/')})
+    var url = '/';
+
+    if (location.port != '') {
+        url = ':' + location.port + '/';
+    }
+    return socketFactory({ioSocket: io.connect(url)})
 });
 
 chat.controller('MessagesCtrl', MessagesCtrl);
