@@ -1,6 +1,4 @@
-function Message(source, dest, text, ts) {
+function Message(text, source) {
     this.source = source;
-    this.dest = dest;
     this.text = text;
-    this.ts = ts;
 }

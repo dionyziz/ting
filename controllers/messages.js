@@ -4,20 +4,21 @@ var MessagesCtrl = function ($scope, chatServer) {
     $scope.sendMessage = function() {
         console.log('Sending message: ' + $scope.outgoingMessage);
         chatServer.emit('message', {
-            channel: channel,
-            message: new Message(me, channel, $scope.outgoingMessage, 0)
+            channel: channel.name,
+            message: $scope.outgoingMessage
         });
         $scope.outgoingMessage = '';
     };
 
     chatServer.on('message', function(params) {
-        var channel = params.channel,
-            message = params.message;
+        var channelName = params.channel,
+            messageText = params.message,
+            sourceNickname = params.source;
 
-        if (channel.name != channel.name) {
+        if (channelName != channel.name) {
             return false;
         }
 
-        $scope.messages.push(message);
+        $scope.messages.push(new Message(messageText, sourceNickname));
     });
 };

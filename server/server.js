@@ -40,23 +40,23 @@ io.on('connection', function(socket){
     });
   });
   socket.on('message', function(params) {
-    var channel = params.channel,
-        message = params.message;
+    var channelName = params.channel,
+        messageText = params.message;
 
-    if (!channels[channel.name]
-     || !channels[channel.name].users[user.nickname]) {
+    if (!channels[channelName]
+     || !channels[channelName].users[user.nickname]) {
         console.log('User', user.nickname,
-                    'tried to send message to #', channel.name,
+                    'tried to send message to #', channelName,
                     'but is not in channel');
     }
 
-    console.log('On #' + channel.name, '<' + user.nickname + '>',  message.text);
+    console.log('On #' + channelName, '<' + user.nickname + '>',  messageText);
 
     io.emit('message', {
-        channel: channel,
-        message: message
-    }, {
-        for: 'everyone'
+        channel: channelName,
+        message: messageText,
+        source: user.nickname
+    });
     });
   });
 });
