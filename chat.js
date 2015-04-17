@@ -30,6 +30,8 @@ chat.run(function(chatServer) {
 
     $('#chat').show();
 
-    chatServer.emit('register', me);
-    chatServer.emit('join', channel);
+    chatServer.on('connect', function() {
+        chatServer.emit('register', me);
+        chatServer.emit('join', channel);
+    });
 });
