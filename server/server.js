@@ -11,7 +11,7 @@ var channels = {};
 var Channel = require('../models/channel.js');
 var _ = require('lodash');
 
-io.on('connection', function(socket){
+io.on('connection', function(socket) {
   var user = null;
 
   console.log(socket.id + ' connected');
@@ -64,4 +64,3 @@ io.on('connection', function(socket){
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
-

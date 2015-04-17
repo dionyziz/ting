@@ -16,4 +16,3 @@ var NicklistCtrl = function ($scope, chatServer) {
         $scope.users = channel.users;
     });
 };
-
