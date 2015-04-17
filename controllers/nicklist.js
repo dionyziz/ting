@@ -5,7 +5,7 @@ var NicklistCtrl = function ($scope, chatServer) {
         var channel = params.channel,
             user = params.user;
 
-        if ($scope.users[user.nickname]) {
+        if (!$scope.users[user.nickname]) {
             $scope.users[user.nickname] = user;
         }
     });
