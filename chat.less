@@ -1,0 +1,58 @@
+html, body {
+    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    height: 100%;
+}
+ol, ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#chat {
+    display: none;
+}
+#chat, #nicklist, #messages {
+    height: 100%;
+}
+#messages {
+    position: relative; 
+
+    .history {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 50px;
+        left: 0;
+        padding: 15px;
+        overflow: scroll;
+
+        li {
+        }
+    }
+    form {
+        position: absolute;
+        left: 0;
+        bottom: 0; 
+        right: 0;
+
+        input[type='submit'] {
+            display: none;
+        }
+    }
+}
+input[type='text'] {
+    padding: 10px;
+    width: 100%;
+    outline: none;
+    border-style: none;
+    border-top: 1px solid #ccc;
+    height: 55px;
+}
+#nicklist {
+    li {
+        padding: 15px;
+        margin: 0;
+        border-bottom: 1px solid #ccc;
+    }
+    border-right: 1px solid #aaa;
+    padding: 0;
+}
