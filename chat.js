@@ -28,6 +28,8 @@ chat.run(function(chatServer) {
 
     me = new User(nickname);
 
+    $('#chat').show();
+
     chatServer.emit('register', me);
     chatServer.emit('join', channel);
 });
