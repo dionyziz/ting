@@ -48,6 +48,7 @@ io.on('connection', function(socket) {
         console.log('User', user.nickname,
                     'tried to send message to #', channelName,
                     'but is not in channel');
+        return;
     }
 
     console.log('On #' + channelName, '<' + user.nickname + '>',  messageText);
