@@ -58,6 +58,10 @@ io.on('connection', function(socket) {
         message: messageText,
         source: user.nickname
     });
+  });
+  socket.on('disconnect', function() {
+    io.emit('part', {
+        user: user
     });
   });
 });
