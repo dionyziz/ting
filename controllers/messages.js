@@ -20,5 +20,7 @@ var MessagesCtrl = function ($scope, chatServer) {
         }
 
         $scope.messages.push(new Message(messageText, sourceNickname));
+
+        $('#messages .history li:last-child')[0].scrollIntoView();
     });
 };
