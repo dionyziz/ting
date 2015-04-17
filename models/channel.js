@@ -1,7 +1,7 @@
 function Channel(name) {
     this.name = name;
     this.messages = [];
-    this.users = [];
+    this.users = {};
 }
 
 if (typeof module !== 'undefined') {

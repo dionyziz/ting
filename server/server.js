@@ -28,8 +28,8 @@ io.on('connection', function(socket){
         channels[channel.name] = new Channel(channel.name);
     }
     
-    if (!_.find(channels[channel.name].users, {'nickname': user.nickname})) {
-        channels[channel.name].users.push(user);
+    if (!channels[channel.name].users[user.nickname]) {
+        channels[channel.name].users[user.nickname] = user;
     }
 
     socket.emit('nicklist', channels[channel.name]);

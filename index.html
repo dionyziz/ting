@@ -23,15 +23,15 @@
         <div id='chat'>
             <div id='nicklist' ng-controller='NicklistCtrl'>
                 <ul>
-                    <li ng-repeat='user in users'>
-                        {{user.nickname}}
+                    <li ng-repeat='(nickname, user) in users'>
+                        {{nickname}}
                     </li>
                 </ul>
             </div>
             <div id='messages' ng-controller='MessagesCtrl'>
                 <ol>
                     <li ng-repeat='message in messages'>
-                        {{message.source.nickname}} says: {{message.text}}
+                        {{message.source}} λέει: {{message.text}}
                     </li>
                 </ol>
                 <form ng-submit='sendMessage()'>
