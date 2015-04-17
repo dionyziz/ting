@@ -16,7 +16,15 @@ chat.controller('MessagesCtrl', MessagesCtrl);
 chat.controller('NicklistCtrl', NicklistCtrl);
 
 chat.run(function(chatServer) {
-    var nickname = prompt('Enter your nickname:');
+    var nickname;
+
+    if (!localStorage['nickname']) {
+        nickname = prompt('Πληκτρολόγησε το όνομά σου:');
+        localStorage['nickname'] = nickname;
+    }
+    else {
+        nickname = localStorage['nickname'];
+    }
 
     me = new User(nickname);
 
