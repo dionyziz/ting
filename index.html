@@ -32,22 +32,22 @@
             -->
         </div>
         <div id='chat'>
-            <div id='nicklist' ng-controller='NicklistCtrl'>
+            <div id='nicklist' ng-controller='NicklistCtrl' class='col-md-3'>
                 <ul>
                     <li ng-repeat='(nickname, user) in users'>
                         {{nickname}}
                     </li>
                 </ul>
             </div>
-            <div id='messages' ng-controller='MessagesCtrl'>
-                <ol>
+            <div id='messages' ng-controller='MessagesCtrl' class='col-md-9'>
+                <ol class='history'>
                     <li ng-repeat='message in messages'>
                         {{message.source}} λέει: {{message.text}}
                     </li>
                 </ol>
                 <form ng-submit='sendMessage()'>
-                    <input type='text' ng-model='outgoingMessage' />
-                    <input type='submit' value='Chat' />
+                    <input type='text' ng-model='outgoingMessage' autofocus placeholder='Γράψε ένα μήνυμα...' />
+                    <input type='submit' value='Στείλε' />
                 </form>
             </div>
         </div>
