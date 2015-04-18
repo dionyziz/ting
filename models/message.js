@@ -1,4 +1,3 @@
-function Message(text, source) {
-    this.source = source;
+function Message(text) {
     this.text = text;
 }

@@ -5,14 +5,15 @@ var NicklistCtrl = function ($scope, chatServer) {
         var channel = params.channel,
             user = params.user;
 
-        if (!$scope.users[user.nickname]) {
-            $scope.users[user.nickname] = user;
+        if (!$scope.users[user.name]) {
+            $scope.users[user.name] = true;
         }
     });
 
-    chatServer.on('nicklist', function(channel) {
-        console.log('Received nicklist', channel.users);
+    chatServer.on('nicklist', function(channelUserNicknames) {
+        console.log('Received nicklist', channelUserNicknames);
 
-        $scope.users = channel.users;
+        $scope.users = channelUserNicknames;
+    });
     });
 };

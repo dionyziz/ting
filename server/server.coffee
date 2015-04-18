@@ -4,6 +4,7 @@ io      = require 'socket.io'
 _       = require 'lodash'
 
 Channel = require '../models/channel.js'
+User = require '../models/user.js'
 
 app = express()
 server = http.Server(app)
@@ -11,45 +12,50 @@ io = io(server)
 
 app.use(express.static(__dirname + '/../'))
 
-socketToUser = {}
-channels = {}
+userChannels = {}
+channelUsers = {}
 
 io.on 'connection', (socket) ->
   user = null
 
   console.log(socket.id + ' connected')
 
-  socket.on 'register', (me) ->
-    user = me
-    console.log 'me me', me
-    socketToUser[socket.id] = user
-    console.log(socket.id + ' is now known as ' + me.nickname)
+  socket.on 'register', (name) ->
+    user = new User(name)
+    userChannels[user.name] = {}
 
-  socket.on 'join', (channel) ->
-    console.log(user.nickname + ' joins channel #' + channel.name)
+    console.log(socket.id + ' is now known as ' + user.name)
 
-    channels[channel.name] ?= new Channel(channel.name)
+  socket.on 'join', (channelName) ->
+    if not user.name
+      console.log(socket.id + ' attempted to join channel ' + channelName + ' before registering, rejecting')
+      return
 
-    if not channels[channel.name].users[user.nickname]
-      channels[channel.name].users[user.nickname] = user
+    console.log(user.name + ' joins channel #' + channelName)
 
-    socket.emit('nicklist', channels[channel.name])
+    channelUsers[channelName] ?= {}
+    channelUsers[channelName][user.name] = true
 
-    io.emit('join', {user, channel})
+    userChannels[user.name][channelName] = true
 
-  socket.on 'message', ({channel, message}) ->
-    if not channels[channel]?.users[user.nickname]
-      console.log('User', user.nickname,
-                  'tried to send message to #', channel,
+    socket.emit('nicklist', channelUsers[channelName])
+
+    io.emit('join', {user, channelName})
+
+
+  socket.on 'message', ({channelName, message}) ->
+    if not channelUsers[channelName]?[user.name]
+      console.log('User', user.name,
+                  'tried to send message to #', channelName,
                   'but is not in channel')
       return
 
-    console.log('On #' + channel, '<' + user.nickname + '>',  message)
+    console.log('On #' + channelName, '<' + user.name + '>',  message)
 
     io.emit('message',
-      channel: channel
+      channelName: channelName
       message: message
-      source: user.nickname
+      source: user.name
     )
 
   socket.on 'disconnect', ->

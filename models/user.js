@@ -1,4 +1,7 @@
-function User(nickname) {
-    this.nickname = nickname;
-    this.channels = {};
+function User(name) {
+    this.name = name;
+}
+
+if (typeof module !== 'undefined') {
+    module.exports = User;
 }

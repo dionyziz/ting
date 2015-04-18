@@ -11,7 +11,7 @@ var MessagesCtrl = function ($scope, chatServer) {
     };
 
     chatServer.on('message', function(params) {
-        var channelName = params.channel,
+        var channelName = params.channelName,
             messageText = params.message,
             sourceNickname = params.source;
 
