@@ -42,6 +42,17 @@ io.on 'connection', (socket) ->
 
     io.emit('join', {user, channelName})
 
+  socket.on 'part', (user, channelName) ->
+    if not user.name
+      console.log(socket.id + ' attempted to part channel ' + channelName + ' before registering, rejecting')
+      return
+
+    if channelUsers[channelName]
+      delete channelUsers[channelName][user.name]
+
+    console.log(user.name + ' joins channel #' + channelName)
+
+    io.emit('part', {user, channelName})
 
   socket.on 'message', ({channelName, message}) ->
     if not channelUsers[channelName]?[user.name]
@@ -59,7 +70,11 @@ io.on 'connection', (socket) ->
     )
 
   socket.on 'disconnect', ->
-    io.emit('part', {user})
+    for channelName, _ of userChannels[user.name]
+      console.log(user.name + ' has parted channel ' + channelName)
+      io.emit('part', {user, channelName})
+
+    console.log(user.name + ' has disconnected')
 
 server.listen 3000, ->
   console.log('listening on *:3000')

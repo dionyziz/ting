@@ -15,5 +15,11 @@ var NicklistCtrl = function ($scope, chatServer) {
 
         $scope.users = channelUserNicknames;
     });
+
+    chatServer.on('part', function(params) {
+        var channel = params.channel,
+            user = params.user;
+
+        delete $scope.users[user.name];
     });
 };
