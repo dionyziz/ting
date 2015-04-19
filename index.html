@@ -8,18 +8,19 @@
         <script src='bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
         <script src='bower_components/angular-socket-io/socket.min.js'></script>
         <script src='bower_components/lodash/lodash.min.js'></script>
+        <script src='bower_components/coffee-script/extras/coffee-script.js'></script>
         <script src='socket.io/socket.io.js'></script>
         <script src='models/user.js'></script>
         <script src='models/channel.js'></script>
         <script src='models/message.js'></script>
         <script src='controllers/messages.js'></script>
         <script src='controllers/nicklist.js'></script>
-        <script src='chat.js'></script>
+        <script type="text/coffeescript" src='chat.coffee'></script>
         <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.min.css' />
         <link rel='stylesheet/less' type='text/css' href='chat.less' />
         <script src='bower_components/less.js/dist/less.min.js'></script>
     </head>
-    <body ng-app='chat'>
+    <body>
         <div id='splash'>
             <h1>Ting</h1>
             <!--

@@ -1,10 +1,10 @@
 var MessagesCtrl = function ($scope, chatServer) {
-    $scope.messages = channel.messages;
+    $scope.messages = [];
 
     $scope.sendMessage = function() {
-        console.log('Sending message: ' + $scope.outgoingMessage);
+        console.log('Sending message "' + $scope.outgoingMessage + '" to channel', channel.name);
         chatServer.emit('message', {
-            channel: channel.name,
+            channelName: channel.name,
             message: $scope.outgoingMessage
         });
         $scope.outgoingMessage = '';
@@ -21,6 +21,10 @@ var MessagesCtrl = function ($scope, chatServer) {
 
         $scope.messages.push(new Message(messageText, sourceNickname));
 
-        $('#messages .history li:last-child')[0].scrollIntoView();
+        var lastMessage = $('#messages .history li:last-child');
+        
+        if (lastMessage.length) {
+            lastMessage[0].scrollIntoView();
+        }
     });
 };
