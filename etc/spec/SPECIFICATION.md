@@ -1,7 +1,8 @@
-==Ting==
+# Ting
 
 June 15, 2015
-dionyziz
+
+dionyziz for the Ting team.
 
 Ting is a chat platform. It runs on ting.gr. This document is the specification
 for the minimum viable product version of Ting. We will develop this version on
@@ -9,19 +10,19 @@ June 15, 2015 and launch it in public on the same day. We will then reiterate
 and develop more complicated features and extend this specification to expand
 the platform.
 
-==Workflow==
+# Workflow
 Ting consists of two screens: The login screen and the chat screen. These are
 described below. When the user enters the URL ting.gr on their browser, they
 are taken to the Login screen. If they enter www.ting.gr, they are redirected
 to ting.gr.
 
-==UX foundation==
+# UX foundation
 The UX is in Greek. The text towards the user will be informal. Singular
 form is used for everything. Informal words are preferred over formal words.
 For example, the word "πληκτρολόγησε" should be replaced by "γράψε". The goal
 is to make the user feel at ease, relaxed, and in a friendly environment.
 
-==Target audience==
+# Target audience
 The target audience for Ting is teenagers from Greece aged 12 - 21 years old.
 The purpose of the chat is to bring people close together and allow strangers
 who live in the same country and are of similar age to get to know each other.
@@ -29,11 +30,11 @@ We should make it a point in the UX to avoid the purpose of many other chat
 rooms which is romantic or sexual interest, and focus on directing the user to
 make friendly, public conversations.
 
-==Login screen==
+# Login screen
 The Login screen consists of only a modal window with the heading "Ting", a
 textbox and a button.
 
-[[login.jpg]]
+![Login screen](http://i.imgur.com/FKcFIzW.jpg)
 
 The placeholder text in the textbox is "Γράψε ένα ψευδώνυμο". The textbox is
 focused by default when the screen is visited. The placeholder text is hidden
@@ -72,7 +73,7 @@ follows:
 
 The error message is displayed above the textbox.
 
-==Chat screen==
+# Chat screen
 The chat screen consists of the following elements:
 
 1. A top bar
@@ -80,7 +81,7 @@ The chat screen consists of the following elements:
 3. A chat history
 4. A message area
 
-[[chat.jpg]]
+![Chat screen](http://i.imgur.com/ASUdKzG.jpg)
 
 The top bar is located at the top and takes up the whole screen horizontally.
 On the top left, it has the text "ting". Below it, the screen is split in two
@@ -132,7 +133,7 @@ a user, it is delivered to everyone else who is currently online in the chat.
 The textbox in the message area is then cleared, but remains focused. The
 message appears immediately on the side of the sending party.
 
-==TODO==
+# TODO
 This specification is limited to a minimum viable product specification. It
 will be extended with the following features in future editions:
 
