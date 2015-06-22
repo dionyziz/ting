@@ -1,55 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="el">
     <head>
-        <meta charset='utf-8' />
-        <title>Ting</title>
-        <script src='bower_components/jquery/dist/jquery.min.js'></script>
-        <script src='bower_components/angular/angular.min.js'></script>
-        <script src='bower_components/bootstrap/dist/js/bootstrap.min.js'></script>
-        <script src='bower_components/angular-socket-io/socket.min.js'></script>
-        <script src='bower_components/lodash/lodash.min.js'></script>
-        <script src='bower_components/coffee-script/extras/coffee-script.js'></script>
-        <script src='socket.io/socket.io.js'></script>
-        <script src='models/user.js'></script>
-        <script src='models/channel.js'></script>
-        <script src='models/message.js'></script>
-        <script src='controllers/messages.js'></script>
-        <script src='controllers/nicklist.js'></script>
-        <script type="text/coffeescript" src='chat.coffee'></script>
-        <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.min.css' />
-        <link rel='stylesheet/less' type='text/css' href='chat.less' />
-        <script src='bower_components/less.js/dist/less.min.js'></script>
+        <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="client.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="index.css" />
+        <meta charset="UTF-8" />
     </head>
     <body>
-        <div id='splash'>
-            <h1>Ting</h1>
-            <!--
-            <h2>Πληκτρολόγησε το όνομά σου για να ξεκινήσεις.</h2>
-
-            <form>
-                <input type='text' placeholder='Το όνομά σου' />
-                <input type='submit' />
-            </form>
-            -->
+        <div class="modal fade" id="modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="text-center" id="login">
+                        <h1>Ting</h1>
+                        <form id="username-set">
+                            <input type="text" class="form-control input-small" placeholder="Γράψε ένα ψευδώνυμο" id="username">
+                            <input type="button" name="join" id="join" value="Mπες" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id='chat'>
-            <div id='nicklist' ng-controller='NicklistCtrl' class='col-md-3'>
-                <ul>
-                    <li ng-repeat='(nickname, user) in users'>
-                        {{nickname}}
-                    </li>
+        <div class="col-md-4 online">
+            <div class="panel panel-primary">
+                <div class="text-center panel-heading">
+                    <p id='ting-title'>Ting</p>
+                </div>
+                <div class="panel-body-online">
+                    <ul id='people' class="media-list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 chat">
+            <div class="panel panel-info">
+                <div class="panel-heading tabs" id='chat-heading'>
+            </div>
+            <div class="panel-body-msg">
+                <ul class="media-list" id="msg-list">
                 </ul>
             </div>
-            <div id='messages' ng-controller='MessagesCtrl' class='col-md-9'>
-                <ol class='history'>
-                    <li ng-repeat='message in messages'>
-                        {{message.source}} λέει: {{message.text}}
-                    </li>
-                </ol>
-                <form ng-submit='sendMessage()'>
-                    <input type='text' ng-model='outgoingMessage' autofocus placeholder='Γράψε ένα μήνυμα...' />
-                    <input type='submit' value='Στείλε' />
-                </form>
+            <div class="panel-footer">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter Message" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info" type="button">SEND</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class='modal fade' id='username-set-modal' data-backdrop='static' data-keyboard='false' role='dialog'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='text-center' id='login'>
+                        <h1>Ting</h1>
+                        <form id='username-set'>
+                            <input type='text' class='form-control input-small' placeholder='Γράψε ένα ψευδώνυμο' id='username' />
+                            <input type='button' name='join' id='join' value='Mπες' class='btn btn-primary' />
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

@@ -1,0 +1,94 @@
+body {
+    overflow: hidden;
+}
+.container {
+    margin-left: 4%;
+}
+.panel-body-online {
+    height: 91vh;
+}
+.panel-body-msg {
+    height: 81vh;
+    overflow-y: scroll;
+}
+.online {
+    padding: 0px;
+    width: 26%;
+}
+.chat {
+    padding: 0px;
+    width: 74%;
+}
+.panel {
+    padding: 0px;
+}
+.online > .panel {
+    border-right: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+    border-radius: 0px;
+    margin-bottom: 0px;
+}
+.chat > .panel {
+    border-radius: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+    margin-bottom: 0px;
+}
+.panel-primary > .panel-heading, .panel-info > .panel-heading {
+    border-color: #CFCFCF;
+    background-color: white;
+}
+.panel-info, .panel-primary {
+    border-color: #8D8D8D;;
+}
+.panel-info {
+    height: 102%;
+}
+#chat-heading {
+    height: 41px;
+}
+#ting-title {
+    display: inline;
+    font-size: large;
+}
+.panel-primary > .panel-heading {
+    padding: 7px;
+}
+.panel-body-online ul {
+    font-size: 15px;
+    padding-left: 8%;
+    padding-top: 4%;
+}
+.panel-footer {
+    padding: 0px;
+    height: 41px
+}
+.panel-body-msg ul {
+    bottom: 11%;
+    padding-left: 3%;
+}
+.panel-body-msg ul li {
+    overflow: initial;
+}
+.panel-heading p {
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+}
+#username-set input {
+    margin-bottom: 10px;    
+    margin-top: 10px;
+}
+#username {
+    margin-right: auto;
+    margin-left: auto;
+    width: 30%;
+}
+#msg {
+    height: 41px;
+}
+#msg input {
+    border: 0px;
+    height: 43px;
+}
