@@ -1,6 +1,6 @@
 # Ting
 
-June 15, 2015
+June 15, 2015 - June 22, 2015
 
 dionyziz for the Ting team.
 
@@ -14,7 +14,39 @@ the platform.
 Ting consists of two screens: The login screen and the chat screen. These are
 described below. When the user enters the URL ting.gr on their browser, they
 are taken to the Login screen. If they enter www.ting.gr, they are redirected
-to ting.gr.
+to ting.gr and appropriate URL parameters are appended.
+
+When the user enters the URL ting.gr/channel, where channel is any
+valid channel name, the user is taken to the Login screen with the active
+channel set to the channel specified in the URL. The active channel remains
+until the web page is refreshed or a different URL is visited.
+
+The user visits a ting URL and enters a channel. They can then see who is online
+in that same channel. If they wish to visit multiple channels, they must visit
+multiple instances of ting in different website windows or tabs.
+
+Messages exchanged are per-channel. Each message sent to a channel is delivered
+only to the users currently online in that channel.
+
+Message history is stored in a per-channel basis. When a user enters a channel,
+they are shown some of the messages history.
+
+# Channels
+If no channel name is specified in the URL, the default channel name is used,
+which is the channel name "ting". Channel names are validated as follows upon
+visiting a ting URL:
+
+1. The channel name is at least 1 character and at most 20.
+2. The nickname must consist of only the following characters:
+ - The lower-case and upper-case latin characters a-z and A-Z.
+ - The numbers 0-9.
+ - The symbols _ . -
+
+If an invalid channel is specified, the user is redirected to the default
+channel and the URL shown is ting.gr without a channel name.
+
+There is no user notion of creating or destroying a channel. A channel is
+an entity as long as some user is in it.
 
 # UX foundation
 The UX is in Greek. The text towards the user will be informal. Singular
@@ -46,7 +78,7 @@ The button has the text "Μπες". Upon clicking the button, the nickname enter
 is verified as follows:
 
 1. The nickname is at least 1 character and at most 20.
-2. The nickname must consists of only the following characters:
+2. The nickname must consist of only the following characters:
  - The lower-case and upper-case latin characters a-z and A-Z.
  - The lower-case and upper-case greek characters α-ω and Α-Ω.
  - The numbers 0-9.
@@ -84,21 +116,24 @@ The chat screen consists of the following elements:
 ![Chat screen](http://i.imgur.com/ASUdKzG.jpg)
 
 The top bar is located at the top and takes up the whole screen horizontally.
-On the top left, it has the text "ting". Below it, the screen is split in two
+On the top left, it has the text "ting". In the middle of the top bar, the channel
+name is shown, unless it is the default channel name.
+
+Below it, the screen is split in two
 areas vertically. The left area contains the nick list and the right area is
 split horizontally in two smaller areas. The top portion is the larger and is
 the chat history. The bottom portion is the message area. The portions are not
 resizable.
 
-The nick list contains the nicknames that are currently in use, in alphabetical
-order. Nicknames are displayed one below the other. If the list of nicknames is
-too long to fit, a vertical scrollbar is displayed on the right-hand side of
-the nick list. Otherwise, no scrollbar is displayed.
+The nick list contains the nicknames that are currently in use in the currently
+active channel, in alphabetical order. Nicknames are displayed one below the other.
+If the list of nicknames is too long to fit, a vertical scrollbar is displayed on
+the right-hand side of the nick list. Otherwise, no scrollbar is displayed.
 
-The message history contains a list of messages posted by everyone. The
-messages are displayed in chronological order from top to bottom. The message
-history is empty when the user first enters the Chat screen - no history is
-stored on the server.
+The message history contains a list of messages posted by everyone in the active
+channel. The messages are displayed in chronological order from top to bottom. When
+the user enters a channel, the message history consists of the most recent 100
+messages exchanged by the users priorly and is stored on the server.
 
 Each message posted has the following form: "Nickname: Message", where
 Nickname contains the nickname of the person making the post and Message
@@ -129,9 +164,9 @@ Horizontal scrollbars never appear in the message area.
 
 When a user enters a non-empty message and presses the Enter key, the message
 is sent. There is no separate button to send a chat. When a message is sent by
-a user, it is delivered to everyone else who is currently online in the chat.
-The textbox in the message area is then cleared, but remains focused. The
-message appears immediately on the side of the sending party.
+a user, it is delivered to everyone else who is currently online in the chat
+in the active channel. The textbox in the message area is then cleared, but remains
+focused. The message appears immediately on the side of the sending party.
 
 # TODO
 This specification is limited to a minimum viable product specification. It
