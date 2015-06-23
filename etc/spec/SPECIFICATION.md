@@ -37,7 +37,7 @@ which is the channel name "ting". Channel names are validated as follows upon
 visiting a ting URL:
 
 1. The channel name is at least 1 character and at most 20.
-2. The nickname must consist of only the following characters:
+2. The channel name must consist of only the following characters:
  - The lower-case and upper-case latin characters a-z and A-Z.
  - The numbers 0-9.
  - The symbols _ . -
