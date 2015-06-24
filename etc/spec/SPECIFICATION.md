@@ -74,33 +74,33 @@ when the user starts typing some text, unless the text is cleared. Pressing the
 Enter key when the keyboard is focused on the textbox is equivalent to pressing
 the button.
 
-The button has the text "Μπες". Upon clicking the button, the nickname entered
+The button has the text "Μπες". Upon clicking the button, the username entered
 is verified as follows:
 
-1. The nickname is at least 1 character and at most 20.
-2. The nickname must consist of only the following characters:
+1. The username is at least 1 character and at most 20.
+2. The username must consist of only the following characters:
  - The lower-case and upper-case latin characters a-z and A-Z.
  - The lower-case and upper-case greek characters α-ω and Α-Ω.
  - The numbers 0-9.
  - The symbols . , / ? ~ ! @ # $ % ^ & * ( ) - _ = + [ ] { } \ | ' " ` ; :
-3. The nickname must not be currently in use.
+3. The username must not be currently in use.
 
-All nicknames are not in use by default. If the nickname is valid, the
-nickname becomes in use and the user is taken to the Chat screen. The nickname
-is then associated with that user. The nickname stops being in use when the
+All usernames are not in use by default. If the username is valid, the
+username becomes in use and the user is taken to the Chat screen. The username
+is then associated with that user. The username stops being in use when the
 user exits the chat application by closing the browser window or by losing
 their internet connection.
 
-If the nickname is invalid, the textbox border is changed to red and the
+If the username is invalid, the textbox border is changed to red and the
 content text color is changed to red and an appropriate error is displayed as
 follows:
 
-1. If the nickname field is empty, the error message is "Γράψε ένα ψευδώνυμο."
-2. If the nickname field is too large, the error message is "Το ψευδώνυμο
+1. If the username field is empty, the error message is "Γράψε ένα ψευδώνυμο."
+2. If the username field is too large, the error message is "Το ψευδώνυμο
    πρέπει να είναι έως 20 γράμματα."
-3. If the nickname field contains forbidden characters, the error message is
+3. If the username field contains forbidden characters, the error message is
    "Το ψευδώνυμο πρέπει να περιλαμβάνει μόνο γράμματα, αριθμούς ή σύμβολα."
-4. If the nickname is currently in use, the error message is "Το ψευδώνυμο
+4. If the username is currently in use, the error message is "Το ψευδώνυμο
    το έχει άλλος."
 
 The error message is displayed above the textbox.
@@ -125,9 +125,9 @@ split horizontally in two smaller areas. The top portion is the larger and is
 the chat history. The bottom portion is the message area. The portions are not
 resizable.
 
-The nick list contains the nicknames that are currently in use in the currently
-active channel, in alphabetical order. Nicknames are displayed one below the other.
-If the list of nicknames is too long to fit, a vertical scrollbar is displayed on
+The nick list contains the usernames that are currently in use in the currently
+active channel, in alphabetical order. usernames are displayed one below the other.
+If the list of usernames is too long to fit, a vertical scrollbar is displayed on
 the right-hand side of the nick list. Otherwise, no scrollbar is displayed.
 
 The message history contains a list of messages posted by everyone in the active
@@ -135,9 +135,9 @@ channel. The messages are displayed in chronological order from top to bottom. W
 the user enters a channel, the message history consists of the most recent 100
 messages exchanged by the users priorly and is stored on the server.
 
-Each message posted has the following form: "Nickname: Message", where
-Nickname contains the nickname of the person making the post and Message
-contains the text posted. The nickname is displayed in bold.
+Each message posted has the following form: "username: Message", where
+username contains the username of the person making the post and Message
+contains the text posted. The username is displayed in bold.
 
 If a text is too long to fit in one line, it is wrapped around to the next
 line. No horizontal scrollbar is ever displayed in the history area.
@@ -175,7 +175,7 @@ will be extended with the following features in future editions:
 * HTTPS
 * Channels
 * Private messages
-* Nickname registration
+* Username registration
 * Live typing
 * Avatars
 * Age / sex / location
