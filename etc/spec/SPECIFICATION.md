@@ -126,7 +126,7 @@ the chat history. The bottom portion is the message area. The portions are not
 resizable.
 
 The nick list contains the usernames that are currently in use in the currently
-active channel, in alphabetical order. usernames are displayed one below the other.
+active channel, in alphabetical order. Usernames are displayed one below the other.
 If the list of usernames is too long to fit, a vertical scrollbar is displayed on
 the right-hand side of the nick list. Otherwise, no scrollbar is displayed.
 
