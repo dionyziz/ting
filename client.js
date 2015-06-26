@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    URL = 'www.ting.gr:8080';
+    URL = window.location.hostname + ':8080';
     var ENTER = 13;
     var ready = false;
     var rex = /^[α-ωa-z0-9]+$/i;
@@ -53,7 +53,7 @@ $(document).ready(function() {
     parts = url.split('/');
     var channel = parts[1];
 
-    if (channel == 'undefined') {
+    if (channel == '') {
         channel = 'ting';
     }
 

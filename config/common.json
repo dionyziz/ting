@@ -1,0 +1,21 @@
+{
+    "node": {
+        "hostname": "ting.gr",
+        "port": 8080
+    },
+    "django": {
+        "port": 8000,
+        "secret_key": "the_big_secret",
+        "allowed_hosts": [
+            "ting.gr",
+            "www.ting.gr"
+        ],
+        "database": {
+            "name": "ting",
+            "user": "ting",
+            "password": "ting",
+            "host": ""
+        },
+        "debug": 0
+    }
+}
