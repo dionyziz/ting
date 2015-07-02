@@ -1,80 +1,71 @@
-body {
-    overflow: hidden;
+.top {
+    border-bottom: 1px solid #cfcfcf;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
 }
-.container {
-    margin-left: 4%;
+.app {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
-.panel-body-online {
-    height: 91vh;
-}
-.panel-body-msg {
-    height: 81vh;
-    overflow-y: scroll;
-}
-.online {
-    padding: 0px;
-    width: 26%;
+.nicklist {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 20%;
 }
 .chat {
-    padding: 0px;
-    width: 74%;
+    position: absolute;
+    left: 20%; top: 0;
+    right: 0;
+    bottom: 0;
+    border-left: 1px solid #8d8d8d;
 }
-.panel {
-    padding: 0px;
+.history {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50px;
 }
-.online > .panel {
-    border-right: 0px;
-    border-top: 0px;
-    border-bottom: 0px;
-    border-radius: 0px;
-    margin-bottom: 0px;
+.textarea {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #ddd;
 }
-.chat > .panel {
-    border-radius: 0px;
-    border-top: 0px;
-    border-bottom: 0px;
-    margin-bottom: 0px;
+.history-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    overflow-y: scroll;
 }
-.panel-primary > .panel-heading, .panel-info > .panel-heading {
-    border-color: #CFCFCF;
-    background-color: white;
+.chat ul {
+    position: absolute;
+    bottom: 0;
+    max-height: 100%;
 }
-.panel-info, .panel-primary {
-    border-color: #8D8D8D;;
+#msg {
+    height: 100%;
 }
-.panel-info {
-    height: 102%;
+#msg input {
+    border: 0px;
+    height: 100%;
 }
-#chat-heading {
-    height: 41px;
-}
-#ting-title {
-    display: inline;
-    font-size: large;
-}
-.panel-primary > .panel-heading {
-    padding: 7px;
-}
-.panel-body-online ul {
-    font-size: 15px;
-    padding-left: 8%;
-    padding-top: 4%;
-}
-.panel-footer {
-    padding: 0px;
-    height: 41px
-}
-.panel-body-msg ul {
-    bottom: 11%;
-    padding-left: 3%;
-}
-.panel-body-msg ul li {
-    overflow: initial;
-}
-.panel-heading p {
-    font-size: 16px;
-    font-weight: 500;
-    color: black;
+.top h1 {
+    font-size: 26px;
+    margin-top: 7px;    
+    margin-left: 8%;
 }
 #username-set input {
     margin-bottom: 10px;    
@@ -85,10 +76,10 @@ body {
     margin-left: auto;
     width: 30%;
 }
-#msg {
-    height: 41px;
+ul {
+    list-style-type: none;
 }
-#msg input {
-    border: 0px;
-    height: 43px;
+#online-list {
+    margin-top: 10px;
+    font-size: 17px;
 }

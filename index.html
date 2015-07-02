@@ -1,53 +1,35 @@
 <!DOCTYPE html>
-<html lang="el">
+<html>
     <head>
-        <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
-        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-        <script src="client.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="index.css" />
-        <meta charset="UTF-8" />
+        <meta charset='utf-8' />
+        <title>Ting</title>
+        <link rel='stylesheet' href='index.css' />
+        <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' />
+        <script src='http://code.jquery.com/jquery-1.11.3.min.js'></script>
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+        <script src='node_modules/socket.io/node_modules/socket.io-client/socket.io.js'></script>
+        <script src='client.js'></script>
     </head>
     <body>
-        <div class="modal fade" id="modal" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="text-center" id="login">
-                        <h1>Ting</h1>
-                        <form id="username-set">
-                            <input type="text" class="form-control input-small" placeholder="Γράψε ένα ψευδώνυμο" id="username">
-                            <input type="button" name="join" id="join" value="Mπες" class="btn btn-primary">
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class='top'>
+            <h1>Ting</h1>
         </div>
-        <div class="col-md-4 online">
-            <div class="panel panel-primary">
-                <div class="text-center panel-heading">
-                    <p id='ting-title'>Ting</p>
-                </div>
-                <div class="panel-body-online">
-                    <ul id='people' class="media-list">
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8 chat">
-            <div class="panel panel-info">
-                <div class="panel-heading tabs" id='chat-heading'>
-            </div>
-            <div class="panel-body-msg">
-                <ul class="media-list" id="msg-list">
+        <div class='app'>
+            <div class='nicklist'>
+                <ul id='online-list'>
                 </ul>
             </div>
-            <div class="panel-footer">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Enter Message" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-info" type="button">SEND</button>
-                    </span>
+            <div class='chat'>
+                <div class='history'>
+                    <div class='history-wrapper' id='scroller'>
+                        <ul id='msg-list'>
+                        </ul> 
+                    </div>
+                </div>
+                <div class='textarea'>
+                    <form id='msg'>
+                        <input type='text' class='form-control' placeholder='Γράψε ένα μήνυμα...' />
+                    </form>
                 </div>
             </div>
         </div>
