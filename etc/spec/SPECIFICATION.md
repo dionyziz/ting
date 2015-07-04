@@ -175,7 +175,6 @@ For transport security purposes, ting.gr is served over HTTPS.
 This specification is limited to a minimum viable product specification. It
 will be extended with the following features in future editions:
 
-* Channels
 * Private messages
 * Username registration
 * Live typing
