@@ -35,7 +35,7 @@ socket.on('connection', function (client) {
             }
         }
 
-        request(headers, function(error, response, body) {
+        req(headers, function(error, response, body) {
              if (error) {
                  console.log(error);
              } 
