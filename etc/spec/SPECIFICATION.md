@@ -168,11 +168,13 @@ a user, it is delivered to everyone else who is currently online in the chat
 in the active channel. The textbox in the message area is then cleared, but remains
 focused. The message appears immediately on the side of the sending party.
 
+# Security
+For transport security purposes, ting.gr is served over HTTPS.
+
 # TODO
 This specification is limited to a minimum viable product specification. It
 will be extended with the following features in future editions:
 
-* HTTPS
 * Channels
 * Private messages
 * Username registration
