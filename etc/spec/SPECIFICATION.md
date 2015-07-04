@@ -168,6 +168,50 @@ a user, it is delivered to everyone else who is currently online in the chat
 in the active channel. The textbox in the message area is then cleared, but remains
 focused. The message appears immediately on the side of the sending party.
 
+# Typing
+Ting provides a different approach from usual chat platforms when it comes to
+notifications about typing. Users can see each other typing in real time. This
+works as follows.
+
+Messages in ting are separated into persistent and non-persistent. Persistent
+messages are messages that have been sent. Non-persistent messages are messages
+that are currently being typed, but have not been sent yet (the Enter key has
+not been pressed by the user.) Users can see both persistent and non-persistent
+messages and both are communicated on the network in real time.
+
+When a user starts typing a message in a channel, they reserve a position in
+the channel's history. Figuring out this position is critical for a smooth user
+experience and is determined by the following rules.
+
+* This position is maintained among other people who are currently typing, as
+well as persistent messages that have been sent. When nobody is typing and a
+user starts typing, this position becomes the end of the existing persistent
+messages.
+
+* When several users are typing and a user starts typing, their position becomes
+at the end among the existingly typing users and after all persistent messages.
+
+* When a user stops typing and erases their typed message, their position is
+lost and their message is not persisted.
+
+* When a user makes a message persistent by hitting the enter key, that
+message's position in the history remains as-is among other users who are
+typing. That is, it is not posted at the end of persistent messages, but
+potentially among messages that have not yet been made persistent yet.
+
+The user interface for this algorithm is different depending on whether the
+current user or a remote user is typing. The non-persisted message of the
+current user is displayed as "..." in the history portion of the chat. The full
+message is displayed in the textarea as it is being typed. The "..." servers to
+indicate to the user their current position among other typing users. Remote
+non-persistent messages are displayed by the text being added in real time as
+the user types, in their designated location.
+
+Non-persistent messages are differentiated from persistent messages by showing
+them as "ghosts", in a more transparent color. Additionally, the text of a
+non-persistent message is slowly flashing by becoming more and less trasparent
+to indicate that the message is ephemeral and currently changing.
+
 # Security
 For transport security purposes, ting.gr is served over HTTPS.
 
@@ -177,7 +221,6 @@ will be extended with the following features in future editions:
 
 * Private messages
 * Username registration
-* Live typing
 * Avatars
 * Age / sex / location
 * Voice
