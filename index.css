@@ -1,0 +1,85 @@
+.top {
+    border-bottom: 1px solid #cfcfcf;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+}
+.app {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.nicklist {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 20%;
+}
+.chat {
+    position: absolute;
+    left: 20%; top: 0;
+    right: 0;
+    bottom: 0;
+    border-left: 1px solid #8d8d8d;
+}
+.history {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+}
+.textarea {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #ddd;
+}
+.history-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    overflow-y: scroll;
+}
+.chat ul {
+    position: absolute;
+    bottom: 0;
+    max-height: 100%;
+}
+#msg {
+    height: 100%;
+}
+#msg input {
+    border: 0px;
+    height: 100%;
+}
+.top h1 {
+    font-size: 26px;
+    margin-top: 7px;    
+    margin-left: 8%;
+}
+#username-set input {
+    margin-bottom: 10px;    
+    margin-top: 10px;
+}
+#username {
+    margin-right: auto;
+    margin-left: auto;
+    width: 30%;
+}
+ul {
+    list-style-type: none;
+}
+#online-list {
+    margin-top: 10px;
+    font-size: 17px;
+}
