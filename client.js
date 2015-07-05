@@ -43,9 +43,9 @@ $(document).ready(function() {
     });
 
     $('#modal').modal('show');
-    $("#username").focus();
+    $('#username').focus();
         
-    $("#username-set").submit(function(event) {
+    $('#username-set').submit(function(event) {
         event.preventDefault();
         var username = $('#username').val();
         if (username != '' && rex.test(username)) {
@@ -88,15 +88,15 @@ $(document).ready(function() {
         }
     });
 
-    socket.on("chat", function(who, msg) {
+    socket.on('chat', function(who, msg) {
         if (ready) {
-            $("#msg-list").append("<li><strong>" + who + "</strong>: " + msg + "</li>");
+            $('#msg-list').append('<li><strong>' + who + '</strong>: ' + msg + '</li>');
         }
     });
 
-    //socket.on("disconnect", function() {
-    //    $("#msgs").append("<li><strong><span class='text-warning'>The server is not available</span></strong></li>");
-    //    $("#msg").attr("disabled", "disabled");
-    //    $("#send").attr("disabled", "disabled");
+    //socket.on('disconnect', function() {
+    //    $('#msgs').append('<li><strong><span class='text-warning'>The server is not available</span></strong></li>');
+    //    $('#msg').attr('disabled', 'disabled');
+    //    $('#send').attr('disabled', 'disabled');
     //});
 });
