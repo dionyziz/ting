@@ -34,6 +34,12 @@
     right: 0;
     bottom: 50px;
 }
+.history li {
+    padding: 4px 0;
+}
+.history img {
+    border-radius: 50px;
+}
 .textarea {
     position: absolute;
     bottom: 0;
@@ -54,6 +60,7 @@
     position: absolute;
     bottom: 0;
     max-height: 100%;
+    padding: 0 2px;
 }
 #msg {
     height: 100%;

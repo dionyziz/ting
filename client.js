@@ -37,7 +37,7 @@ $(document).ready(function() {
 
     $.getJSON('/messages/' + channel, function(msg) {
         $.each(msg, function(index, msg) {
-            $('#msg-list').append('<li><strong>' + msg.username + '</strong>: ' + msg.text + '</li>');
+            $('#msg-list').append('<li><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/p64x64/10603227_753036831442875_6714874134085985745_n.jpg?oh=1303f17274876cdee7d3d7c1a7616ffa&oe=562CF898&__gda__=1445073459_5e3f3235ae449e5ff990899dd388b049" alt="' + msg.username + '" width="20" height="20"/> <strong>' + msg.username + '</strong>: ' + msg.text + '</li>');
         });
         scrollDown();
     });
@@ -90,7 +90,7 @@ $(document).ready(function() {
 
     socket.on('chat', function(who, msg) {
         if (ready) {
-            $('#msg-list').append('<li><strong>' + who + '</strong>: ' + msg + '</li>');
+            $('#msg-list').append('<li><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/p64x64/10603227_753036831442875_6714874134085985745_n.jpg?oh=1303f17274876cdee7d3d7c1a7616ffa&oe=562CF898&__gda__=1445073459_5e3f3235ae449e5ff990899dd388b049" alt="' + who + '" width="20" height="20"/> <strong>' + who + '</strong>: ' + msg + '</li>');
         }
     });
 
