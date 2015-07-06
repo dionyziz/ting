@@ -8,7 +8,9 @@ $(document).ready(function() {
     var socket = io.connect(URL);
 
     function scrollDown() {
-        wrapper.scrollTop(wrapper.get(0).scrollHeight);
+        setTimeout(function() {
+            wrapper.scrollTop(wrapper.get(0).scrollHeight);
+        }, 30);
     }
 
     $('#username-set-modal').modal('show');
