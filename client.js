@@ -41,7 +41,7 @@ $(document).ready(function() {
         return 'http://www.gravatar.com/avatar/' + md5(name.toLowerCase() + '@gmail.com');
     }
 
-    $.getJSON('/messages/' + channel, function(msg) {
+    $.getJSON('/api/messages/' + channel, function(msg) {
         $.each(msg, function(index, msg) {
             var src = getAvatar(msg.username);
             var $img = $('<img src="' + src + '" alt="' + msg.username + '" />');
@@ -53,7 +53,7 @@ $(document).ready(function() {
             $li.append($img);
             $li.append($('<strong>' + msg.username + '</strong>: ' + msg.text));
 
-            $('#msg-list').append($li);
+            $('#msg-list').prepend($li);
         });
         scrollDown();
     });
