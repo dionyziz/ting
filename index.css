@@ -60,7 +60,7 @@
     position: absolute;
     bottom: 0;
     max-height: 100%;
-    padding: 0 2px;
+    padding: 10px 2px 0 2px;
 }
 #msg {
     height: 100%;
