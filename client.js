@@ -51,7 +51,8 @@ $(document).ready(function() {
             $img.height(20);
 
             $li.append($img);
-            $li.append($('<strong>' + msg.username + '</strong>: ' + msg.text));
+            $li.append($('<strong>' + msg.username + '</strong>'));
+            $li[0].innerHTML += ': ' + msg.text;
 
             $('#msg-list').prepend($li);
         });
