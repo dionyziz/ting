@@ -51,6 +51,7 @@ $(document).ready(function() {
             $img.height(20);
 
             $li.append($img);
+            $li.append(document.createTextNode(' '));
             $li.append($('<strong>' + msg.username + '</strong>'));
             $li[0].innerHTML += ': ' + msg.text;
 
