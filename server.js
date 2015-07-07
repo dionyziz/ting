@@ -1,6 +1,6 @@
 var io = require('socket.io');
 var req = require('request');
-URL = 'ting.gr/messages/';
+URL = 'ting.gr';
 PORT = 8080;
 
 var socket = io.listen(PORT);
@@ -25,7 +25,7 @@ socket.on('connection', function (client) {
         }
 
         var options = {
-            url: URL + data.ch,
+            url: URL + '/api/messages/' + data.ch,
             method: 'POST',
             headers: headers,
             form: {
