@@ -53,7 +53,7 @@ $(document).ready(function() {
             $li.append($img);
             $li.append(document.createTextNode(' '));
             $li.append($('<strong>' + msg.username + '</strong>'));
-            $li[0].innerHTML += ': ' + msg.text;
+            $li[0].innerHTML += ' <div class="other">' + msg.text + '</div>';
 
             $('#msg-list').prepend($li);
         });
@@ -109,7 +109,19 @@ $(document).ready(function() {
 
     socket.on('chat', function(who, msg) {
         if (ready) {
-            $('#msg-list').append('<li><img src="' + getAvatar(who) + '" alt="' + who + '" width="20" height="20"/> <strong>' + who + '</strong>: ' + msg + '</li>');
+            var avatarHTML = '<img src="' + getAvatar(who) + '" alt="' + who + '" width="20" height="20"/>';
+            var class;
+
+            if (who == myUsername) {
+                class = 'self';
+            }
+            else {
+                class = 'other';
+            }
+
+            var html = '<li>' + avatarHTML + ' <strong>' + who + '</strong> <div class="' + class + '">' + msg + '</div></li>';
+
+            $('#msg-list').append(html);
             scrollDown();
         }
     });
