@@ -4,7 +4,7 @@ $(document).ready(function() {
     var ready = false;
     var rex = /^[α-ωa-z0-9]+$/i;
     var wrapper = $('.history-wrapper');
-
+    var myUsername = null;
     var socket = io.connect(URL);
 
     function scrollDown() {
@@ -19,10 +19,10 @@ $(document).ready(function() {
     }, 300);
 
     $('#join').click(function() {
+        var username = $('#username').val();
         if (username == '' && rex.test(username)) {
             alert('Please enter a valid username');
         }
-        var username = $('#username').val();
         socket.emit('join', username);
         ready = true;
         $('#modal').modal('hide');
@@ -68,6 +68,7 @@ $(document).ready(function() {
         var username = $('#username').val();
         if (username != '' && rex.test(username)) {
             socket.emit('join', username);
+            myUsername = username;
             ready = true;
             $('#modal').modal('hide');
             $('#msg input').focus();
