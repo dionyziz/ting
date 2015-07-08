@@ -109,6 +109,7 @@ $(document).ready(function() {
     socket.on('chat', function(who, msg) {
         if (ready) {
             $('#msg-list').append('<li><img src="' + getAvatar(who) + '" alt="' + who + '" width="20" height="20"/> <strong>' + who + '</strong>: ' + msg + '</li>');
+            scrollDown();
         }
     });
 
