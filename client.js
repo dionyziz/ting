@@ -31,20 +31,16 @@ $(document).ready(function() {
 
     function username_error_validation(username) {
         if (username == '') {
-            username_error_show('empty');
-            return false;
-
+            return 'empty';
         }
         else if (username.length > 20) {
-            username_error_show('length');
-            return false;
+            return 'length';
         }
         else if (!rex.test(username)) {
-            username_error_show('chars');
-            return false;
+            return 'chars';
         } 
-        return true; 
-    } 
+        return true;
+    }
 
     $('#username-set-modal').modal('show');
     $('#username-alert').hide()
