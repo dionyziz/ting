@@ -4,7 +4,7 @@ $(document).ready(function() {
     var ready = false;
     var rex = /^[α-ωa-z0-9]+$/i;
     var wrapper = $('.history-wrapper');
-
+    var myUsername = null;
     var socket = io.connect(URL);
 
     function scrollDown() {
@@ -19,10 +19,10 @@ $(document).ready(function() {
     }, 300);
 
     $('#join').click(function() {
+        var username = $('#username').val();
         if (username == '' && rex.test(username)) {
             alert('Please enter a valid username');
         }
-        var username = $('#username').val();
         socket.emit('join', username);
         ready = true;
         $('#modal').modal('hide');
@@ -44,16 +44,13 @@ $(document).ready(function() {
     $.getJSON('/api/messages/' + channel, function(msgs) {
         $.each(msgs, function(index, msg) {
             var src = getAvatar(msg.username);
-            var $img = $('<img src="' + src + '" alt="' + msg.username + '" />');
+            var $img = $('<img src="' + src + '" alt="' + msg.username + '" class="avatar" />');
             var $li = $('<li></li>');
-
-            $img.width(20);
-            $img.height(20);
 
             $li.append($img);
             $li.append(document.createTextNode(' '));
             $li.append($('<strong>' + msg.username + '</strong>'));
-            $li[0].innerHTML += ': ' + msg.text;
+            $li[0].innerHTML += ' <div class="other">' + msg.text + '</div>';
 
             $('#msg-list').prepend($li);
         });
@@ -68,6 +65,7 @@ $(document).ready(function() {
         var username = $('#username').val();
         if (username != '' && rex.test(username)) {
             socket.emit('join', username);
+            myUsername = username;
             ready = true;
             $('#modal').modal('hide');
             $('#msg input').focus();
@@ -108,7 +106,19 @@ $(document).ready(function() {
 
     socket.on('chat', function(who, msg) {
         if (ready) {
-            $('#msg-list').append('<li><img src="' + getAvatar(who) + '" alt="' + who + '" width="20" height="20"/> <strong>' + who + '</strong>: ' + msg + '</li>');
+            var avatarHTML = '<img src="' + getAvatar(who) + '" alt="' + who + '" class="avatar"/>';
+            var class;
+
+            if (who == myUsername) {
+                class = 'self';
+            }
+            else {
+                class = 'other';
+            }
+
+            var html = '<li>' + avatarHTML + ' <strong>' + who + '</strong> <div class="' + class + '">' + msg + '</div></li>';
+
+            $('#msg-list').append(html);
             scrollDown();
         }
     });
