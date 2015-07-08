@@ -44,11 +44,8 @@ $(document).ready(function() {
     $.getJSON('/api/messages/' + channel, function(msgs) {
         $.each(msgs, function(index, msg) {
             var src = getAvatar(msg.username);
-            var $img = $('<img src="' + src + '" alt="' + msg.username + '" />');
+            var $img = $('<img src="' + src + '" alt="' + msg.username + '" class="avatar" />');
             var $li = $('<li></li>');
-
-            $img.width(20);
-            $img.height(20);
 
             $li.append($img);
             $li.append(document.createTextNode(' '));
@@ -109,7 +106,7 @@ $(document).ready(function() {
 
     socket.on('chat', function(who, msg) {
         if (ready) {
-            var avatarHTML = '<img src="' + getAvatar(who) + '" alt="' + who + '" width="20" height="20"/>';
+            var avatarHTML = '<img src="' + getAvatar(who) + '" alt="' + who + '" class="avatar"/>';
             var class;
 
             if (who == myUsername) {
