@@ -54,3 +54,99 @@ service. This is so that real-time data can be persisted over time. This
 communication happens using a RESTful HTTPS protocol, where the real-time
 service hits the URLs of the RESTful service. As an example of one such
 operation, consider the persistence of chat messages.
+
+The communication between the real-time service and the RESTful API is
+privileged: The privileges of the real-time service are elevated so that
+it can provide authoritative data to the RESTful API. Authentication for
+this is performed by providing a shared secret in every request.
+
+## Real-time API
+
+The real-time API deals with maintaining the state of who is online and performs
+message exchange. Communication happens using socket.io. The messages that can
+be sent to the server are the following:
+
+* `login`: Indicates that a user is logging in on the server by providing the
+  user information. Requires a `username` parameter. If the username is
+  invalid, the server will close the connection.
+
+* `join`: Indicates the user wishes to join a channel. Expects a `channel`
+  parameter indicating the channel name.
+
+* `part`: Indicates the user wishes to leave a channel. Expects a `channel`
+  parameter.
+
+* `message`: Sends a message from the user to a channel or to another user
+  directly. Takes three parameters:
+
+  1. `type`: A string which is either `channel` or `user`, indicating whether
+     the recipient of the message is a channel or a user.
+  2. `target`: The name of the channel or the user we wish to send the message
+     to.
+  3. `text`: The text of the message.
+
+The server can publish the following messages:
+
+* `join`: Indicates a user has joined a channel. Includes two parameters, the
+  `username` and the `channel`. This message is also sent back to the user who
+  has attempted to join a channel if it was successful. All users present in a
+  channel receive the join message for every user that joins that channel.
+
+* `part`: Indicates a user has parted a channel. Includes the `username` and
+  `channel`. This message is also sent back to the user who attempted to part
+  a channel. All users in a channel receive part messages for users leaving the
+  channel. If a user's connection is dropped, part messages are sent for all
+  the channels they were in.
+
+* `channel`: This message is sent to a user who has just joined a channel. It
+  includes one parameter, `participants`, which is an array with all the
+  usernames of the people who are currently online in the channel.
+
+* `message`: Indicates a user has messaged in a channel you are in or in a private
+  window. Includes four parameters, `username`, `type`, `target`, and `text`,
+  as per above. If `type` is set to `user`, then `target` must be your username.
+
+## RESTful API
+
+The RESTful API deals with two resources currently: Messages and channels. The
+responses are always given in JSON. As such, we make no use of Django templates,
+only models and views. The URLs of the RESTful API live under the
+`https://ting.gr/api` URL.
+
+### Messages
+The Messages resource is used to store and retrieve chat messages. It is
+accessible through the `/messages` URL.
+
+There are two operations:
+
+1. A GET operation on `/messages/<channel_name>`. This retrieves the chat
+   messages recently exchanged on a channel. They are returned as a JSON array
+   of messages. By default, the number of messages returned is limited to 100.
+   The GET variable `lim` can be used to alter the limit. The messages are
+   ordered from newest to oldest. Each message is represented as a dict with
+   three keys:
+
+   * `text`: The text of the chat message.
+   * `username`: The username of the person who wrote the message.
+   * `datetime`: The time the message was sent, in UTC epoch milliseconds.
+
+2. A POST operation on `/messages/<channel_name>`. This is a **privileged
+   operation** that persists a message on a given channel. The POST body
+   contains a JSON dictionary with three keys, `text`, `username`, and
+   `datetime`, with the semantics above.
+
+### Channels
+The Channels resource is used to create and retrieve channel information.
+It is accessible through the `/channels` URL.
+
+There are two operations:
+
+1. A GET operation on `/channels/<channel_name>`. This retrieves information
+   about a given channel. If the channel does not exist, it causes a 404 error
+   code. Otherwise, a JSON dict with a description of the channel is returned.
+   It contains only a single key, `name`, with its value set to the channel
+   name.
+
+2. A POST operation on `/channels`. This creates a new channel with the given
+   name. The POST body contains a dictionary with one key, "name", which
+   contains the name of the channel.
