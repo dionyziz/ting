@@ -107,16 +107,16 @@ $(document).ready(function() {
     socket.on('chat', function(who, msg) {
         if (ready) {
             var avatarHTML = '<img src="' + getAvatar(who) + '" alt="' + who + '" class="avatar"/>';
-            var class;
+            var className;
 
             if (who == myUsername) {
-                class = 'self';
+                className = 'self';
             }
             else {
-                class = 'other';
+                className = 'other';
             }
 
-            var html = '<li>' + avatarHTML + ' <strong>' + who + '</strong> <div class="' + class + '">' + msg + '</div></li>';
+            var html = '<li>' + avatarHTML + ' <strong>' + who + '</strong> <div class="' + className + '">' + msg + '</div></li>';
 
             $('#msg-list').append(html);
             scrollDown();
