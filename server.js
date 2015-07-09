@@ -6,11 +6,18 @@ PORT = 8080;
 var socket = io.listen(PORT);
 
 var people = {};
+var usernames = {};
 
 socket.on('connection', function (client) {
-    client.on('join', function(name) {
+     client.on('join', function(name) {
+        if (usernames[name]) {
+            client.emit('join-response', false);
+            return;
+        }
         people[client.id] = name;
+        usernames[name] = true;
         console.log(name + ' joined the server');
+        client.emit('join-response', true);
         socket.sockets.emit('update-people', people);
     });
 
@@ -45,6 +52,7 @@ socket.on('connection', function (client) {
     client.on('disconnect', function() {
         var user = people[client.id];
         delete people[client.id];
+        delete usernames[user];
         socket.sockets.emit('update-people', people);
         console.log(user + ' disconnected from server');
     });

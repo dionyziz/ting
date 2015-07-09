@@ -13,22 +13,41 @@ $(document).ready(function() {
         }, 30);
     }
 
+    function username_error_show(error) {
+        $('#username-alert').empty();
+        var $par = $('<p></p>');
+        var errors = {
+            empty: 'Γράψε ένα ψευδώνυμο.',
+            length: 'Το ψευδώνυμο πρέπει να είναι έως 20 γράμματα.',
+            chars: 'Το ψευδώνυμο πρέπει να περιλαμβάνει μόνο γραμματα, αριθμούς ή σύμβολα.',
+            taken: 'Το ψευδώνυμο το έχει άλλος.'
+        };
+
+        $par.append(errors[error]);
+
+        $('#username-alert').append($par);
+        $('#username-alert').show();
+    }
+
+    function username_error_validation(username) {
+        if (username == '') {
+            return 'empty';
+        }
+        else if (username.length > 20) {
+            return 'length';
+        }
+        else if (!rex.test(username)) {
+            return 'chars';
+        } 
+        return true;
+    }
+
     $('#username-set-modal').modal('show');
+    $('#username-alert').hide()
     setTimeout(function() {
         $('#username').focus();
     }, 300);
 
-    $('#join').click(function() {
-        var username = $('#username').val();
-        if (username == '' && rex.test(username)) {
-            alert('Please enter a valid username');
-        }
-        socket.emit('join', username);
-        ready = true;
-        $('#username-set-modal').modal('hide');
-        $('#msg input').focus();
-    });
-        
     var url = $(location).attr('href');
     parts = url.split('/');
     var channel = parts[1];
@@ -63,16 +82,13 @@ $(document).ready(function() {
     $('#username-set').submit(function(event) {
         event.preventDefault();
         var username = $('#username').val();
-        if (username != '' && rex.test(username)) {
-            socket.emit('join', username);
-            myUsername = username;
-            ready = true;
-            $('#modal').modal('hide');
-            $('#msg input').focus();
+        var response = username_error_validation(username);
+
+        if (response != true) {
+            username_error_show(response);
+            return;
         }
-        else {
-            alert('Please enter a valid username');
-        }
+        socket.emit('join', username);
     });
 
     $('#msg input').keypress(function(e) {
@@ -86,6 +102,16 @@ $(document).ready(function() {
                 scrollDown();
             }
         }
+    });
+
+    socket.on('join-response', function(success) {
+        if (!success) {
+            username_error_show('taken');
+            return;
+        }
+        ready = true;
+        $('#username-set-modal').modal('hide');
+        $('#msg input').focus();
     });
 
     socket.on('update', function(msg) {
