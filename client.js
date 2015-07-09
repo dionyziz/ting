@@ -6,6 +6,7 @@ $(document).ready(function() {
     var wrapper = $('.history-wrapper');
     var myUsername = null;
     var socket = io.connect(URL);
+    var first = true;
 
     function scrollDown() {
         setTimeout(function() {
@@ -81,6 +82,10 @@ $(document).ready(function() {
         
     $('#username-set').submit(function(event) {
         event.preventDefault();
+        ga('send', 'event', { 
+            eventCategory: 'join', eventAction: 'username_set', eventLabel: 'submit', eventValue: 1
+        });
+
         var username = $('#username').val();
         var response = username_error_validation(username);
 
@@ -94,8 +99,16 @@ $(document).ready(function() {
     $('#msg input').keypress(function(e) {
         if (e.which == ENTER) {
             e.preventDefault();
+
             var msg = $('#msg input').val();
             if (msg != '') {
+                if (first) {
+                    ga('send', 'event', { 
+                        eventCategory: 'chat', eventAction: 'chat_form_submit', eventLabel: 'send', eventValue: 1
+                    });
+                    first = false;
+                }
+
                 data = { ch: channel, msg: msg };
                 socket.emit('send', data);
                 $('#msg input').val('');
