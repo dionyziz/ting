@@ -25,7 +25,7 @@ $(document).ready(function() {
         }
         socket.emit('join', username);
         ready = true;
-        $('#modal').modal('hide');
+        $('#username-set-modal').modal('hide');
         $('#msg input').focus();
     });
         
