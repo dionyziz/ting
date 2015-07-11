@@ -53,7 +53,7 @@ $(document).ready(function() {
     parts = url.split('/');
     var channel = parts[1];
 
-    if (channel == 'undefined') {
+    if (channel == '') {
         channel = 'ting';
     }
 
