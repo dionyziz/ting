@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    URL = 'www.ting.gr:8080';
+    URL = window.location.hostname + ':8080';
     var ENTER = 13;
     var ready = false;
     var rex = /^[α-ωa-z0-9]+$/i;

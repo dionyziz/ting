@@ -1,2 +1,6 @@
 node_modules
 bower_components
+*.pyc
+*.swp
+config/local.json
+nohup.out

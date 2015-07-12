@@ -1,7 +1,15 @@
 var io = require('socket.io');
 var req = require('request');
-URL = 'ting.gr';
-PORT = 8080;
+var fs = require('fs');
+
+var config = JSON.parse(fs.readFileSync('config/common.json', 'utf8'))
+
+if (fs.existsSync('config/local.json')) {
+    config = JSON.parse(fs.readFileSync('config/local.json', 'utf8'))
+}
+
+URL = 'http://' + config.node.hostname;
+PORT = config.node.port;
 
 var socket = io.listen(PORT);
 
@@ -32,20 +40,20 @@ socket.on('connection', function (client) {
         }
 
         var options = {
-            url: URL + '/api/messages/' + data.ch,
+            url: URL + '/api/messages/' + data.ch + '/',
             method: 'POST',
             headers: headers,
             form: {
                 'username': people[client.id],
-                'msg': data.msg,
+                'text': data.msg,
                 'datetime': Date.now() 
             }
         }
 
-        req(headers, function(error, response, body) {
-             if (error) {
-                 console.log(error);
-             } 
+        req(options, function(error, response, body) {
+            if (error) {
+                console.log(error);
+            }
         });
     });
 
