@@ -1,0 +1,188 @@
+.top {
+    border-bottom: 1px solid #cfcfcf;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+}
+.app {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.nicklist {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 20%;
+}
+.chat {
+    position: absolute;
+    left: 20%; top: 0;
+    right: 0;
+    bottom: 0;
+    border-left: 1px solid #8d8d8d;
+}
+.history {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+}
+.history ul {
+    width: 100%;
+}
+.history li {
+    padding: 4px 0;
+    width: 100%;
+}
+.history li.first {
+    border-top: 1px solid #ddd;
+    padding-top: 8px;
+    margin-top: 4px;
+}
+.history img.avatar {
+    border-radius: 50px;
+    width: 20px;
+    height: 20px;
+}
+.textarea {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #ddd;
+}
+.history-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    overflow-y: scroll;
+}
+.chat ul {
+    position: absolute;
+    bottom: 0;
+    max-height: 100%;
+    padding: 10px 2px 0 12px;
+}
+.chat ul div {
+    display: inline;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f1f0f0;
+    color: black;
+    position: relative;
+}
+.chat ul div.self {
+    background-color: #0084ff;
+    color: white;
+}
+.chat ul div.self a {
+    color: white;
+    text-decoration: underline;
+}
+.chat ul div:after {
+    content: "◀";
+    display: block;
+    position: absolute;
+    left: -8px;
+    top: 5px;
+    color: #f1f0f0;
+    font-weight: bold;
+}
+.chat ul div.self:after {
+    color: #0084ff;
+}
+.chat ul li.typing {
+    opacity: 0.5;
+}
+@keyframes flash {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+.chat ul li.typing div {
+    animation: flash 1s infinite;
+}
+#msg {
+    height: 100%;
+}
+#msg input {
+    border: 0px;
+    height: 100%;
+}
+.top h1 {
+    font-size: 22px;
+    margin-top: 7px;    
+    margin-left: 20px;
+}
+#username-set input {
+    margin-bottom: 10px;    
+    margin-top: 10px;
+}
+#username {
+    margin-right: auto;
+    margin-left: auto;
+    width: 30%;
+}
+ul {
+    list-style-type: none;
+}
+#recent-list {
+    margin: 10px 0 0 0;
+    padding: 0;
+    font-size: 17px;
+}
+#recent-list li {
+    padding: 5px 10px;
+    height: 50px;
+    line-height: 40px;
+    cursor: pointer;
+}
+#recent-list li:hover {
+    background-color: #eee;
+}
+#recent-list li img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
+    margin-right: 5px;
+    float: left;
+    margin-top: 5px;
+}
+#recent-list li.active {
+    background-color: #0084ff;
+    color: white;
+    position: relative;
+}
+li.active:after {
+    content: "▶";
+    color: #0084ff;
+    display: block;
+    position: absolute;
+    right: -10px;
+    top: 6px;
+    z-index: 1;
+}
+#recent-list span {
+    display: block;
+    margin-left: 45px;
+}
+div.menu {
+    float: right;
+}
