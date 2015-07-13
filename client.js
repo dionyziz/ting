@@ -122,6 +122,10 @@ $(document).ready(function() {
         var text = document.createTextNode(message);
         div.appendChild(text);
         var html = div.innerHTML;
+
+        html = html.replace(/(https?\:\/\/[a-zA-Z/0-9?&_.-]*)/g,
+                            "<a href='$1' rel='nofollow'>$1</a>");
+
         return html;
     }
 
