@@ -70,7 +70,7 @@ $(document).ready(function() {
             $li.append($img);
             $li.append(document.createTextNode(' '));
             $li.append($('<strong>' + msg.username + '</strong>'));
-            $li[0].innerHTML += ' <div class="other">' + msg.text + '</div>';
+            $li[0].innerHTML += ' <div class="other">' + formatMessage(msg.text) + '</div>';
 
             $('#msg-list').prepend($li);
         });
@@ -116,6 +116,14 @@ $(document).ready(function() {
             }
         }
     });
+
+    function formatMessage(message) {
+        var div = document.createElement('div');
+        var text = document.createTextNode(message);
+        div.appendChild(text);
+        var html = div.innerHTML;
+        return html;
+    }
 
     function updateOwnMessagesInHistory() {
         $('#msg-list li').each(function() {
@@ -165,7 +173,7 @@ $(document).ready(function() {
                 className = 'other';
             }
 
-            var html = '<li>' + avatarHTML + ' <strong>' + who + '</strong> <div class="' + className + '">' + msg + '</div></li>';
+            var html = '<li>' + avatarHTML + ' <strong>' + who + '</strong> <div class="' + className + '">' + formatMessage(msg) + '</div></li>';
 
             $('#msg-list').append(html);
             scrollDown();
