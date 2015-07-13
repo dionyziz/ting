@@ -14,7 +14,7 @@ $(document).ready(function() {
         }, 30);
     }
 
-    function username_error_show(error) {
+    function usernameErrorShow(error) {
         $('#username-alert').empty();
         var $par = $('<p></p>');
         var errors = {
@@ -30,7 +30,7 @@ $(document).ready(function() {
         $('#username-alert').show();
     }
 
-    function username_error_validation(username) {
+    function usernameErrorValidation(username) {
         if (username == '') {
             return 'empty';
         }
@@ -90,7 +90,7 @@ $(document).ready(function() {
         var response = username_error_validation(myUsername);
 
         if (response != true) {
-            username_error_show(response);
+            usernameErrorShow(response);
             return;
         }
         socket.emit('join', myUsername);
@@ -127,7 +127,7 @@ $(document).ready(function() {
 
     socket.on('join-response', function(success) {
         if (!success) {
-            username_error_show('taken');
+            usernameErrorShow('taken');
             return;
         }
         ready = true;
