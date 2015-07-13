@@ -86,14 +86,14 @@ $(document).ready(function() {
             eventCategory: 'join', eventAction: 'username_set', eventLabel: 'submit', eventValue: 1
         });
 
-        var username = $('#username').val();
-        var response = username_error_validation(username);
+        myUsername = $('#username').val();
+        var response = username_error_validation(myUsername);
 
         if (response != true) {
             username_error_show(response);
             return;
         }
-        socket.emit('join', username);
+        socket.emit('join', myUsername);
     });
 
     $('#msg input').keypress(function(e) {
@@ -117,6 +117,14 @@ $(document).ready(function() {
         }
     });
 
+    function updateOwnMessagesInHistory() {
+        $('#msg-list li').each(function() {
+            if ($(this).find('strong').text() == myUsername) {
+                $(this).find('div').removeClass('other').addClass('self');
+            }
+        });
+    }
+
     socket.on('join-response', function(success) {
         if (!success) {
             username_error_show('taken');
@@ -125,6 +133,8 @@ $(document).ready(function() {
         ready = true;
         $('#username-set-modal').modal('hide');
         $('#msg input').focus();
+
+        updateOwnMessagesInHistory();
     });
 
     socket.on('update', function(msg) {
