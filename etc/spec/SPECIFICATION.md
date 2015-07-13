@@ -1,16 +1,14 @@
 # Ting
 
-June 15, 2015 - June 22, 2015
+June 15, 2015 - July 12, 2015
 
 dionyziz for the Ting team.
 
-Ting is a chat platform. It runs on ting.gr. This document is the specification
-for the minimum viable product version of Ting. We will develop this version on
-June 15, 2015 and launch it in public on the same day. We will then reiterate
-and develop more complicated features and extend this specification to expand
-the platform.
+Ting is a chat platform. It runs on ting.gr. This document specifies how it works.
 
 # Workflow
+People on ting exchange messages. Messages can be exchanged either in channels (known as "tings"), or privately. Channels are public and can be joined by anyone, where they can see the messages exchanged. Privates are messages exchanged directly between two people and can only be viewed by these people.
+
 Ting consists of two screens: The login screen and the chat screen. These are
 described below. When the user enters the URL ting.gr on their browser, they
 are taken to the Login screen. If they enter www.ting.gr, they are redirected
@@ -18,18 +16,27 @@ to ting.gr and appropriate URL parameters are appended.
 
 When the user enters the URL ting.gr/channel, where channel is any
 valid channel name, the user is taken to the Login screen with the active
-channel set to the channel specified in the URL. The active channel remains
-until the web page is refreshed or a different URL is visited.
+conversation set to the channel specified in the URL. When the user enters
+the URL ting.gr/u/user, where user is any valid user name, the user is taken
+to the Login screen with the active conversation set to a private with the
+user specified.
+
+The active conversation remains
+until the web page is refreshed, a different URL is visited, or the active
+channel is manually changed. When the active conversation is changed, the URL
+is changed to reflect that.
 
 The user visits a ting URL and enters a channel. They can then see who is online
-in that same channel. If they wish to visit multiple channels, they must visit
-multiple instances of ting in different website windows or tabs.
+on the platform.
 
-Messages exchanged are per-channel. Each message sent to a channel is delivered
-only to the users currently online in that channel.
+The users can exchange messages in multiple channels. Messages exchanged are per-channel. Each message sent to a channel is delivered only to the selected channel.
 
-Message history is stored in a per-channel basis. When a user enters a channel,
-they are shown some of the messages history.
+Message history is stored in a per-channel basis. When a user makes a channel
+active, they are shown some of the messages history.
+
+Users can also exchange data in private. Private messages constitute messages
+that are exchanged between two users directly and only they can see. Channels
+and privates are collectively known as conversations.
 
 # Channels
 If no channel name is specified in the URL, the default channel name is used,
@@ -43,7 +50,8 @@ visiting a ting URL:
  - The symbols _ . -
 
 If an invalid channel is specified, the user is redirected to the default
-channel and the URL shown is ting.gr without a channel name.
+channel and the URL shown is ting.gr without a channel name. The same applies
+if an invalid username is specified.
 
 There is no user notion of creating or destroying a channel. A channel is
 an entity as long as some user is in it.
@@ -109,35 +117,56 @@ The error message is displayed above the textbox.
 The chat screen consists of the following elements:
 
 1. A top bar
-2. A nick list
+2. A recent conversations list
 3. A chat history
 4. A message area
 
 ![Chat screen](http://i.imgur.com/ASUdKzG.jpg)
 
 The top bar is located at the top and takes up the whole screen horizontally.
-On the top left, it has the text "ting". In the middle of the top bar, the channel
-name is shown, unless it is the default channel name.
+On the top left, it has the text "ting".
 
 Below it, the screen is split in two
-areas vertically. The left area contains the nick list and the right area is
+areas vertically. The left area contains the recent list and the right area is
 split horizontally in two smaller areas. The top portion is the larger and is
 the chat history. The bottom portion is the message area. The portions are not
-resizable.
+resizable. If the active conversation is a private message, there is an additional area above the message area, the user information area.
 
-The nick list contains the usernames that are currently in use in the currently
-active channel, in alphabetical order. Usernames are displayed one below the other.
-If the list of usernames is too long to fit, a vertical scrollbar is displayed on
-the right-hand side of the nick list. Otherwise, no scrollbar is displayed.
+The recent list contains a list of recently used channels and recently accessed
+private message partners. Recent conversations are shown from most recent to least
+recent, one below the other. There is one currently active conversation at a time. That conversation is
+shown at the top of the recent conversation list. Recent conversations that are channels simply display the channel name. Recent conversations that are privates display the person's avatar, their name, and their online status. The online status is displayed with a green dot on the right of their name in case they are online.
+
+If the list of conversations is too long to fit, a vertical scrollbar is displayed on
+the right-hand side of the nick list.
+
+At the top of the recent conversations list is a searchbox. The searchbox allows
+the user to type in order to filter items from the recent conversation list. When
+no text is entered in the search box, the text box has the placeholder text
+"Βρες ανθρώπους ή tings". As soon as the user starts typing, the placeholder
+text disappears unless they clear their text. While there is text in the search
+textbox, an "X" is shown at the right of the textbox, which allows the user to
+clear their search text. While typing, the recent conversations list is filtered
+by the search text through a prefix-match test.
+
+The currently active conversation is shown highlighted at the top of the recent
+conversation list. Recent conversations are reordered only by reactivating them:
+They are not reordered by receiving messages in them or sending messages in them.
+
+Conversations with unread messages are also highlighted, but in a different color.
+Unread messages are any messages of user-interest which have not been viewed by
+the user yet. Activating a conversation with unread messages marks their messages
+as read. Messages of user-interest are defined as any received message in a private
+conversation, or any message mentioning the user's name in a channel.
 
 The message history contains a list of messages posted by everyone in the active
-channel. The messages are displayed in chronological order from top to bottom. When
-the user enters a channel, the message history consists of the most recent 100
+conversation. The messages are displayed in chronological order from top to bottom. When
+the user enters a conversation, the message history consists of the most recent 100
 messages exchanged by the users priorly and is stored on the server.
 
-Each message posted has the following form: "username: Message", where
+Each message posted has the following form: "[avatar] [username] Message", where
 username contains the username of the person making the post and Message
-contains the text posted. The username is displayed in bold.
+contains the text posted. The message is displayed in a comicbook-like bubble indicating that someone is speaking. Messages of user-interest in channels are highlighted. Messages sent and received are displayed in different style.
 
 If a text is too long to fit in one line, it is wrapped around to the next
 line. No horizontal scrollbar is ever displayed in the history area.
@@ -154,6 +183,8 @@ a new message being posted does not affect the scrolling position of the
 history area.
 
 For efficiency reasons, very old messages can be removed from the chat history.
+
+The user information area is shown above the message history area in case the currently active conversation is a private. The user information area shows the partner's avatar and username.
 
 The message area is a textbox. The textbox is focused by default when the user
 enters the Chat screen. The textbox has the placeholder "Γράψε ένα μήνυμα...".
@@ -216,10 +247,8 @@ to indicate that the message is ephemeral and currently changing.
 For transport security purposes, ting.gr is served over HTTPS.
 
 # TODO
-This specification is limited to a minimum viable product specification. It
-will be extended with the following features in future editions:
+This specification is limited. It will be extended with the following features in future editions:
 
-* Private messages
 * Username registration
 * Avatars
 * Age / sex / location
