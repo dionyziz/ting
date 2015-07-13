@@ -58,7 +58,7 @@ $(document).ready(function() {
     }
 
     function getAvatar(name) {
-        return 'http://www.gravatar.com/avatar/' + md5(name.toLowerCase() + '@gmail.com');
+        return 'https://avatars.githubusercontent.com/' + name.toLowerCase();
     }
 
     $.getJSON('/api/messages/' + channel, function(msgs) {
