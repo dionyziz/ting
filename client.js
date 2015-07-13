@@ -117,6 +117,14 @@ $(document).ready(function() {
         }
     });
 
+    function updateOwnMessagesInHistory() {
+        $('#msg-list li').each(function() {
+            if ($(this).find('strong').text() == myUsername) {
+                $(this).find('div').removeClass('other').addClass('self');
+            }
+        });
+    }
+
     socket.on('join-response', function(success) {
         if (!success) {
             username_error_show('taken');
@@ -125,6 +133,8 @@ $(document).ready(function() {
         ready = true;
         $('#username-set-modal').modal('hide');
         $('#msg input').focus();
+
+        updateOwnMessagesInHistory();
     });
 
     socket.on('update', function(msg) {
