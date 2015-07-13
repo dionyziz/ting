@@ -51,7 +51,7 @@ $(document).ready(function() {
 
     var url = $(location).attr('href');
     parts = url.split('/');
-    var channel = parts[1];
+    var channel = parts.slice(-1)[0]
 
     if (channel == '') {
         channel = 'ting';
