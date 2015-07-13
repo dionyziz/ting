@@ -87,7 +87,7 @@ $(document).ready(function() {
         });
 
         myUsername = $('#username').val();
-        var response = username_error_validation(myUsername);
+        var response = usernameErrorValidation(myUsername);
 
         if (response != true) {
             usernameErrorShow(response);
