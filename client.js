@@ -58,18 +58,18 @@ $(document).ready(function() {
     }
 
     function getAvatar(name) {
-        return 'https://avatars.githubusercontent.com/' + name.toLowerCase();
+        return 'https://avatars.githubusercontent.com/' + escapeHTML(name.toLowerCase());
     }
 
     $.getJSON('/api/messages/' + channel, function(msgs) {
         $.each(msgs, function(index, msg) {
             var src = getAvatar(msg.username);
-            var $img = $('<img src="' + src + '" alt="' + msg.username + '" class="avatar" />');
+            var $img = $('<img src="' + src + '" alt="' + escapeHTML(msg.username) + '" class="avatar" />');
             var $li = $('<li></li>');
 
             $li.append($img);
             $li.append(document.createTextNode(' '));
-            $li.append($('<strong>' + msg.username + '</strong>'));
+            $li.append($('<strong>' + escapeHTML(msg.username) + '</strong>'));
             $li[0].innerHTML += ' <div class="other">' + formatMessage(msg.text) + '</div>';
 
             $('#msg-list').prepend($li);
@@ -117,12 +117,15 @@ $(document).ready(function() {
         }
     });
 
-    function formatMessage(message) {
+    function escapeHTML(input) {
         var div = document.createElement('div');
-        var text = document.createTextNode(message);
+        var text = document.createTextNode(input);
         div.appendChild(text);
-        var html = div.innerHTML;
+        return div.innerHTML;
+    }
 
+    function formatMessage(message) {
+        var html = escapeHTML(message);
         html = html.replace(/(https?\:\/\/[a-zA-Z/0-9?&_.-]*)/g,
                             "<a href='$1' rel='nofollow'>$1</a>");
 
@@ -160,14 +163,14 @@ $(document).ready(function() {
         if (ready) {
             $('#online-list').empty();
             $.each(people, function(clientid, name) {
-                $('#online-list').append('<li>' + name + '</li>');
+                $('#online-list').append('<li>' + escapeHTML(name) + '</li>');
             });
         }
     });
 
     socket.on('chat', function(data) {
         if (ready && data.ch == channel) {
-            var avatarHTML = '<img src="' + getAvatar(data.who) + '" alt="' + data.who + '" class="avatar"/>';
+            var avatarHTML = '<img src="' + getAvatar(data.who) + '" alt="' + escapeHTML(data.who) + '" class="avatar"/>';
             var className;
 
             if (data.who == myUsername) {
@@ -177,7 +180,7 @@ $(document).ready(function() {
                 className = 'other';
             }
 
-            var html = '<li>' + avatarHTML + ' <strong>' + data.who + '</strong> <div class="' + className + '">' + formatMessage(data.msg) + '</div></li>';
+            var html = '<li>' + avatarHTML + ' <strong>' + escapeHTML(data.who) + '</strong> <div class="' + className + '">' + formatMessage(data.msg) + '</div></li>';
 
             $('#msg-list').append(html);
             scrollDown();
