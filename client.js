@@ -127,16 +127,16 @@ $(document).ready(function() {
                             "<a href='$1' rel='nofollow'>$1</a>");
 
         var smileys = {
-            ':)' => 'smile',
-            ':D' => 'biggrin',
-            ':S' => 'confused',
-            'o_O' => 'eek',
-            'O_o' => 'eek',
-            ':|' => 'neutral',
-            ':(' => 'sad',
-            ':O' => 'surprised',
-            ':o' => 'surprised',
-            ';)' => 'wink'
+            ':)': 'smile',
+            ':D': 'biggrin',
+            ':S': 'confused',
+            'o_O': 'eek',
+            'O_o': 'eek',
+            ':|': 'neutral',
+            ':(': 'sad',
+            ':O': 'surprised',
+            ':o': 'surprised',
+            ';)': 'wink'
         };
 
         for (var smiley in smileys) {
