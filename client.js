@@ -126,26 +126,6 @@ $(document).ready(function() {
         html = html.replace(/(https?\:\/\/[a-zA-Z/0-9?&_.-]*)/g,
                             "<a href='$1' rel='nofollow'>$1</a>");
 
-        var smileys = {
-            ':)' => 'smile',
-            ':D' => 'biggrin',
-            ':S' => 'confused',
-            'o_O' => 'eek',
-            'O_o' => 'eek',
-            ':|' => 'neutral',
-            ':(' => 'sad',
-            ':O' => 'surprised',
-            ':o' => 'surprised',
-            ';)' => 'wink'
-        };
-
-        for (var smiley in smileys) {
-            var img = smileys[smiley];
-            var re = new RegExp('\b' + smiley + '\b', 'g');
-
-            html = html.replace(re, "<img src='images/emoticons/icon_" + img + ".png' alt='" + smiley + "' />");
-        }
-
         return html;
     }
 
