@@ -165,19 +165,19 @@ $(document).ready(function() {
         }
     });
 
-    socket.on('chat', function(who, msg) {
-        if (ready) {
-            var avatarHTML = '<img src="' + getAvatar(who) + '" alt="' + who + '" class="avatar"/>';
+    socket.on('chat', function(data) {
+        if (ready && data.ch == channel) {
+            var avatarHTML = '<img src="' + getAvatar(data.who) + '" alt="' + data.who + '" class="avatar"/>';
             var className;
 
-            if (who == myUsername) {
+            if (data.who == myUsername) {
                 className = 'self';
             }
             else {
                 className = 'other';
             }
 
-            var html = '<li>' + avatarHTML + ' <strong>' + who + '</strong> <div class="' + className + '">' + formatMessage(msg) + '</div></li>';
+            var html = '<li>' + avatarHTML + ' <strong>' + data.who + '</strong> <div class="' + className + '">' + formatMessage(data.msg) + '</div></li>';
 
             $('#msg-list').append(html);
             scrollDown();
