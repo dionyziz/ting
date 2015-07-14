@@ -31,7 +31,8 @@ socket.on('connection', function (client) {
 
     client.on('send', function(data) {
         msg = data.msg;
-        socket.sockets.emit('chat', people[client.id], data.msg);
+        data.who = people[client.id]
+        socket.sockets.emit('chat', data);
         console.log(people[client.id] + 'sent "' + msg + '"');
 
         var headers = {
