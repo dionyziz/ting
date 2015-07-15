@@ -189,7 +189,19 @@ $(document).ready(function() {
         if (ready) {
             $('#online-list').empty();
             $.each(people, function(clientid, name) {
-                $('#online-list').append('<li>' + escapeHTML(name) + '</li>');
+                var $avatar = $('<img />');
+                $avatar[0].src = getAvatar(name);
+                $avatar.addClass('avatar');
+
+                var $name = $('<span>' + escapeHTML(name) + '</span>');
+
+                var $li = $('<li />');
+
+                $li.append($avatar);
+                $li.append(document.createTextNode(' '));
+                $li.append($name);
+
+                $('#online-list').append($li);
             });
         }
     });

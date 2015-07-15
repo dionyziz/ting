@@ -101,10 +101,6 @@
 ul {
     list-style-type: none;
 }
-#online-list {
-    margin-top: 10px;
-    font-size: 17px;
-}
 .chat ul div.self a {
     color: white;
     text-decoration: underline;
@@ -120,4 +116,30 @@ ul {
 }
 .chat ul div.self:after {
     color: #0084ff;
+}
+#online-list {
+    margin: 10px 0 0 0;
+    font-size: 17px;
+    padding: 0;
+    height: 50px;
+    line-height: 40px;
+    cursor: pointer;
+}
+#online-list span {
+    display: block;
+    margin-left: 45px;
+}
+#online-list li {
+    padding: 5px 10px;
+    height: 50px;
+    line-height: 40px;
+    cursor: pointer;
+}
+#online-list li img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
+    margin-right: 5px;
+    float: left;
+    margin-top: 5px;
 }
