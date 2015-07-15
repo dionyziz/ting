@@ -7,6 +7,10 @@ $(document).ready(function() {
     var myUsername = null;
     var socket = io.connect(URL);
     var first = true;
+    var title = document.title;
+    var titlePrefix = '';
+    var unread = 0;
+    var active = true;
 
     function scrollDown() {
         setTimeout(function() {
@@ -140,6 +144,28 @@ $(document).ready(function() {
         });
     }
 
+    function updateTitle() {
+        if (active) {
+            titlePrefix = '';
+        }
+        else {
+            titlePrefix = '(' + unread + ') ';
+        }
+
+        document.title = titlePrefix + title;
+    }
+
+    $(document).on({
+        'show': function() {
+            active = true;
+            unread = 0;
+            updateTitle();
+        },
+        'hide': function() {
+            active = false;
+        }
+    });
+
     socket.on('join-response', function(success) {
         if (!success) {
             usernameErrorShow('taken');
@@ -181,6 +207,11 @@ $(document).ready(function() {
             }
 
             var html = '<li>' + avatarHTML + ' <strong>' + escapeHTML(data.who) + '</strong> <div class="' + className + '">' + formatMessage(data.msg) + '</div></li>';
+
+            if (!active) {
+                ++unread;
+                updateTitle();
+            }
 
             $('#msg-list').append(html);
             scrollDown();
