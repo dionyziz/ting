@@ -143,3 +143,17 @@ ul {
     float: left;
     margin-top: 5px;
 }
+#online-list li.active {
+    background-color: #0084ff;
+    color: white;
+    position: relative;
+}
+#online-list li.active:after {
+    content: "▶";
+    color: #0084ff;
+    display: block;
+    position: absolute;
+    right: -10px;
+    top: 6px;
+    z-index: 1;
+}

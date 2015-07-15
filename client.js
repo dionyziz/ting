@@ -188,6 +188,10 @@ $(document).ready(function() {
     socket.on('update-people', function(people) {
         if (ready) {
             $('#online-list').empty();
+            $('#online-list').append(
+                $('<li class="active"><span>' + escapeHTML(channel) + '</span></li>')
+            );
+
             $.each(people, function(clientid, name) {
                 var $avatar = $('<img />');
                 $avatar[0].src = getAvatar(name);
