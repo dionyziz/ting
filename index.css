@@ -85,9 +85,9 @@
     height: 100%;
 }
 .top h1 {
-    font-size: 26px;
-    margin-top: 7px;    
-    margin-left: 8%;
+    font-size: 22px;
+    margin-top: 7px;
+    margin-left: 20px;
 }
 #username-set input {
     margin-bottom: 10px;    
