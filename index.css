@@ -71,6 +71,7 @@
     border-radius: 5px;
     background-color: #f1f0f0;
     color: black;
+    position: relative;
 }
 .chat ul div.self {
     background-color: #0084ff;
@@ -107,4 +108,16 @@ ul {
 .chat ul div.self a {
     color: white;
     text-decoration: underline;
+}
+.chat ul div:after {
+    content: "◀";
+    display: block;
+    position: absolute;
+    left: -8px;
+    top: 5px;
+    color: #f1f0f0;
+    font-weight: bold;
+}
+.chat ul div.self:after {
+    color: #0084ff;
 }
