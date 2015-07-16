@@ -85,6 +85,15 @@ be sent to the server are the following:
      to.
   3. `text`: The text of the message.
 
+* `start-typing`: Indicates that a user started typing a new message. Expects
+  a `channel` parameter indicating the channel name and a `text` parameter
+  indicating the part of the text of the message that has already been typed
+  by the time `start-typing` is being sent.
+
+* `typing-update`: Sends an update on the message that is being typed. Expects
+  a `messageid` parameter indicating the id of the message that is being updated
+  and a `text` parameter indicating the updated text of the message.
+
 The server can publish the following messages:
 
 * `join`: Indicates a user has joined a channel. Includes two parameters, the
@@ -106,6 +115,21 @@ The server can publish the following messages:
   window. Includes four parameters, `username`, `type`, `target`, and `text`,
   as per above. If `type` is set to `user`, then `target` must be your username.
 
+* `start-typing-response`: Indicates that the message that was sent via `start-typing`
+  has been saved in the database. It includes one parameter, `messageid`, which is
+  the id of the new message that is currently being typed.
+
+* `update-typing-messages`: Indicates that the messages that are being typed are updated.
+  It includes one parameter, `messages_typing`, which is a dictionary of messages.
+  The dictionary of messages contains a key with its messageid for each message, whose
+  value is a dictionary that describes an individual message.
+  That dictionary that describes the message contains four attributes:
+
+  1. `text`: A string which is the text of the message.
+  2. `username`: A string which is the username of the user that's typing the message.
+  3. `typing`: A boolean that indicates if the message is currently being typed or not.
+  4. `datetime_start`: A unix epoch in ms which indicates the datetime the message started being typed.
+
 ## RESTful API
 
 The RESTful API deals with two resources currently: Messages and channels. The
@@ -117,23 +141,37 @@ only models and views. The URLs of the RESTful API live under the
 The Messages resource is used to store and retrieve chat messages. It is
 accessible through the `/messages` URL.
 
-There are two operations:
+There are four operations:
 
 1. A GET operation on `/messages/<channel_name>`. This retrieves the chat
    messages recently exchanged on a channel. They are returned as a JSON array
    of messages. By default, the number of messages returned is limited to 100.
    The GET variable `lim` can be used to alter the limit. The messages are
    ordered from newest to oldest. Each message is represented as a dict with
-   three keys:
+   six keys:
 
+   * `id`: The id of the message in the database.
    * `text`: The text of the chat message.
    * `username`: The username of the person who wrote the message.
-   * `datetime`: The time the message was sent, in UTC epoch milliseconds.
+   * `datetime_start`: The time the message started being typed, in UTC epoch milliseconds.
+   * `datetime_sent`: The time the message was sent, in UTC epoch milliseconds.
+   * `typing`: Indicates whether the message is currently being typed,
+      takes a boolean value.
 
 2. A POST operation on `/messages/<channel_name>`. This is a **privileged
    operation** that persists a message on a given channel. The POST body
-   contains a JSON dictionary with three keys, `text`, `username`, and
-   `datetime`, with the semantics above.
+   contains a dictionary with four keys, `text`, `username`,
+   `datetime_start` and `typing`, with the semantics above.
+
+3. A PATCH operation on `/messages/<channel_name>`. This is a **privileged
+   operation** that updates a message on a given channel. The PATCH body
+   contains a dictionary with four keys `text`, `id`, `datetime_sent`
+   and `typing`, with the semantics above. `id` is used for searching, while
+   `text`, `datetime_sent` and `typing` are used as the fields to update.
+
+4. A DELETE operation on `/messages/<channel_name>`. This is a **privileged
+   operation** that deletes a message on a given channel. The DELETE body
+   contains a dictionary with one key `id`, with the semantics above.
 
 ### Channels
 The Channels resource is used to create and retrieve channel information.
