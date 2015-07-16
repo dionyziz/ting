@@ -159,6 +159,12 @@ the user yet. Activating a conversation with unread messages marks their message
 as read. Messages of user-interest are defined as any received message in a private
 conversation, or any message mentioning the user's name in a channel.
 
+If there are unread messages in the active conversation when the user is not
+active (has switched to another tab or window), the window title gets prepended
+with the count of unread messages in parentheses. When the user is active
+again, the count is removed from the title and the previously unread messages
+are marked as read.
+
 The message history contains a list of messages posted by everyone in the active
 conversation. The messages are displayed in chronological order from top to bottom. When
 the user enters a conversation, the message history consists of the most recent 100
