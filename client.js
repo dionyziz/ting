@@ -130,10 +130,10 @@ $(document).ready(function() {
 
     function formatMessage(message) {
         var html = escapeHTML(message);
-        html = html.replace(/(https?\:\/\/[a-zA-Z/0-9?&_.-]*)/g,
-                            "<a href='$1' rel='nofollow'>$1</a>");
 
-        return html;
+        return html.autoLink({
+            target: "_blank", rel: "nofollow"
+        });
     }
 
     function updateOwnMessagesInHistory() {
