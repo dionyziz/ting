@@ -3,3 +3,8 @@ before_script:
     - npm install
     - bower install
     - forever start server.js 
+    - cd tests/
+    - npm install socket.io-client
+    - cd ..
+script: 
+    - jasmine-node tests/ --matchall
