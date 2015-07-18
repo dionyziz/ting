@@ -105,7 +105,7 @@ $(document).ready(function() {
             e.preventDefault();
 
             var msg = $('#msg input').val();
-            if (msg != '') {
+            if (msg.trim().length > 0) {
                 if (first) {
                     ga('send', 'event', { 
                         eventCategory: 'chat', eventAction: 'chat_form_submit', eventLabel: 'send', eventValue: 1
