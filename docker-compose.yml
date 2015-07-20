@@ -6,6 +6,7 @@ db:
 
 api:
     build: .
+    dockerfile: Dockerfile-api
     command: sh -c "python manage.py migrate && echo 'migrated' && python manage.py runserver 0.0.0.0:8000"
     links:
         - db
