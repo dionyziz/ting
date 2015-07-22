@@ -7,7 +7,8 @@ db:
 api:
     build: .
     dockerfile: Dockerfile-api
-    command: sh -c "python manage.py migrate && echo 'migrated' && python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8000"
     links:
         - db
 
@@ -20,7 +21,9 @@ realtime:
         - "8080"
     ports:
         - "8080:8080"
-    command: sh -c "npm install && ./node_modules/bower/bin/bower --allow-root install && node server.js"
+    command: sh -c "npm install && 
+        ./node_modules/bower/bin/bower --allow-root install &&
+        node server.js"
     links:
         - front
 
