@@ -21,7 +21,7 @@ realtime:
         - "8080"
     ports:
         - "8080:8080"
-    command: sh -c "npm install && 
+    command: sh -c "JOBS=MAX npm install && 
         ./node_modules/bower/bin/bower --allow-root install &&
         node server.js"
     links:
