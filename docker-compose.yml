@@ -13,17 +13,10 @@ api:
         - db
 
 realtime:
-    image: node
-    volumes:
-        - .:/usr/src/app/
-    working_dir: /usr/src/app/
-    expose:
-        - "8080"
+    build: .
+    dockerfile: Dockerfile-realtime
     ports:
         - "8080:8080"
-    command: sh -c "JOBS=MAX npm install && 
-        ./node_modules/bower/bin/bower --allow-root install &&
-        node server.js"
     links:
         - front
 
