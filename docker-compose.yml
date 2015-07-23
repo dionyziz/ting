@@ -21,10 +21,8 @@ realtime:
         - front
 
 front:
-    image: nginx
-    volumes:
-        - config/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-        - .:/usr/src/app/
+    build: .
+    dockerfile: Dockerfile-front
     ports:
         - "80:80"
     links:
