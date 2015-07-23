@@ -10,5 +10,5 @@ RUN apt-get update && \
     apt-get install -y git nodejs nodejs-legacy npm && \
     rm -rf /var/lib/apt/lists/*
 
-RUN npm install bower
+RUN npm install
 RUN ./node_modules/bower/bin/bower --allow-root install
