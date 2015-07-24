@@ -3,12 +3,15 @@ FROM nginx
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY config/nginx.conf /etc/nginx/conf.d/default.conf
-COPY . /usr/src/app/
-
 RUN apt-get update && \
     apt-get install -y git nodejs nodejs-legacy npm && \
     rm -rf /var/lib/apt/lists/*
 
+COPY package.json /usr/src/app/
 RUN npm install
+
+COPY bower.json /usr/src/app/
 RUN ./node_modules/bower/bin/bower --allow-root install
+
+COPY config/nginx.conf /etc/nginx/conf.d/default.conf
+COPY . /usr/src/app/
