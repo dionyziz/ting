@@ -47,6 +47,44 @@ $(document).ready(function() {
         return true;
     }
 
+    function getAvatar(username) {
+        return 'https://avatars.githubusercontent.com/' + escapeHTML(username.toLowerCase());
+    }
+
+    function updateOwnMessagesInHistory() {
+        $('#message-list li').each(function() {
+            if ($(this).find('strong').text() == myUsername) {
+                $(this).find('div').removeClass('other').addClass('self');
+            }
+        });
+    }
+
+    function updateTitle() {
+        if (active) {
+            titlePrefix = '';
+        }
+        else {
+            titlePrefix = '(' + unread + ') ';
+        }
+
+        document.title = titlePrefix + title;
+    }
+
+    function escapeHTML(input) {
+        var div = document.createElement('div');
+        var text = document.createTextNode(input);
+        div.appendChild(text);
+        return div.innerHTML;
+    }
+
+    function formatMessage(message) {
+        var html = escapeHTML(message);
+
+        return html.autoLink({
+            target: "_blank", rel: "nofollow"
+        });
+    }
+
     $('#username-set-modal').modal('show');
     $('#username-alert').hide()
     setTimeout(function() {
