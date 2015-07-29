@@ -1,6 +1,7 @@
 import time
 import json
 import datetime
+import urllib
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
@@ -65,9 +66,10 @@ class MessageViewPOSTTests(ChatTests):
         self.assertTrue(messages.exists())
         self.assertEquals(len(messages), 1)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(int(response.content), message.id);
 
         message = Message.objects.get(username=username);
+
+        self.assertEqual(int(response.content), message.id);
         self.assertEqual(message.username, username);
         self.assertTrue(message.typing)
         self.assertEqual(message.text, text)
@@ -193,6 +195,25 @@ class MessageViewPOSTTests(ChatTests):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(int(response.content), messages[0].id)
 
+    def test_post_message_with_typing_false(self):
+        """
+        When typing is False the view should save the message
+        and make its datetime_sent equal to datetime_start.
+        """
+        timestamp = 10 ** 11
+
+        response = self.post_and_get_response(
+            text='Message',
+            timestamp=timestamp,
+            username='vitsalis',
+            typing=False
+        )
+
+        messages = Message.objects.filter(username='vitsalis')
+        self.assertTrue(messages.exists())
+        self.assertEqual(len(messages), 1)
+
+        self.assertEqual(messages[0].datetime_sent, messages[0].datetime_start)
 
 class MessageViewGETTests(ChatTests):
     def test_request_messages(self):
@@ -233,11 +254,13 @@ class MessageViewGETTests(ChatTests):
         self.assertEqual(messages[0]['username'], message2.username)
         self.assertEqual(messages[0]['datetime_start'], datetime_to_timestamp(message2.datetime_start))
         self.assertTrue(messages[0]['typing'])
+        self.assertEqual(messages[0]['id'], message2.id)
 
         self.assertEqual(messages[1]['text'], message1.text)
         self.assertEqual(messages[1]['username'], message1.username)
         self.assertEqual(messages[1]['datetime_start'], datetime_to_timestamp(message1.datetime_start))
         self.assertTrue(messages[1]['typing'])
+        self.assertEqual(messages[1]['id'], message1.id)
 
     def test_request_messages_with_bigger_limit_than_messages(self):
         """
@@ -369,6 +392,186 @@ class MessageViewGETTests(ChatTests):
         )
 
         self.assertEqual(response.status_code, 404)
+
+class MessageViewPATCHTests(ChatTests):
+    def patch_and_get_response(self, messageid, text, timestamp, typing):
+        """
+        Patches a message on chat:message and returns the response
+        """
+        qstring = urllib.urlencode({
+            'id': messageid,
+            'text': text,
+            'datetime_sent': timestamp,
+            'typing': typing
+        })
+        return self.client.patch(
+            reverse('chat:message', args=(self.channel.name,)),
+            qstring,
+            content_type='application/x-www-form-urlencoded'
+        )
+
+    def test_patch_message(self):
+        """
+        The view should update the message according to the
+        data provided and respond with a 204(No Content) code.
+        """
+        timestamp = 10 ** 11
+        message = create_message(
+            text='Message',
+            username='vitsalis',
+            channel=self.channel,
+            timestamp=timestamp
+        )
+
+        response = self.patch_and_get_response(
+            messageid=message.id,
+            text='Message Updated',
+            timestamp=timestamp + 10,
+            typing=False
+        )
+
+        messages = Message.objects.filter(username='vitsalis')
+
+        self.assertTrue(messages.exists())
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(response.status_code, 204)
+
+        self.assertEqual(messages[0].text, 'Message Updated')
+        self.assertEqual(datetime_to_timestamp(messages[0].datetime_start), timestamp)
+        self.assertEqual(datetime_to_timestamp(messages[0].datetime_sent), timestamp + 10)
+        self.assertEqual(messages[0].username, 'vitsalis')
+        self.assertFalse(messages[0].typing)
+
+    def test_patch_message_with_datetime_sent_before_datetime_start(self):
+        """
+        When the datetime_sent is before datetime_start the view
+        should make the datetime_sent equal to the datetime_sent,
+        save the message and respond with a 204(No Content) code.
+        """
+        timestamp = 10 ** 11
+        message = create_message(
+            text='Message',
+            username='vitsalis',
+            channel=self.channel,
+            timestamp=timestamp
+        )
+
+        response = self.patch_and_get_response(
+            messageid=message.id,
+            text='Message Updated',
+            timestamp=timestamp - 1,
+            typing=False
+        )
+
+        dbmessage = Message.objects.get(pk=message.id)
+
+        self.assertEqual(response.status_code, 204)
+
+        self.assertEqual(dbmessage.text, 'Message Updated')
+        self.assertTrue(hasattr(dbmessage, 'datetime_sent'))
+        self.assertEqual(dbmessage.datetime_sent, message.datetime_start)
+        self.assertEqual(dbmessage.datetime_sent, dbmessage.datetime_start)
+        self.assertEqual(datetime_to_timestamp(dbmessage.datetime_start), timestamp)
+        self.assertFalse(dbmessage.typing)
+
+    def test_patch_message_without_id(self):
+        """
+        When the id is not specified the view should
+        not patch the message and respond with a
+        400(Bad Request) code.
+        """
+        timestamp = 10 ** 11
+        message = create_message(
+            text='Message',
+            username='vitsalis',
+            channel=self.channel,
+            timestamp=timestamp
+        )
+
+        qstring = urllib.urlencode({
+            'text': 'Message Updated',
+            'datetime_sent': timestamp + 10,
+            'typing': False
+        })
+
+        response = self.client.patch(
+            reverse('chat:message', args=(self.channel.name,)),
+            qstring,
+            content_type='application/x-www-form-urlencoded'
+        )
+
+        dbmessage = Message.objects.get(pk=message.id)
+
+        self.assertEqual(response.status_code, 400)
+
+        self.assertEqual(dbmessage.text, message.text)
+        self.assertIsNone(dbmessage.datetime_sent)
+
+    def test_patch_message_without_text(self):
+        """
+        When the text is not specified the view
+        should not patch the message and respond with a
+        400(Bad Request) code.
+        """
+        timestamp = 10 ** 11
+        message = create_message(
+            text='Message',
+            username='vitsalis',
+            channel=self.channel,
+            timestamp=timestamp
+        )
+
+        qstring = urllib.urlencode({
+            'id': message.id,
+            'datetime_sent': timestamp + 10,
+            'typing': False
+        })
+
+        response = self.client.patch(
+            reverse('chat:message', args=(self.channel.name,)),
+            qstring,
+            content_type='application/x-www-form-urlencoded'
+        )
+
+        dbmessage = Message.objects.get(pk=message.id)
+
+        self.assertEqual(response.status_code, 400)
+
+        self.assertEqual(dbmessage.text, message.text)
+        self.assertIsNone(dbmessage.datetime_sent)
+
+    def test_patch_message_without_datetime_sent(self):
+        """
+        When the datetime_sent is not specified the view
+        should not patch the message and respond with a
+        400(Bad Request) code.
+        """
+        timestamp = 10 ** 11
+        message = create_message(
+            text='Message',
+            username='vitsalis',
+            channel=self.channel,
+            timestamp=timestamp
+        )
+
+        qstring = urllib.urlencode({
+            'id': message.id,
+            'text': 'Message Updated',
+            'typing': False
+        })
+
+        response = self.client.patch(
+            reverse('chat:message', args=(self.channel.name,)),
+            qstring,
+            content_type='application/x-www-form-urlencoded'
+        )
+
+        dbmessage = Message.objects.get(pk=message.id)
+
+        self.assertEqual(response.status_code, 400)
+
+        self.assertEqual(dbmessage.text, message.text)
+        self.assertIsNone(dbmessage.datetime_sent)
 
 
 class ChannelViewPOSTTests(ChatTests):

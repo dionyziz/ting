@@ -1,12 +1,12 @@
 import json
 
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, QueryDict
 from django.views.generic import View
 from .utils import datetime_to_timestamp
 
 from .models import Channel, Message
-from .forms import MessageCreationForm
+from .forms import MessageCreationForm, MessagePatchForm
 
 
 class MessageView(View):
@@ -23,13 +23,25 @@ class MessageView(View):
 
         return HttpResponse(form.message.id)
 
+    def patch(self, request, channel_name, *args, **kwargs):
+        qdict = QueryDict(request.body)
+
+        form = MessagePatchForm(qdict)
+
+        if not form.is_valid():
+            return HttpResponseBadRequest(str(form.errors))
+
+        form.save()
+
+        return HttpResponse(status=204)
+
     def get(self, request, channel_name, *args, **kwargs):
         lim = request.GET.get('lim', 100)
 
         channel = get_object_or_404(Channel, name=channel_name)
 
         messages = Message.objects.values(
-            'text', 'username', 'datetime_start', 'typing'
+            'text', 'username', 'datetime_start', 'typing', 'id'
         ).filter(channel=channel).order_by('-datetime_start')[:lim]
 
         # convert datetime_start to UTC epoch milliseconds
