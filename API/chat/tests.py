@@ -558,6 +558,81 @@ class MessageViewPATCHTests(ChatTests):
         self.assertIsNone(dbmessage.datetime_sent)
 
 
+class MessageViewDELETETests(ChatTests):
+    def test_delete_message(self):
+        """
+        The view should delete the message with the
+        specified id and respond with a 204(No Content)
+        code.
+        """
+        timestamp = 10 ** 11
+        message = create_message(
+            text='Message',
+            username='vitsalis',
+            channel=self.channel,
+            timestamp=timestamp
+        )
+
+        qstring = urllib.urlencode({
+            'id': message.id
+        })
+
+        response = self.client.delete(
+            reverse('chat:message', args=(self.channel.name,)),
+            qstring,
+            content_type='application/x-www-form-urlencoded'
+        )
+
+        messages = Message.objects.filter(username='vitsalis')
+
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(len(messages), 0)
+
+    def test_delete_message_without_id(self):
+        """
+        When the id is not specified the view should
+        return a 400(Bad Request) code.
+        """
+        qstring = urllib.urlencode({})
+
+        response = self.client.delete(
+            reverse('chat:message', args=(self.channel.name,)),
+            qstring,
+            content_type='application/x-www-form-urlencoded'
+        )
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_delete_message_that_does_not_exist(self):
+        """
+        When a message with the specified id doesn't exist
+        the view should respond with a 404(Not Found) code.
+        """
+        timestamp = 10 ** 11
+        message = create_message(
+            text='Message',
+            username='vitsalis',
+            channel=self.channel,
+            timestamp=timestamp
+        )
+
+        qstring = urllib.urlencode({
+            'id': message.id + 1
+        })
+
+        response = self.client.delete(
+            reverse('chat:message', args=(self.channel.name,)),
+            qstring,
+            content_type='application/x-www-form-urlencoded'
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+        messages = Message.objects.filter(username='vitsalis')
+
+        self.assertEqual(len(messages), 1)
+
+
 class ChannelViewPOSTTests(ChatTests):
     def test_create_valid_channel(self):
         """

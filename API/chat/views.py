@@ -52,6 +52,18 @@ class MessageView(View):
 
         return HttpResponse(messages_json, content_type='application/json')
 
+    def delete(self, request, channel_name, *args, **kwargs):
+        qdict = QueryDict(request.body)
+
+        if 'id' not in qdict:
+            return HttpResponseBadRequest()
+
+        message = get_object_or_404(Message, pk=qdict['id'])
+
+        message.delete()
+
+        return HttpResponse(status=204)
+
 
 class ChannelView(View):
     def post(self, request, *args, **kwargs):
