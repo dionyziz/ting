@@ -1,0 +1,27 @@
+db:
+    image: mysql
+    environment:
+        MYSQL_ROOT_PASSWORD: ting
+        MYSQL_DATABASE: ting
+
+api:
+    build: .
+    dockerfile: Dockerfile-api
+    links:
+        - db
+
+realtime:
+    build: .
+    dockerfile: Dockerfile-realtime
+    ports:
+        - "8080:8080"
+    links:
+        - front
+
+front:
+    build: .
+    dockerfile: Dockerfile-front
+    ports:
+        - "80:80"
+    links:
+        - api
