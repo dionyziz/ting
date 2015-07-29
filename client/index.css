@@ -80,6 +80,9 @@
     background-color: #0084ff;
     color: white;
 }
+.chat ul div.typing {
+    opacity: 0.5;
+}
 #message {
     height: 100%;
 }
