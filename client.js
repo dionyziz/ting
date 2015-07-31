@@ -47,6 +47,44 @@ $(document).ready(function() {
         return true;
     }
 
+    function getAvatar(username) {
+        return 'https://avatars.githubusercontent.com/' + escapeHTML(username.toLowerCase());
+    }
+
+    function updateOwnMessagesInHistory() {
+        $('#message-list li').each(function() {
+            if ($(this).find('strong').text() == myUsername) {
+                $(this).find('div').removeClass('other').addClass('self');
+            }
+        });
+    }
+
+    function updateTitle() {
+        if (active) {
+            titlePrefix = '';
+        }
+        else {
+            titlePrefix = '(' + unread + ') ';
+        }
+
+        document.title = titlePrefix + title;
+    }
+
+    function escapeHTML(input) {
+        var div = document.createElement('div');
+        var text = document.createTextNode(input);
+        div.appendChild(text);
+        return div.innerHTML;
+    }
+
+    function formatMessage(message) {
+        var html = escapeHTML(message);
+
+        return html.autoLink({
+            target: "_blank", rel: "nofollow"
+        });
+    }
+
     $('#username-set-modal').modal('show');
     $('#username-alert').hide()
     setTimeout(function() {
@@ -61,22 +99,18 @@ $(document).ready(function() {
         channel = 'ting';
     }
 
-    function getAvatar(name) {
-        return 'https://avatars.githubusercontent.com/' + escapeHTML(name.toLowerCase());
-    }
-
-    $.getJSON('/api/messages/' + channel, function(msgs) {
-        $.each(msgs, function(index, msg) {
-            var src = getAvatar(msg.username);
-            var $img = $('<img src="' + src + '" alt="' + escapeHTML(msg.username) + '" class="avatar" />');
+    $.getJSON('/api/messages/' + channel, function(messages) {
+        $.each(messages, function(index, message) {
+            var src = getAvatar(message.username);
+            var $img = $('<img src="' + src + '" alt="' + escapeHTML(message.username) + '" class="avatar" />');
             var $li = $('<li></li>');
 
             $li.append($img);
             $li.append(document.createTextNode(' '));
-            $li.append($('<strong>' + escapeHTML(msg.username) + '</strong>'));
-            $li[0].innerHTML += ' <div class="other">' + formatMessage(msg.text) + '</div>';
+            $li.append($('<strong>' + escapeHTML(message.username) + '</strong>'));
+            $li[0].innerHTML += ' <div class="other">' + formatMessage(message.text) + '</div>';
 
-            $('#msg-list').prepend($li);
+            $('#message-list').prepend($li);
         });
         scrollDown();
     });
@@ -100,12 +134,12 @@ $(document).ready(function() {
         socket.emit('join', myUsername);
     });
 
-    $('#msg input').keypress(function(e) {
+    $('#message input').keypress(function(e) {
         if (e.which == ENTER) {
             e.preventDefault();
 
-            var msg = $('#msg input').val();
-            if (msg.trim().length > 0) {
+            var message = $('#message input').val();
+            if (message.trim().length > 0) {
                 if (first) {
                     ga('send', 'event', { 
                         eventCategory: 'chat', eventAction: 'chat_form_submit', eventLabel: 'send', eventValue: 1
@@ -113,47 +147,13 @@ $(document).ready(function() {
                     first = false;
                 }
 
-                data = { ch: channel, msg: msg };
+                data = { channel: channel, message: message };
                 socket.emit('send', data);
-                $('#msg input').val('');
+                $('#message input').val('');
                 scrollDown();
             }
         }
     });
-
-    function escapeHTML(input) {
-        var div = document.createElement('div');
-        var text = document.createTextNode(input);
-        div.appendChild(text);
-        return div.innerHTML;
-    }
-
-    function formatMessage(message) {
-        var html = escapeHTML(message);
-
-        return html.autoLink({
-            target: "_blank", rel: "nofollow"
-        });
-    }
-
-    function updateOwnMessagesInHistory() {
-        $('#msg-list li').each(function() {
-            if ($(this).find('strong').text() == myUsername) {
-                $(this).find('div').removeClass('other').addClass('self');
-            }
-        });
-    }
-
-    function updateTitle() {
-        if (active) {
-            titlePrefix = '';
-        }
-        else {
-            titlePrefix = '(' + unread + ') ';
-        }
-
-        document.title = titlePrefix + title;
-    }
 
     $(document).on({
         'show': function() {
@@ -173,14 +173,14 @@ $(document).ready(function() {
         }
         ready = true;
         $('#username-set-modal').modal('hide');
-        $('#msg input').focus();
+        $('#message input').focus();
 
         updateOwnMessagesInHistory();
     });
 
-    socket.on('update', function(msg) {
+    socket.on('update', function(message) {
         if (ready) {
-            $('#msg-list').append('<li>' + msg + '</li>');
+            $('#message-list').append('<li>' + message + '</li>');
             scrollDown();
         }
     });
@@ -211,32 +211,32 @@ $(document).ready(function() {
     });
 
     socket.on('chat', function(data) {
-        if (ready && data.ch == channel) {
-            var avatarHTML = '<img src="' + getAvatar(data.who) + '" alt="' + escapeHTML(data.who) + '" class="avatar"/>';
+        if (ready && data.channel == channel) {
+            var avatarHTML = '<img src="' + getAvatar(data.username) + '" alt="' + escapeHTML(data.username) + '" class="avatar"/>';
             var className;
 
-            if (data.who == myUsername) {
+            if (data.username == myUsername) {
                 className = 'self';
             }
             else {
                 className = 'other';
             }
 
-            var html = '<li>' + avatarHTML + ' <strong>' + escapeHTML(data.who) + '</strong> <div class="' + className + '">' + formatMessage(data.msg) + '</div></li>';
+            var html = '<li>' + avatarHTML + ' <strong>' + escapeHTML(data.username) + '</strong> <div class="' + className + '">' + formatMessage(data.message) + '</div></li>';
 
             if (!active) {
                 ++unread;
                 updateTitle();
             }
 
-            $('#msg-list').append(html);
+            $('#message-list').append(html);
             scrollDown();
         }
     });
 
     //socket.on('disconnect', function() {
-    //    $('#msgs').append('<li><strong><span class='text-warning'>The server is not available</span></strong></li>');
-    //    $('#msg').attr('disabled', 'disabled');
+    //    $('#messages').append('<li><strong><span class='text-warning'>The server is not available</span></strong></li>');
+    //    $('#message').attr('disabled', 'disabled');
     //    $('#send').attr('disabled', 'disabled');
     //});
 });

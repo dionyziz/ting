@@ -77,10 +77,10 @@
     background-color: #0084ff;
     color: white;
 }
-#msg {
+#message {
     height: 100%;
 }
-#msg input {
+#message input {
     border: 0px;
     height: 100%;
 }
