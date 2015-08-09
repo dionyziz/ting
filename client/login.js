@@ -1,4 +1,9 @@
 var LoginForm = React.createClass({
+    getInitialState: function() {
+        return {
+            error: ''
+        };
+    },
     usernameErrorValidation: function(username) {
         var rex = /^[α-ωa-z0-9]+$/i;
 
@@ -14,8 +19,6 @@ var LoginForm = React.createClass({
         return true;
     },
     usernameErrorShow: function(error) {
-        $('#username-alert').empty();
-        var $par = $('<p></p>');
         var errors = {
             empty: 'Γράψε ένα ψευδώνυμο.',
             length: 'Το ψευδώνυμο πρέπει να είναι έως 20 γράμματα.',
@@ -23,10 +26,9 @@ var LoginForm = React.createClass({
             taken: 'Το ψευδώνυμο το έχει άλλος.'
         };
 
-        $par.append(errors[error]);
-
-        $('#username-alert').append($par);
-        $('#username-alert').show();
+        this.setState({
+            error: errors[error]
+        });
     },
     handleSubmit: function(event) {
         event.preventDefault();
@@ -45,19 +47,26 @@ var LoginForm = React.createClass({
     },
     componentDidMount: function() {
         $('#username-set-modal').modal('show');
-        $('#username-alert').hide()
         setTimeout(function() {
             $('#username').focus();
         }, 300);
     },
     render: function() {
+        var alertClasses = classNames({
+            'alert': true,
+            'alert-warning': true,
+            'hidden': this.state.error == ''
+        });
+
         return (
             <div className='modal fade' id='username-set-modal' data-backdrop='static' data-keyboard='false' role='dialog'>
                 <div className='modal-dialog'>
                     <div className='modal-content'>
                         <div className='text-center' id='login'>
                             <h1>Ting</h1>
-                            <div className="alert alert-warning" id="username-alert" role="alert"></div>
+                            <div className={alertClasses} id="username-alert" role="alert">
+                                <p>{this.state.error}</p>
+                            </div>
                             <form id='username-set' onSubmit={this.handleSubmit}>
                                 <input type='text' className='form-control input-small' placeholder='Γράψε ένα ψευδώνυμο' id='username' />
                                 <input type='submit' name='join' id='join' value='Mπες' className='btn btn-primary' />
