@@ -209,17 +209,21 @@ class MessageViewGETTests(ChatTests):
         lim = 2
         timestamp = 10 ** 11
 
-        message1 = create_message(
+        message1 = Message.objects.create(
             text='Message1',
-            timestamp=timestamp,
+            datetime_start=timestamp_to_datetime(timestamp),
+            datetime_sent=timestamp_to_datetime(timestamp + 10),
             username='vitsalis',
+            typing=True,
             channel=self.channel
         )
 
-        message2 = create_message(
+        message2 = Message.objects.create(
             text='Message2',
-            timestamp=timestamp + 60 * 60,
+            datetime_start=timestamp_to_datetime(timestamp + 60 * 60),
+            datetime_sent=timestamp_to_datetime(timestamp + 60 * 60 + 10),
             username='pkakelas',
+            typing=True,
             channel=self.channel
         )
 
@@ -237,12 +241,14 @@ class MessageViewGETTests(ChatTests):
         self.assertEqual(messages[0]['datetime_start'], datetime_to_timestamp(message2.datetime_start))
         self.assertTrue(messages[0]['typing'])
         self.assertEqual(messages[0]['id'], message2.id)
+        self.assertEqual(messages[0]['datetime_sent'], datetime_to_timestamp(message2.datetime_sent))
 
         self.assertEqual(messages[1]['text'], message1.text)
         self.assertEqual(messages[1]['username'], message1.username)
         self.assertEqual(messages[1]['datetime_start'], datetime_to_timestamp(message1.datetime_start))
         self.assertTrue(messages[1]['typing'])
         self.assertEqual(messages[1]['id'], message1.id)
+        self.assertEqual(messages[1]['datetime_sent'], datetime_to_timestamp(message1.datetime_sent))
 
     def test_request_messages_with_bigger_limit_than_messages(self):
         """

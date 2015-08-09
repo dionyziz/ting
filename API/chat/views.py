@@ -41,12 +41,14 @@ class MessageView(View):
         channel = get_object_or_404(Channel, name=channel_name)
 
         messages = Message.objects.values(
-            'text', 'username', 'datetime_start', 'typing', 'id'
+            'text', 'username', 'datetime_start', 'typing', 'id', 'datetime_sent'
         ).filter(channel=channel).order_by('-datetime_start')[:lim]
 
         # convert datetime_start to UTC epoch milliseconds
         for message in messages:
             message['datetime_start'] = datetime_to_timestamp(message['datetime_start'])
+            if message['datetime_sent']:
+                message['datetime_sent'] = datetime_to_timestamp(message['datetime_sent'])
 
         messages_json = json.dumps(list(messages))
 
