@@ -11,21 +11,18 @@ class MessageCreationForm(forms.Form):
     datetime_start = forms.IntegerField()
     typing = forms.BooleanField(required=False)
 
-    def save(self):
+    def clean_datetime_start(self):
         now = int(round(time.time() * 1000))
-        timestamp = int(self.cleaned_data['datetime_start'])
+        timestamp = int(self.data['datetime_start'])
         if now < timestamp:
             timestamp = now
 
-        datetime_start_field = timestamp_to_datetime(timestamp)
+        self.cleaned_data['datetime_start'] = timestamp_to_datetime(timestamp)
 
-        message = Message.objects.create(
-            text=self.cleaned_data['text'],
-            username=self.cleaned_data['username'],
-            datetime_start=datetime_start_field,
-            typing=self.cleaned_data.get('typing', False),
-            channel=self.channel
-        )
+    def save(self):
+        self.clean_datetime_start()
+
+        message = Message.objects.create(channel=self.channel, **self.cleaned_data)
 
         if not message.typing:
             message.datetime_sent = message.datetime_start
