@@ -1,11 +1,12 @@
+var myUsername = null;
+var URL = window.location.hostname + ':8080';
+var socket = io.connect(URL);
+
 $(document).ready(function() {
-    URL = window.location.hostname + ':8080';
     var ENTER = 13;
     var ready = false;
     var rex = /^[α-ωa-z0-9]+$/i;
     var wrapper = $('.history-wrapper');
-    var myUsername = null;
-    var socket = io.connect(URL);
     var first = true;
     var title = document.title;
     var titlePrefix = '';
