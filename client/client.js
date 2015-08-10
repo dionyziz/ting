@@ -2,7 +2,7 @@ var myUsername = null;
 var URL = window.location.hostname + ':8080';
 var socket = io.connect(URL);
 var channel;
-var wrapper = $('.history-wrapper');
+var wrapper = null;
 var ready = false;
 var active = true;
 

@@ -7,6 +7,8 @@ var History = React.createClass({
     componentDidMount: function() {
         var self = this;
 
+        wrapper = $('.history-wrapper');
+
         $.getJSON('/api/messages/' + channel, function(messages) {
             self.setState({
                 // we must reverse the messages, as they are given to us in
