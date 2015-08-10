@@ -5,14 +5,12 @@ var UserList = React.createClass({
     },
     render: function() {
         return (
-            <div class='nicklist'>
-                <ul id='online-list'>
-                    <li>
-                        <img src="https://avatars.githubusercontent.com/dionyziz" alt="" class="avatar" />
-                        <span>dionyziz</span>
-                    </li>
-                </ul>
-            </div>
+            <ul id='online-list'>
+                <li>
+                    <img src="https://avatars.githubusercontent.com/dionyziz" alt="" class="avatar" />
+                    <span>dionyziz</span>
+                </li>
+            </ul>
         );
     },
     _join: function(username) {
@@ -26,4 +24,4 @@ var UserList = React.createClass({
         }).parent().remove();
     }
 });
-React.render(<UserList />, document.getElementById('container2'));
+React.render(<UserList />, document.getElementsByClassName('nicklist')[0]);
