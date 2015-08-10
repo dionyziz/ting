@@ -9,7 +9,9 @@ var History = React.createClass({
 
         $.getJSON('/api/messages/' + channel, function(messages) {
             self.setState({
-                messages: messages
+                // we must reverse the messages, as they are given to us in
+                // reverse chronological order by the history API
+                messages: messages.reverse()
             });
         });
 
@@ -34,7 +36,6 @@ var History = React.createClass({
         });
     },
     render: function() {
-        var messages = this.state.messages.reverse();
         var messageNodes = this.state.messages.map(function (message) {
             return (
                 <Message username={message.username}
