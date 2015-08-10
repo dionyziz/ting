@@ -3,6 +3,7 @@ var URL = window.location.hostname + ':8080';
 var socket = io.connect(URL);
 var channel;
 var wrapper = $('.history-wrapper');
+var ready = false;
 
 function formatMessage(message) {
     var html = escapeHTML(message);
@@ -47,7 +48,6 @@ function addOnlineUserToList(username) {
 
 $(document).ready(function() {
     var ENTER = 13;
-    var ready = false;
     var first = true;
     var title = document.title;
     var titlePrefix = '';
@@ -83,7 +83,7 @@ $(document).ready(function() {
 
     $('#modal').modal('show');
     $('#username').focus();
-        
+
     $('#message input').keypress(function(e) {
         if (e.which == ENTER) {
             e.preventDefault();
@@ -91,7 +91,7 @@ $(document).ready(function() {
             var message = $('#message input').val();
             if (message.trim().length > 0) {
                 if (first) {
-                    ga('send', 'event', { 
+                    ga('send', 'event', {
                         eventCategory: 'chat', eventAction: 'chat_form_submit', eventLabel: 'send', eventValue: 1
                     });
                     first = false;
@@ -131,18 +131,6 @@ $(document).ready(function() {
         $('#message input').focus();
 
         updateOwnMessagesInHistory();
-    });
-
-    socket.on('join', function(username) {
-        if (username != myUsername) {
-            addOnlineUserToList(username);
-        }
-    });
-
-    socket.on('part', function(username) {
-        $('#online-list li span').filter(function() {
-            return $(this).text() == username; 
-        }).parent().remove();
     });
 
     socket.on('message', function(data) {
