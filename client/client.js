@@ -81,22 +81,6 @@ $(document).ready(function() {
         channel = 'ting';
     }
 
-    $.getJSON('/api/messages/' + channel, function(messages) {
-        $.each(messages, function(index, message) {
-            var src = getAvatar(message.username);
-            var $img = $('<img src="' + src + '" alt="' + escapeHTML(message.username) + '" class="avatar" />');
-            var $li = $('<li></li>');
-
-            $li.append($img);
-            $li.append(document.createTextNode(' '));
-            $li.append($('<strong>' + escapeHTML(message.username) + '</strong>'));
-            $li[0].innerHTML += ' <div class="other">' + formatMessage(message.text) + '</div>';
-
-            $('#message-list').prepend($li);
-        });
-        scrollDown();
-    });
-
     $('#modal').modal('show');
     $('#username').focus();
         
