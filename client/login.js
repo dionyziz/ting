@@ -33,6 +33,8 @@ var LoginForm = React.createClass({
     },
     handleChange: function(event) {
         var username = event.target.value;
+        myUsername = username;
+
         var validationState = this._validate(username);
         var errorStr = this._validationErrorToString(validationState);
 
