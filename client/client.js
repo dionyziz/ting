@@ -84,27 +84,6 @@ $(document).ready(function() {
     $('#modal').modal('show');
     $('#username').focus();
 
-    $('#message input').keypress(function(e) {
-        if (e.which == ENTER) {
-            e.preventDefault();
-
-            var message = $('#message input').val();
-            if (message.trim().length > 0) {
-                if (first) {
-                    ga('send', 'event', {
-                        eventCategory: 'chat', eventAction: 'chat_form_submit', eventLabel: 'send', eventValue: 1
-                    });
-                    first = false;
-                }
-
-                data = { type: 'channel', target: channel, text: message };
-                socket.emit('message', data);
-                $('#message input').val('');
-                scrollDown();
-            }
-        }
-    });
-
     $(document).on({
         'show': function() {
             active = true;
