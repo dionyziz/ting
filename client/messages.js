@@ -43,9 +43,13 @@ var History = React.createClass({
             );
         });
         return (
-            <ul id='message-list'>
-                {messageNodes}
-            </ul>
+            <div className='history'>
+                <div className='history-wrapper' id='scroller'>
+                    <ul id='message-list'>
+                        {messageNodes}
+                    </ul>
+                </div>
+            </div>
         )
     },
     componentDidUpdate: function() {
@@ -80,9 +84,9 @@ var Message = React.createClass({
 var MessageForm = React.createClass({
     render: function() {
         return (
-            <div class='textarea'>
+            <div className='textarea'>
                 <form id='message'>
-                    <input type='text' class='form-control' placeholder='Γράψε ένα μήνυμα...' />
+                    <input type='text' className='form-control' placeholder='Γράψε ένα μήνυμα...' />
                 </form>
             </div>
         );
@@ -90,10 +94,11 @@ var MessageForm = React.createClass({
 });
 
 React.render(
-    <History />,
-    document.getElementById('scroller')
-);
-React.render(
-    <MessageForm />,
-    document.getElementsByClassName('message-form-wrapper')[0]
+    (
+        <div>
+            <History />
+            <MessageForm />
+        </div>
+    ),
+    document.getElementsByClassName('chat')[0]
 );
