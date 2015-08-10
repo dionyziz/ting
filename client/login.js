@@ -68,17 +68,33 @@ var LoginForm = React.createClass({
         });
 
         return (
-            <div className='modal fade' id='username-set-modal' data-backdrop='static' data-keyboard='false' role='dialog'>
+            <div className='modal fade'
+                 id='username-set-modal'
+                 data-backdrop='static'
+                 data-keyboard='false'
+                 role='dialog'>
                 <div className='modal-dialog'>
                     <div className='modal-content'>
-                        <div className='text-center' id='login'>
+                        <div className='text-center'
+                             id='login'>
                             <h1>Ting</h1>
-                            <div className={alertClasses} id="username-alert" role="alert">
+                            <div className={alertClasses}
+                                 id="username-alert"
+                                 role="alert">
                                 <p>{this.state.errorStr}</p>
                             </div>
-                            <form id='username-set' onSubmit={this.handleSubmit}>
-                                <input type='text' className='form-control input-small' placeholder='Γράψε ένα ψευδώνυμο' id='username' onChange={this.handleChange} />
-                                <input type='submit' name='join' id='join' value='Mπες' className='btn btn-primary' />
+                            <form id='username-set'
+                                  onSubmit={this.handleSubmit}>
+                                <input type='text'
+                                       className='form-control input-small'
+                                       placeholder='Γράψε ένα ψευδώνυμο'
+                                       id='username'
+                                       onChange={this.handleChange} />
+                                <input type='submit'
+                                       name='join'
+                                       id='join'
+                                       value='Mπες'
+                                       className='btn btn-primary' />
                             </form>
                         </div>
                     </div>
