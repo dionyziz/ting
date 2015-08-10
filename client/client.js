@@ -1,26 +1,58 @@
 var myUsername = null;
 var URL = window.location.hostname + ':8080';
 var socket = io.connect(URL);
+var channel;
+var wrapper = $('.history-wrapper');
+
+function formatMessage(message) {
+    var html = escapeHTML(message);
+
+    return html.autoLink({
+        target: "_blank", rel: "nofollow"
+    });
+}
+
+function escapeHTML(input) {
+    var div = document.createElement('div');
+    var text = document.createTextNode(input);
+    div.appendChild(text);
+    return div.innerHTML;
+}
+
+function scrollDown() {
+    setTimeout(function() {
+        wrapper.scrollTop(wrapper.get(0).scrollHeight);
+    }, 30);
+}
+
+function getAvatar(username) {
+    return 'https://avatars.githubusercontent.com/' + escapeHTML(username.toLowerCase());
+}
+
+function addOnlineUserToList(username) {
+    var $avatar = $('<img />');
+    $avatar[0].src = getAvatar(username);
+    $avatar.addClass('avatar');
+
+    var $name = $('<span>' + escapeHTML(username) + '</span>');
+
+    var $li = $('<li />');
+
+    $li.append($avatar);
+    $li.append(document.createTextNode(' '));
+    $li.append($name);
+
+    $('#online-list').append($li);
+}
 
 $(document).ready(function() {
     var ENTER = 13;
     var ready = false;
-    var wrapper = $('.history-wrapper');
     var first = true;
     var title = document.title;
     var titlePrefix = '';
     var unread = 0;
     var active = true;
-
-    function scrollDown() {
-        setTimeout(function() {
-            wrapper.scrollTop(wrapper.get(0).scrollHeight);
-        }, 30);
-    }
-
-    function getAvatar(username) {
-        return 'https://avatars.githubusercontent.com/' + escapeHTML(username.toLowerCase());
-    }
 
     function updateOwnMessagesInHistory() {
         $('#message-list li').each(function() {
@@ -41,40 +73,9 @@ $(document).ready(function() {
         document.title = titlePrefix + title;
     }
 
-    function escapeHTML(input) {
-        var div = document.createElement('div');
-        var text = document.createTextNode(input);
-        div.appendChild(text);
-        return div.innerHTML;
-    }
-
-    function formatMessage(message) {
-        var html = escapeHTML(message);
-
-        return html.autoLink({
-            target: "_blank", rel: "nofollow"
-        });
-    }
-
-    function addOnlineUserToList(username) {
-        var $avatar = $('<img />');
-        $avatar[0].src = getAvatar(username);
-        $avatar.addClass('avatar');
-
-        var $name = $('<span>' + escapeHTML(username) + '</span>');
-
-        var $li = $('<li />');
-
-        $li.append($avatar);
-        $li.append(document.createTextNode(' '));
-        $li.append($name);
-
-        $('#online-list').append($li);
-    }
-
     var url = $(location).attr('href');
     parts = url.split('/');
-    var channel = parts.slice(-1)[0]
+    channel = parts.slice(-1)[0]
 
     if (channel == '') {
         channel = 'ting';
