@@ -12,6 +12,26 @@ var History = React.createClass({
                 messages: messages
             });
         });
+
+        socket.on('message', function(data) {
+            if (ready && data.target == channel) {
+                var newState = React.addons.update(
+                    self.state, {
+                        messages: {
+                            $push: [data]
+                        }
+                    }
+                );
+                self.setState(newState);
+
+                if (!active) {
+                    ++unread;
+                    updateTitle();
+                }
+
+                scrollDown();
+            }
+        });
     },
     render: function() {
         var messages = this.state.messages.reverse();
@@ -34,12 +54,21 @@ var History = React.createClass({
 
 var Message = React.createClass({
     render: function() {
+        var className;
+
+        if (this.props.username == myUsername) {
+            className = 'self';
+        }
+        else {
+            className = 'other';
+        }
+
         return (
             <li>
                 <Avatar username={this.props.username} />
                 <strong>{this.props.username}</strong>
 
-                <div class="other">
+                <div className={className}>
                     {formatMessage(this.props.text)}
                 </div>
             </li>

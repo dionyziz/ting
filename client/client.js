@@ -133,30 +133,6 @@ $(document).ready(function() {
         updateOwnMessagesInHistory();
     });
 
-    socket.on('message', function(data) {
-        if (ready && data.target == channel) {
-            var avatarHTML = '<img src="' + getAvatar(data.username) + '" alt="' + escapeHTML(data.username) + '" class="avatar"/>';
-            var className;
-
-            if (data.username == myUsername) {
-                className = 'self';
-            }
-            else {
-                className = 'other';
-            }
-
-            var html = '<li>' + avatarHTML + ' <strong>' + escapeHTML(data.username) + '</strong> <div class="' + className + '">' + formatMessage(data.text) + '</div></li>';
-
-            if (!active) {
-                ++unread;
-                updateTitle();
-            }
-
-            $('#message-list').append(html);
-            scrollDown();
-        }
-    });
-
     //socket.on('disconnect', function() {
     //    $('#messages').append('<li><strong><span class='text-warning'>The server is not available</span></strong></li>');
     //    $('#message').attr('disabled', 'disabled');
