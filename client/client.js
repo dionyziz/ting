@@ -133,6 +133,8 @@ $(document).ready(function() {
 
     socket.on('login-response', function(resp) {
         if (!resp.success) {
+            // TODO: Migrate this to Login Form
+            // usernameErrorShow(resp.error);
             usernameErrorShow(resp.error);
             return;
         }
