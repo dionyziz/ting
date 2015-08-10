@@ -4,6 +4,7 @@ var socket = io.connect(URL);
 var channel;
 var wrapper = $('.history-wrapper');
 var ready = false;
+var active = true;
 
 function formatMessage(message) {
     var html = escapeHTML(message);
@@ -52,7 +53,6 @@ $(document).ready(function() {
     var title = document.title;
     var titlePrefix = '';
     var unread = 0;
-    var active = true;
 
     function updateOwnMessagesInHistory() {
         $('#message-list li').each(function() {
