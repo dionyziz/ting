@@ -89,7 +89,10 @@ var MessageForm = React.createClass({
     }
 });
 
-React.render(<History />, document.getElementById('scroller'));
+React.render(
+    <History />,
+    document.getElementById('scroller')
+);
 React.render(
     <MessageForm />,
     document.getElementsByClassName('message-form-wrapper')[0]
