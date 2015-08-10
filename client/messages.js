@@ -77,4 +77,20 @@ var Message = React.createClass({
     }
 });
 
+var MessageForm = React.createClass({
+    render: function() {
+        return (
+            <div class='textarea'>
+                <form id='message'>
+                    <input type='text' class='form-control' placeholder='Γράψε ένα μήνυμα...' />
+                </form>
+            </div>
+        );
+    }
+});
+
 React.render(<History />, document.getElementById('scroller'));
+React.render(
+    <MessageForm />,
+    document.getElementsByClassName('message-form-wrapper')[0]
+);
