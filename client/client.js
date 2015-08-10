@@ -5,6 +5,8 @@ var channel;
 var wrapper = null;
 var ready = false;
 var active = true;
+var ENTER = 13;
+var first = true;
 
 function formatMessage(message) {
     var html = escapeHTML(message);
@@ -48,8 +50,6 @@ function addOnlineUserToList(username) {
 }
 
 $(document).ready(function() {
-    var ENTER = 13;
-    var first = true;
     var title = document.title;
     var titlePrefix = '';
     var unread = 0;
