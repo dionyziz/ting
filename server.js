@@ -17,15 +17,15 @@ var people = {};
 var usernames = {};
 
 socket.on('connection', function (client) {
-     client.on('join', function(username) {
+     client.on('login', function(username) {
         if (usernames[username]) {
-            client.emit('join-response', false);
+            client.emit('login-response', false);
             return;
         }
         people[client.id] = username;
         usernames[username] = true;
         console.log(username + ' joined the server');
-        client.emit('join-response', true);
+        client.emit('login-response', true);
         socket.sockets.emit('update-people', people);
     });
 

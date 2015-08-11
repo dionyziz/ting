@@ -131,7 +131,7 @@ $(document).ready(function() {
             usernameErrorShow(response);
             return;
         }
-        socket.emit('join', myUsername);
+        socket.emit('login', myUsername);
     });
 
     $('#message input').keypress(function(e) {
@@ -166,7 +166,7 @@ $(document).ready(function() {
         }
     });
 
-    socket.on('join-response', function(success) {
+    socket.on('login-response', function(success) {
         if (!success) {
             usernameErrorShow('taken');
             return;
