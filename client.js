@@ -178,13 +178,6 @@ $(document).ready(function() {
         updateOwnMessagesInHistory();
     });
 
-    socket.on('update', function(message) {
-        if (ready) {
-            $('#message-list').append('<li>' + message + '</li>');
-            scrollDown();
-        }
-    });
-
     socket.on('update-people', function(people) {
         if (ready) {
             $('#online-list').empty();
