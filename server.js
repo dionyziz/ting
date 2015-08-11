@@ -29,7 +29,7 @@ socket.on('connection', function (client) {
         socket.sockets.emit('update-people', people);
     });
 
-    client.on('send', function(data) {
+    client.on('message', function(data) {
         var text = data.text;
         data.username = people[client.id]
         socket.sockets.emit('chat', data);

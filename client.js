@@ -148,7 +148,7 @@ $(document).ready(function() {
                 }
 
                 data = { type: 'channel', target: channel, text: message };
-                socket.emit('send', data);
+                socket.emit('message', data);
                 $('#message input').val('');
                 scrollDown();
             }
