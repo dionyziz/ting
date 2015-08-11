@@ -147,7 +147,7 @@ $(document).ready(function() {
                     first = false;
                 }
 
-                data = { channel: channel, message: message };
+                data = { type: 'channel', target: channel, text: message };
                 socket.emit('send', data);
                 $('#message input').val('');
                 scrollDown();
@@ -211,7 +211,7 @@ $(document).ready(function() {
     });
 
     socket.on('chat', function(data) {
-        if (ready && data.channel == channel) {
+        if (ready && data.target == channel) {
             var avatarHTML = '<img src="' + getAvatar(data.username) + '" alt="' + escapeHTML(data.username) + '" class="avatar"/>';
             var className;
 
@@ -222,7 +222,7 @@ $(document).ready(function() {
                 className = 'other';
             }
 
-            var html = '<li>' + avatarHTML + ' <strong>' + escapeHTML(data.username) + '</strong> <div class="' + className + '">' + formatMessage(data.message) + '</div></li>';
+            var html = '<li>' + avatarHTML + ' <strong>' + escapeHTML(data.username) + '</strong> <div class="' + className + '">' + formatMessage(data.text) + '</div></li>';
 
             if (!active) {
                 ++unread;

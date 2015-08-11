@@ -30,10 +30,10 @@ socket.on('connection', function (client) {
     });
 
     client.on('send', function(data) {
-        var message = data.message;
+        var text = data.text;
         data.username = people[client.id]
         socket.sockets.emit('chat', data);
-        console.log(people[client.id] + 'sent "' + message + '"');
+        console.log(people[client.id] + 'sent "' + text + '"');
 
         var headers = {
             'User-Agent':       'node-ting/0.1.0',
@@ -41,12 +41,12 @@ socket.on('connection', function (client) {
         }
 
         var options = {
-            url: URL + '/api/messages/' + data.channel + '/',
+            url: URL + '/api/messages/' + data.target + '/',
             method: 'POST',
             headers: headers,
             form: {
                 'username': people[client.id],
-                'text': data.message,
+                'text': data.text,
                 'datetime': Date.now() 
             }
         }
