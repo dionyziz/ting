@@ -118,3 +118,8 @@ $(document).ready(function() {
     //    $('#send').attr('disabled', 'disabled');
     //});
 });
+
+var Ting = React.createClass({
+    render: function() {
+    }
+});
