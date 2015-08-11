@@ -87,6 +87,13 @@ be sent to the server are the following:
 
 The server can publish the following messages:
 
+* `login-response`: Indicates if a user logged in on the server. It includes
+  two parameters. The `success` parameter which is a boolean that indicates 
+  if the log in procedure succeded. The second parameter is a string called `error` 
+  in case the log in failed and describes the error that occured, otherwise it
+  is called `people` and is an array of strings which are usernames that are 
+  online the time that the user logged in.
+
 * `join`: Indicates a user has joined a channel. Includes two parameters, the
   `username` and the `channel`. This message is also sent back to the user who
   has attempted to join a channel if it was successful. All users present in a
