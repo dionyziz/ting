@@ -17,23 +17,23 @@ var people = {};
 var usernames = {};
 
 socket.on('connection', function (client) {
-     client.on('join', function(username) {
+     client.on('login', function(username) {
         if (usernames[username]) {
-            client.emit('join-response', false);
+            client.emit('login-response', false);
             return;
         }
         people[client.id] = username;
         usernames[username] = true;
         console.log(username + ' joined the server');
-        client.emit('join-response', true);
+        client.emit('login-response', true);
         socket.sockets.emit('update-people', people);
     });
 
-    client.on('send', function(data) {
-        var message = data.message;
+    client.on('message', function(data) {
+        var text = data.text;
         data.username = people[client.id]
-        socket.sockets.emit('chat', data);
-        console.log(people[client.id] + 'sent "' + message + '"');
+        socket.sockets.emit('message', data);
+        console.log(people[client.id] + 'sent "' + text + '"');
 
         var headers = {
             'User-Agent':       'node-ting/0.1.0',
@@ -41,12 +41,12 @@ socket.on('connection', function (client) {
         }
 
         var options = {
-            url: URL + '/api/messages/' + data.channel + '/',
+            url: URL + '/api/messages/' + data.target + '/',
             method: 'POST',
             headers: headers,
             form: {
                 'username': people[client.id],
-                'text': data.message,
+                'text': data.text,
                 'datetime': Date.now() 
             }
         }

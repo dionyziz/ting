@@ -131,7 +131,7 @@ $(document).ready(function() {
             usernameErrorShow(response);
             return;
         }
-        socket.emit('join', myUsername);
+        socket.emit('login', myUsername);
     });
 
     $('#message input').keypress(function(e) {
@@ -147,8 +147,8 @@ $(document).ready(function() {
                     first = false;
                 }
 
-                data = { channel: channel, message: message };
-                socket.emit('send', data);
+                data = { type: 'channel', target: channel, text: message };
+                socket.emit('message', data);
                 $('#message input').val('');
                 scrollDown();
             }
@@ -166,7 +166,7 @@ $(document).ready(function() {
         }
     });
 
-    socket.on('join-response', function(success) {
+    socket.on('login-response', function(success) {
         if (!success) {
             usernameErrorShow('taken');
             return;
@@ -176,13 +176,6 @@ $(document).ready(function() {
         $('#message input').focus();
 
         updateOwnMessagesInHistory();
-    });
-
-    socket.on('update', function(message) {
-        if (ready) {
-            $('#message-list').append('<li>' + message + '</li>');
-            scrollDown();
-        }
     });
 
     socket.on('update-people', function(people) {
@@ -210,8 +203,8 @@ $(document).ready(function() {
         }
     });
 
-    socket.on('chat', function(data) {
-        if (ready && data.channel == channel) {
+    socket.on('message', function(data) {
+        if (ready && data.target == channel) {
             var avatarHTML = '<img src="' + getAvatar(data.username) + '" alt="' + escapeHTML(data.username) + '" class="avatar"/>';
             var className;
 
@@ -222,7 +215,7 @@ $(document).ready(function() {
                 className = 'other';
             }
 
-            var html = '<li>' + avatarHTML + ' <strong>' + escapeHTML(data.username) + '</strong> <div class="' + className + '">' + formatMessage(data.message) + '</div></li>';
+            var html = '<li>' + avatarHTML + ' <strong>' + escapeHTML(data.username) + '</strong> <div class="' + className + '">' + formatMessage(data.text) + '</div></li>';
 
             if (!active) {
                 ++unread;
