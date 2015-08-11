@@ -210,7 +210,7 @@ $(document).ready(function() {
         }
     });
 
-    socket.on('chat', function(data) {
+    socket.on('message', function(data) {
         if (ready && data.target == channel) {
             var avatarHTML = '<img src="' + getAvatar(data.username) + '" alt="' + escapeHTML(data.username) + '" class="avatar"/>';
             var className;

@@ -32,7 +32,7 @@ socket.on('connection', function (client) {
     client.on('message', function(data) {
         var text = data.text;
         data.username = people[client.id]
-        socket.sockets.emit('chat', data);
+        socket.sockets.emit('message', data);
         console.log(people[client.id] + 'sent "' + text + '"');
 
         var headers = {
