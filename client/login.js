@@ -123,4 +123,3 @@ var LoginForm = React.createClass({
         );
     }
 });
-React.render(<LoginForm />, document.getElementById('container'));

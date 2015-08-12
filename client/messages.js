@@ -153,13 +153,3 @@ var MessageForm = React.createClass({
         );
     }
 });
-
-React.render(
-    (
-        <div>
-            <History />
-            <MessageForm />
-        </div>
-    ),
-    document.getElementsByClassName('chat')[0]
-);

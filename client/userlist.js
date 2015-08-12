@@ -54,5 +54,3 @@ var User = React.createClass({
         )
     }
 });
-
-React.render(<UserList />, document.getElementsByClassName('nicklist')[0]);

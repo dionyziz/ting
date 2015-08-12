@@ -58,5 +58,24 @@ $(document).ready(function() {
 
 var Ting = React.createClass({
     render: function() {
+        return (
+            <div>
+                <div className='top'>
+                    <h1>Ting</h1>
+                </div>
+                <div className='app'>
+                    <div className='nicklist'>
+                        <UserList />
+                    </div>
+                    <div className='chat'>
+                        <History />
+                        <MessageForm />
+                    </div>
+                </div>
+                <LoginForm />
+            </div>
+        );
     }
 });
+
+React.render(<Ting />, document.getElementsByClassName('ting')[0]);
