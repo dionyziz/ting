@@ -14,16 +14,6 @@ function updateOwnMessagesInHistory() {
     });
 }
 
-$(document).ready(() => {
-    var url = $(location).attr('href');
-    parts = url.split('/');
-    channel = parts.slice(-1)[0]
-
-    if (channel == '') {
-        channel = 'ting';
-    }
-});
-
 var Ting = React.createClass({
     render() {
         return (
