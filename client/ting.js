@@ -5,18 +5,10 @@ var channel;
 var ready = false;
 var active = true;
 
-function updateOwnMessagesInHistory() {
-    $('#message-list li').each(function() {
-        if ($(this).find('strong').text() == myUsername) {
-            $(this).find('div').removeClass('other').addClass('self');
-        }
-    });
-}
-
 var Ting = React.createClass({
-    onLogin() {
-        updateOwnMessagesInHistory();
-        this.refs.history.onLogin();
+    onLogin(username) {
+        myUsername = username;
+        this.refs.history.onLogin(username);
     },
     render() {
         return (

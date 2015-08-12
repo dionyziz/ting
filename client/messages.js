@@ -25,7 +25,7 @@ var History = React.createClass({
             active: true
         };
     },
-    onLogin() {
+    onLogin(myUsername) {
         $.getJSON('/api/messages/' + channel, (messages) => {
             this.setState({
                 // we must reverse the messages, as they are given to us in

@@ -82,7 +82,7 @@ var LoginForm = React.createClass({
             $(React.findDOMNode(this.refs.usernameSetModal)).modal('hide');
             $('#message input').focus();
 
-            this.props.onLogin();
+            this.props.onLogin(this.state.username);
         });
     },
     render() {
