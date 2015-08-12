@@ -8,13 +8,6 @@ var active = true;
 var ENTER = 13;
 var first = true;
 
-function escapeHTML(input) {
-    var div = document.createElement('div');
-    var text = document.createTextNode(input);
-    div.appendChild(text);
-    return div.innerHTML;
-}
-
 function scrollDown() {
     setTimeout(function() {
         wrapper.scrollTop(wrapper.get(0).scrollHeight);
