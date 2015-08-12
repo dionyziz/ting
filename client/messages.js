@@ -133,6 +133,7 @@ var Message = React.createClass({
 });
 
 var MessageForm = React.createClass({
+    first: true,
     getInitialState() {
         return {
             message: ''
@@ -144,14 +145,14 @@ var MessageForm = React.createClass({
         var message = this.state.message;
 
         if (message.trim().length > 0) {
-            if (first) {
+            if (this.first) {
                 ga('send', 'event', {
                     eventCategory: 'chat',
                     eventAction: 'chat_form_submit',
                     eventLabel: 'send',
                     eventValue: 1
                 });
-                first = false;
+                this.first = false;
             }
 
             data = { type: 'channel', target: channel, text: message };

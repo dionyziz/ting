@@ -4,7 +4,6 @@ var socket = io.connect(URL);
 var channel;
 var ready = false;
 var active = true;
-var first = true;
 
 function updateOwnMessagesInHistory() {
     $('#message-list li').each(function() {
