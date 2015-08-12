@@ -38,9 +38,6 @@ $(document).ready(function() {
         channel = 'ting';
     }
 
-    $('#modal').modal('show');
-    $('#username').focus();
-
     $(document).on({
         'show': function() {
             active = true;
