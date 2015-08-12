@@ -18,15 +18,20 @@ var usernames = {};
 
 socket.on('connection', function (client) {
      client.on('login', function(username) {
+        var resp = { 
+            success: true,
+        };
         if (usernames[username]) {
-            client.emit('login-response', false);
+            resp.success = false
+            resp.error = 'taken';
+            client.emit('login-response', resp);
             return;
         }
         people[client.id] = username;
         usernames[username] = true;
+        resp.people = people;
         console.log(username + ' joined the server');
-        client.emit('login-response', true);
-        socket.sockets.emit('update-people', people);
+        client.emit('login-response', resp);
     });
 
     client.on('message', function(data) {

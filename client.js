@@ -85,6 +85,23 @@ $(document).ready(function() {
         });
     }
 
+    function addOnlineUserToList(username) {
+        var $avatar = $('<img />');
+        $avatar[0].src = getAvatar(username);
+        $avatar.addClass('avatar');
+
+        var $name = $('<span>' + escapeHTML(username) + '</span>');
+
+        var $li = $('<li />');
+
+        $li.append($avatar);
+        $li.append(document.createTextNode(' '));
+        $li.append($name);
+
+        $('#online-list').append($li);
+    }
+
+
     $('#username-set-modal').modal('show');
     $('#username-alert').hide()
     setTimeout(function() {
@@ -166,11 +183,14 @@ $(document).ready(function() {
         }
     });
 
-    socket.on('login-response', function(success) {
-        if (!success) {
-            usernameErrorShow('taken');
+    socket.on('login-response', function(resp) {
+        if (!resp.success) {
+            usernameErrorShow(resp.error);
             return;
         }
+        $.each(resp.people, function(clientid, username) {
+            addOnlineUserToList(username);
+        });
         ready = true;
         $('#username-set-modal').modal('hide');
         $('#message input').focus();
