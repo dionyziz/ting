@@ -5,12 +5,7 @@ var UserList = React.createClass({
     },
     render: function() {
         return (
-            <ul id='online-list'>
-                <li>
-                    <img src='https://avatars.githubusercontent.com/dionyziz' alt='' class='avatar' />
-                    <span>dionyziz</span>
-                </li>
-            </ul>
+            <ul id='online-list'></ul>
         );
     },
     _join: function(username) {
