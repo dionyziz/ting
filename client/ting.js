@@ -15,21 +15,6 @@ function updateOwnMessagesInHistory() {
 }
 
 $(document).ready(function() {
-    var title = document.title;
-    var titlePrefix = '';
-    var unread = 0;
-
-    function updateTitle() {
-        if (active) {
-            titlePrefix = '';
-        }
-        else {
-            titlePrefix = '(' + unread + ') ';
-        }
-
-        document.title = titlePrefix + title;
-    }
-
     var url = $(location).attr('href');
     parts = url.split('/');
     channel = parts.slice(-1)[0]
@@ -37,17 +22,6 @@ $(document).ready(function() {
     if (channel == '') {
         channel = 'ting';
     }
-
-    $(document).on({
-        'show': function() {
-            active = true;
-            unread = 0;
-            updateTitle();
-        },
-        'hide': function() {
-            active = false;
-        }
-    });
 });
 
 var Ting = React.createClass({

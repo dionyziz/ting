@@ -1,5 +1,6 @@
 var History = React.createClass({
     _wrapper: null,
+    _title: document.title,
     _scrollDown: function() {
         var self = this;
 
@@ -7,9 +8,23 @@ var History = React.createClass({
             self._wrapper.scrollTop(self._wrapper.get(0).scrollHeight);
         }, 30);
     },
+    _updateTitle: function() {
+        var titlePrefix;
+
+        if (this.state.active || this.state.unread == 0) {
+            titlePrefix = '';
+        }
+        else {
+            titlePrefix = '(' + this.state.unread + ') ';
+        }
+
+        document.title = titlePrefix + this._title;
+    },
     getInitialState: function() {
         return {
-            messages: []
+            messages: [],
+            unread: 0,
+            active: true
         };
     },
     componentDidMount: function() {
@@ -36,10 +51,25 @@ var History = React.createClass({
                 );
                 self.setState(newState);
 
-                if (!active) {
-                    ++unread;
-                    updateTitle();
+                if (!self.state._active) {
+                    self.setState({
+                        unread: self.state.unread + 1
+                    });
                 }
+            }
+        });
+
+        $(document).on({
+            show: function() {
+                self.setState({
+                    active: true,
+                    unread: 0
+                });
+            },
+            hide: function() {
+                self.setState({
+                    active: false
+                });
             }
         });
     },
@@ -61,6 +91,7 @@ var History = React.createClass({
         )
     },
     componentDidUpdate: function() {
+        this._updateTitle();
         this._scrollDown();
     }
 });
