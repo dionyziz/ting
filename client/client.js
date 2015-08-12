@@ -29,10 +29,6 @@ function scrollDown() {
     }, 30);
 }
 
-function getAvatar(username) {
-    return 'https://avatars.githubusercontent.com/' + escapeHTML(username.toLowerCase());
-}
-
 function updateOwnMessagesInHistory() {
     $('#message-list li').each(function() {
         if ($(this).find('strong').text() == myUsername) {
