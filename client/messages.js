@@ -84,33 +84,49 @@ var Message = React.createClass({
 });
 
 var MessageForm = React.createClass({
-    componentDidMount: function() {
-        $('#message input').keypress(function(e) {
-            if (e.which == ENTER) {
-                e.preventDefault();
+    getInitialState: function() {
+        return {
+            message: ''
+        };
+    },
+    handleSubmit: function(event) {
+        event.preventDefault();
 
-                var message = $('#message input').val();
-                if (message.trim().length > 0) {
-                    if (first) {
-                        ga('send', 'event', {
-                            eventCategory: 'chat', eventAction: 'chat_form_submit', eventLabel: 'send', eventValue: 1
-                        });
-                        first = false;
-                    }
+        var message = this.state.message;
 
-                    data = { type: 'channel', target: channel, text: message };
-                    socket.emit('message', data);
-                    $('#message input').val('');
-                    scrollDown();
-                }
+        if (message.trim().length > 0) {
+            if (first) {
+                ga('send', 'event', {
+                    eventCategory: 'chat',
+                    eventAction: 'chat_form_submit',
+                    eventLabel: 'send',
+                    eventValue: 1
+                });
+                first = false;
             }
+
+            data = { type: 'channel', target: channel, text: message };
+            socket.emit('message', data);
+
+            React.findDOMNode(this.refs.inputField).value = '';
+        }
+    },
+    handleChange: function(event) {
+        this.setState({
+            message: event.target.value
         });
     },
     render: function() {
         return (
             <div className='textarea'>
-                <form id='message'>
-                    <input type='text' className='form-control' placeholder='Γράψε ένα μήνυμα...' />
+                <form id='message'
+                      onSubmit={this.handleSubmit}>
+                    <input type='text'
+                           className='form-control'
+                           placeholder='Γράψε ένα μήνυμα...'
+                           value={this.state.message}
+                           onChange={this.handleChange}
+                           ref='inputField' />
                 </form>
             </div>
         );
