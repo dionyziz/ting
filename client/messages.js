@@ -38,7 +38,7 @@ var History = React.createClass({
         });
 
         socket.on('message', (data) => {
-            if (ready && data.target == channel) {
+            if (data.target == channel) {
                 var newState = React.addons.update(
                     this.state, {
                         messages: {

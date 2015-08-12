@@ -76,7 +76,6 @@ var LoginForm = React.createClass({
                 this._handleError('taken');
                 return;
             }
-            ready = true;
 
             $(React.findDOMNode(this.refs.usernameSetModal)).modal('hide');
             $('#message input').focus();
