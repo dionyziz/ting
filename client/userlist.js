@@ -19,4 +19,14 @@ var UserList = React.createClass({
         }).parent().remove();
     }
 });
+
+var User = React.createClass({
+    render: function() {
+        return (
+            <li>
+            </li>
+        )
+    }
+});
+
 React.render(<UserList />, document.getElementsByClassName('nicklist')[0]);
