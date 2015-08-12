@@ -8,14 +8,6 @@ var active = true;
 var ENTER = 13;
 var first = true;
 
-function formatMessage(message) {
-    var html = escapeHTML(message);
-
-    return html.autoLink({
-        target: "_blank", rel: "nofollow"
-    });
-}
-
 function escapeHTML(input) {
     var div = document.createElement('div');
     var text = document.createTextNode(input);

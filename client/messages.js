@@ -60,6 +60,15 @@ var History = React.createClass({
 });
 
 var Message = React.createClass({
+    _formatMessage: function(message) {
+        var html = escapeHTML(message);
+
+        return {
+            __html: html.autoLink({
+                target: "_blank", rel: "nofollow"
+            })
+        };
+    },
     render: function() {
         var className;
 
@@ -75,8 +84,8 @@ var Message = React.createClass({
                 <Avatar username={this.props.username} />
                 <strong>{this.props.username}</strong>
 
-                <div className={className}>
-                    {formatMessage(this.props.text)}
+                <div className={className}
+                     dangerouslySetInnerHTML={this._formatMessage(this.props.text)}>
                 </div>
             </li>
         )
