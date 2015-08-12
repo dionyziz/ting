@@ -48,12 +48,6 @@ $(document).ready(function() {
             active = false;
         }
     });
-
-    //socket.on('disconnect', function() {
-    //    $('#messages').append('<li><strong><span class='text-warning'>The server is not available</span></strong></li>');
-    //    $('#message').attr('disabled', 'disabled');
-    //    $('#send').attr('disabled', 'disabled');
-    //});
 });
 
 var Ting = React.createClass({
