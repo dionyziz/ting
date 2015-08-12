@@ -48,7 +48,7 @@ var History = React.createClass({
                 );
                 this.setState(newState);
 
-                if (!this.state._active && data.username != myUsername) {
+                if (!this.state.active && data.username != myUsername) {
                     this.setState({
                         unread: this.state.unread + 1
                     });

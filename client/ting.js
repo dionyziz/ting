@@ -1,7 +1,6 @@
 var URL = window.location.hostname + ':8080';
 var socket = io.connect(URL);
 var channel;
-var active = true;
 
 var Ting = React.createClass({
     onLogin(username) {
