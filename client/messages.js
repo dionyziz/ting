@@ -60,8 +60,14 @@ var History = React.createClass({
 });
 
 var Message = React.createClass({
+    _escapeHTML: function(input) {
+        var div = document.createElement('div');
+        var text = document.createTextNode(input);
+        div.appendChild(text);
+        return div.innerHTML;
+    },
     _formatMessage: function(message) {
-        var html = escapeHTML(message);
+        var html = this._escapeHTML(message);
 
         return {
             __html: html.autoLink({
