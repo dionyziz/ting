@@ -1,14 +1,14 @@
 var UserList = React.createClass({
-    getInitialState: function() {
+    getInitialState() {
         return {
             users: []
         };
     },
-    componentDidMount: function() {
+    componentDidMount() {
         socket.on('join', this._join);
         socket.on('part', this._part);
     },
-    _join: function(username) {
+    _join(username) {
         if (username != myUsername) {
             var newState = React.addons.update(
                 this.state, {
@@ -20,7 +20,7 @@ var UserList = React.createClass({
             this.setState(newState);
         }
     },
-    _part: function(username) {
+    _part(username) {
         var newUsers = this.state.users.filter((name) => {
             return username != name;
         });
@@ -28,7 +28,7 @@ var UserList = React.createClass({
             users: newUsers
         });
     },
-    render: function() {
+    render() {
         var userNodes = this.state.users.map(function (user) {
             return (
                 <User username={user} />
@@ -45,7 +45,7 @@ var UserList = React.createClass({
 });
 
 var User = React.createClass({
-    render: function() {
+    render() {
         return (
             <li>
                 <Avatar username={this.props.username} />

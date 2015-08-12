@@ -25,7 +25,7 @@ $(document).ready(function() {
 });
 
 var Ting = React.createClass({
-    render: function() {
+    render() {
         return (
             <div>
                 <div className='top'>

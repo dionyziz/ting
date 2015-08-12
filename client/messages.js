@@ -1,12 +1,12 @@
 var History = React.createClass({
     _wrapper: null,
     _title: document.title,
-    _scrollDown: function() {
+    _scrollDown() {
         setTimeout(() => {
             this._wrapper.scrollTop(this._wrapper.get(0).scrollHeight);
         }, 30);
     },
-    _updateTitle: function() {
+    _updateTitle() {
         var titlePrefix;
 
         if (this.state.active || this.state.unread == 0) {
@@ -18,14 +18,14 @@ var History = React.createClass({
 
         document.title = titlePrefix + this._title;
     },
-    getInitialState: function() {
+    getInitialState() {
         return {
             messages: [],
             unread: 0,
             active: true
         };
     },
-    componentDidMount: function() {
+    componentDidMount() {
         this._wrapper = $('.history-wrapper');
 
         $.getJSON('/api/messages/' + channel, (messages) => {
@@ -69,7 +69,7 @@ var History = React.createClass({
             }
         });
     },
-    render: function() {
+    render() {
         var messageNodes = this.state.messages.map(function (message) {
             return (
                 <Message username={message.username}
@@ -86,20 +86,20 @@ var History = React.createClass({
             </div>
         )
     },
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         this._updateTitle();
         this._scrollDown();
     }
 });
 
 var Message = React.createClass({
-    _escapeHTML: function(input) {
+    _escapeHTML(input) {
         var div = document.createElement('div');
         var text = document.createTextNode(input);
         div.appendChild(text);
         return div.innerHTML;
     },
-    _formatMessage: function(message) {
+    _formatMessage(message) {
         var html = this._escapeHTML(message);
 
         return {
@@ -108,7 +108,7 @@ var Message = React.createClass({
             })
         };
     },
-    render: function() {
+    render() {
         var className;
 
         if (this.props.username == myUsername) {
@@ -132,12 +132,12 @@ var Message = React.createClass({
 });
 
 var MessageForm = React.createClass({
-    getInitialState: function() {
+    getInitialState() {
         return {
             message: ''
         };
     },
-    handleSubmit: function(event) {
+    handleSubmit(event) {
         event.preventDefault();
 
         var message = this.state.message;
@@ -159,12 +159,12 @@ var MessageForm = React.createClass({
             React.findDOMNode(this.refs.inputField).value = '';
         }
     },
-    handleChange: function(event) {
+    handleChange(event) {
         this.setState({
             message: event.target.value
         });
     },
-    render: function() {
+    render() {
         return (
             <div className='textarea'>
                 <form id='message'

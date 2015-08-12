@@ -1,8 +1,8 @@
 var Avatar = React.createClass({
-    _getAvatar: function(username) {
+    _getAvatar(username) {
         return 'https://avatars.githubusercontent.com/' + username.toLowerCase();
     },
-    render: function() {
+    render() {
         var src = this._getAvatar(this.props.username);
 
         return (

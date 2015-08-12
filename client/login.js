@@ -1,12 +1,12 @@
 var LoginForm = React.createClass({
-    getInitialState: function() {
+    getInitialState() {
         return {
             validationState: true,
             errorStr: '',
             username: ''
         };
     },
-    _validate: function(username) {
+    _validate(username) {
         var rex = /^[α-ωa-z0-9]+$/i;
 
         if (username == '') {
@@ -20,7 +20,7 @@ var LoginForm = React.createClass({
         } 
         return true;
     },
-    _validationErrorToString: function(validationState) {
+    _validationErrorToString(validationState) {
         var errors = {
             empty: 'Γράψε ένα ψευδώνυμο.',
             length: 'Το ψευδώνυμο πρέπει να είναι έως 20 γράμματα.',
@@ -31,13 +31,13 @@ var LoginForm = React.createClass({
 
         return errors[validationState];
     },
-    _handleError: function(validationState) {
+    _handleError(validationState) {
         this.setState({
             validationState: validationState,
             errorStr: this._validationErrorToString(validationState)
         });
     },
-    handleChange: function(event) {
+    handleChange(event) {
         var username = event.target.value;
         myUsername = username;
 
@@ -48,7 +48,7 @@ var LoginForm = React.createClass({
         });
         this._handleError(validationState);
     },
-    handleSubmit: function(event) {
+    handleSubmit(event) {
         event.preventDefault();
 
         if (this.state.validationState !== true) {
@@ -60,7 +60,7 @@ var LoginForm = React.createClass({
         });
         socket.emit('login', myUsername);
     },
-    componentDidMount: function() {
+    componentDidMount() {
         $(React.findDOMNode(this.refs.usernameSetModal)).modal('show');
         setTimeout(() => {
             React.findDOMNode(this.refs.username).focus();
@@ -79,7 +79,7 @@ var LoginForm = React.createClass({
             updateOwnMessagesInHistory();
         });
     },
-    render: function() {
+    render() {
         var alertClasses = classNames({
             'alert': true,
             'alert-warning': true,
