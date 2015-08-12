@@ -70,7 +70,7 @@ var History = React.createClass({
         });
     },
     render() {
-        var messageNodes = this.state.messages.map(function (message) {
+        var messageNodes = this.state.messages.map((message) => {
             return (
                 <Message username={message.username}
                          text={message.text} />

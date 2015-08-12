@@ -14,7 +14,7 @@ function updateOwnMessagesInHistory() {
     });
 }
 
-$(document).ready(function() {
+$(document).ready(() => {
     var url = $(location).attr('href');
     parts = url.split('/');
     channel = parts.slice(-1)[0]

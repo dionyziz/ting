@@ -29,7 +29,7 @@ var UserList = React.createClass({
         });
     },
     render() {
-        var userNodes = this.state.users.map(function (user) {
+        var userNodes = this.state.users.map((user) => {
             return (
                 <User username={user} />
             );
