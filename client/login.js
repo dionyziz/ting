@@ -39,7 +39,6 @@ var LoginForm = React.createClass({
     },
     handleChange(event) {
         var username = event.target.value;
-        myUsername = username;
 
         var validationState = this._validate(username);
 
@@ -56,7 +55,7 @@ var LoginForm = React.createClass({
         ga('send', 'event', {
             eventCategory: 'join', eventAction: 'username_set', eventLabel: 'submit', eventValue: 1
         });
-        socket.emit('login', myUsername);
+        socket.emit('login', this.state.username);
     },
     componentDidMount() {
         var url = location.href;

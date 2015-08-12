@@ -1,15 +1,19 @@
 var UserList = React.createClass({
     getInitialState() {
         return {
-            users: []
+            users: [],
+            myUsername: null
         };
     },
     componentDidMount() {
         socket.on('join', this._join);
         socket.on('part', this._part);
     },
+    onLogin(myUsername) {
+        this.setState({myUsername});
+    },
     _join(username) {
-        if (username != myUsername) {
+        if (username != this.state.myUsername) {
             var newState = React.addons.update(
                 this.state, {
                     users: {

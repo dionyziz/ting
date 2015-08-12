@@ -22,10 +22,13 @@ var History = React.createClass({
         return {
             messages: [],
             unread: 0,
-            active: true
+            active: true,
+            myUsername: null
         };
     },
     onLogin(myUsername) {
+        this.state.myUsername = myUsername;
+
         $.getJSON('/api/messages/' + channel, (messages) => {
             this.setState({
                 // we must reverse the messages, as they are given to us in
@@ -74,6 +77,7 @@ var History = React.createClass({
         var messageNodes = this.state.messages.map((message) => {
             return (
                 <Message username={message.username}
+                         own={message.username == this.state.myUsername}
                          text={message.text} />
             );
         });
@@ -112,7 +116,7 @@ var Message = React.createClass({
     render() {
         var className;
 
-        if (this.props.username == myUsername) {
+        if (this.props.own) {
             className = 'self';
         }
         else {
