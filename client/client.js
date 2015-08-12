@@ -4,7 +4,6 @@ var socket = io.connect(URL);
 var channel;
 var ready = false;
 var active = true;
-var ENTER = 13;
 var first = true;
 
 function updateOwnMessagesInHistory() {
