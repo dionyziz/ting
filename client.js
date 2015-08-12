@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    URL = window.location.hostname + ':8080';
+    URL = window.location.hostname + ':8085';
     var ENTER = 13;
     var ready = false;
     var rex = /^[α-ωa-z0-9]+$/i;
@@ -101,7 +101,6 @@ $(document).ready(function() {
         $('#online-list').append($li);
     }
 
-
     $('#username-set-modal').modal('show');
     $('#username-alert').hide()
     setTimeout(function() {
@@ -198,29 +197,16 @@ $(document).ready(function() {
         updateOwnMessagesInHistory();
     });
 
-    socket.on('update-people', function(people) {
-        if (ready) {
-            $('#online-list').empty();
-            $('#online-list').append(
-                $('<li class="active"><span>' + escapeHTML(channel) + '</span></li>')
-            );
-
-            $.each(people, function(clientid, name) {
-                var $avatar = $('<img />');
-                $avatar[0].src = getAvatar(name);
-                $avatar.addClass('avatar');
-
-                var $name = $('<span>' + escapeHTML(name) + '</span>');
-
-                var $li = $('<li />');
-
-                $li.append($avatar);
-                $li.append(document.createTextNode(' '));
-                $li.append($name);
-
-                $('#online-list').append($li);
-            });
+    socket.on('join', function(username) {
+        if (username != myUsername) {
+            addOnlineUserToList(username);
         }
+    });
+
+    socket.on('part', function(username) {
+        $('#online-list li span').filter(function() {
+            return $(this).text() == username; 
+        }).parent().remove();
     });
 
     socket.on('message', function(data) {
