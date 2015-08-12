@@ -43,9 +43,7 @@ var LoginForm = React.createClass({
 
         var validationState = this._validate(username);
 
-        this.setState({
-            username: username,
-        });
+        this.setState({username});
         this._handleError(validationState);
     },
     handleSubmit(event) {
