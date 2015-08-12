@@ -1,6 +1,6 @@
 var Avatar = React.createClass({
     _getAvatar: function(username) {
-        return 'https://avatars.githubusercontent.com/' + escapeHTML(username.toLowerCase());
+        return 'https://avatars.githubusercontent.com/' + username.toLowerCase();
     },
     render: function() {
         var src = this._getAvatar(this.props.username);
