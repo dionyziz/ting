@@ -49,18 +49,18 @@ function addOnlineUserToList(username) {
     $('#online-list').append($li);
 }
 
+function updateOwnMessagesInHistory() {
+    $('#message-list li').each(function() {
+        if ($(this).find('strong').text() == myUsername) {
+            $(this).find('div').removeClass('other').addClass('self');
+        }
+    });
+}
+
 $(document).ready(function() {
     var title = document.title;
     var titlePrefix = '';
     var unread = 0;
-
-    function updateOwnMessagesInHistory() {
-        $('#message-list li').each(function() {
-            if ($(this).find('strong').text() == myUsername) {
-                $(this).find('div').removeClass('other').addClass('self');
-            }
-        });
-    }
 
     function updateTitle() {
         if (active) {
