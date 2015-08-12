@@ -61,21 +61,19 @@ var LoginForm = React.createClass({
         socket.emit('login', myUsername);
     },
     componentDidMount: function() {
-        var self = this;
-
         $(React.findDOMNode(this.refs.usernameSetModal)).modal('show');
-        setTimeout(function() {
-            React.findDOMNode(self.refs.username).focus();
+        setTimeout(() => {
+            React.findDOMNode(this.refs.username).focus();
         }, 300);
 
-        socket.on('login-response', function(success) {
+        socket.on('login-response', (success) => {
             if (!success) {
-                self._handleError('taken');
+                this._handleError('taken');
                 return;
             }
             ready = true;
 
-            $(React.findDOMNode(self.refs.usernameSetModal)).modal('hide');
+            $(React.findDOMNode(this.refs.usernameSetModal)).modal('hide');
             $('#message input').focus();
 
             updateOwnMessagesInHistory();

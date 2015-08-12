@@ -2,10 +2,8 @@ var History = React.createClass({
     _wrapper: null,
     _title: document.title,
     _scrollDown: function() {
-        var self = this;
-
-        setTimeout(function() {
-            self._wrapper.scrollTop(self._wrapper.get(0).scrollHeight);
+        setTimeout(() => {
+            this._wrapper.scrollTop(this._wrapper.get(0).scrollHeight);
         }, 30);
     },
     _updateTitle: function() {
@@ -28,46 +26,44 @@ var History = React.createClass({
         };
     },
     componentDidMount: function() {
-        var self = this;
-
         this._wrapper = $('.history-wrapper');
 
-        $.getJSON('/api/messages/' + channel, function(messages) {
-            self.setState({
+        $.getJSON('/api/messages/' + channel, (messages) => {
+            this.setState({
                 // we must reverse the messages, as they are given to us in
                 // reverse chronological order by the history API
                 messages: messages.reverse()
             });
         });
 
-        socket.on('message', function(data) {
+        socket.on('message', (data) => {
             if (ready && data.target == channel) {
                 var newState = React.addons.update(
-                    self.state, {
+                    this.state, {
                         messages: {
                             $push: [data]
                         }
                     }
                 );
-                self.setState(newState);
+                this.setState(newState);
 
-                if (!self.state._active && data.username != myUsername) {
+                if (!this.state._active && data.username != myUsername) {
                     this.setState({
-                        unread: self.state.unread + 1
+                        unread: this.state.unread + 1
                     });
                 }
             }
         });
 
         $(document).on({
-            show: function() {
-                self.setState({
+            show: () => {
+                this.setState({
                     active: true,
                     unread: 0
                 });
             },
-            hide: function() {
-                self.setState({
+            hide: () => {
+                this.setState({
                     active: false
                 });
             }

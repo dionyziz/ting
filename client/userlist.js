@@ -21,7 +21,7 @@ var UserList = React.createClass({
         }
     },
     _part: function(username) {
-        var newUsers = this.state.users.filter(function(name) {
+        var newUsers = this.state.users.filter((name) => {
             return username != name;
         });
         this.setState({
