@@ -33,22 +33,6 @@ function getAvatar(username) {
     return 'https://avatars.githubusercontent.com/' + escapeHTML(username.toLowerCase());
 }
 
-function addOnlineUserToList(username) {
-    var $avatar = $('<img />');
-    $avatar[0].src = getAvatar(username);
-    $avatar.addClass('avatar');
-
-    var $name = $('<span>' + escapeHTML(username) + '</span>');
-
-    var $li = $('<li />');
-
-    $li.append($avatar);
-    $li.append(document.createTextNode(' '));
-    $li.append($name);
-
-    $('#online-list').append($li);
-}
-
 function updateOwnMessagesInHistory() {
     $('#message-list li').each(function() {
         if ($(this).find('strong').text() == myUsername) {
