@@ -1,11 +1,14 @@
-var URL = window.location.hostname + ':8080';
-var socket = io.connect(URL);
+var socket = null;
 var channel;
 
 var Ting = React.createClass({
     onLogin(username) {
         this.refs.history.onLogin(username);
         this.refs.userList.onLogin(username);
+    },
+    componentWillMount() {
+        var URL = window.location.hostname + ':8080';
+        socket = io.connect(URL);
     },
     render() {
         return (
