@@ -31,18 +31,22 @@ var LoginForm = React.createClass({
 
         return errors[validationState];
     },
+    _handleError: function(validationState) {
+        this.setState({
+            validationState: validationState,
+            errorStr: this._validationErrorToString(validationState)
+        });
+    },
     handleChange: function(event) {
         var username = event.target.value;
         myUsername = username;
 
         var validationState = this._validate(username);
-        var errorStr = this._validationErrorToString(validationState);
 
         this.setState({
             username: username,
-            validationState: validationState,
-            errorStr: errorStr
         });
+        this._handleError(validationState);
     },
     handleSubmit: function(event) {
         event.preventDefault();
@@ -66,8 +70,7 @@ var LoginForm = React.createClass({
 
         socket.on('login-response', function(success) {
             if (!success) {
-                // TODO: Migrate this to Login Form
-                // usernameErrorShow('taken');
+                self._handleError('taken');
                 return;
             }
             ready = true;
