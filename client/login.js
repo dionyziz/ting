@@ -57,9 +57,11 @@ var LoginForm = React.createClass({
         socket.emit('login', myUsername);
     },
     componentDidMount: function() {
-        $('#username-set-modal').modal('show');
+        var self = this;
+
+        $(React.findDOMNode(this.refs.usernameSetModal)).modal('show');
         setTimeout(function() {
-            $('#username').focus();
+            React.findDOMNode(self.refs.username).focus();
         }, 300);
 
         socket.on('login-response', function(success) {
@@ -70,7 +72,7 @@ var LoginForm = React.createClass({
             }
             ready = true;
 
-            $('#username-set-modal').modal('hide');
+            $(React.findDOMNode(self.refs.usernameSetModal)).modal('hide');
             $('#message input').focus();
 
             updateOwnMessagesInHistory();
@@ -85,7 +87,7 @@ var LoginForm = React.createClass({
 
         return (
             <div className='modal fade'
-                 id='username-set-modal'
+                 ref='usernameSetModal'
                  data-backdrop='static'
                  data-keyboard='false'
                  role='dialog'>
@@ -95,7 +97,6 @@ var LoginForm = React.createClass({
                              id='login'>
                             <h1>Ting</h1>
                             <div className={alertClasses}
-                                 id="username-alert"
                                  role="alert">
                                 <p>{this.state.errorStr}</p>
                             </div>
@@ -104,7 +105,7 @@ var LoginForm = React.createClass({
                                 <input type='text'
                                        className='form-control input-small'
                                        placeholder='Γράψε ένα ψευδώνυμο'
-                                       id='username'
+                                       ref='username'
                                        onChange={this.handleChange} />
                                 <input type='submit'
                                        name='join'
