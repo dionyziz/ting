@@ -59,7 +59,7 @@ var LoginForm = React.createClass({
         socket.emit('login', myUsername);
     },
     componentDidMount() {
-        var url = $(location).attr('href');
+        var url = location.href;
         var parts = url.split('/');
         channel = parts.slice(-1)[0]
 
