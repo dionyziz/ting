@@ -10,7 +10,7 @@ var Ting = React.createClass({
         var parts = url.split('/');
         var channel = parts.slice(-1)[0]
 
-        if (channel == '') {
+        if (channel == '' || channel == '?') {
             channel = 'ting';
         }
 
