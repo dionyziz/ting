@@ -7,7 +7,7 @@ var UserList = React.createClass({
         return (
             <ul id='online-list'>
                 <li>
-                    <img src="https://avatars.githubusercontent.com/dionyziz" alt="" class="avatar" />
+                    <img src='https://avatars.githubusercontent.com/dionyziz' alt='' class='avatar' />
                     <span>dionyziz</span>
                 </li>
             </ul>
