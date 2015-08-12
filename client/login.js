@@ -58,14 +58,6 @@ var LoginForm = React.createClass({
         socket.emit('login', this.state.username);
     },
     componentDidMount() {
-        var url = location.href;
-        var parts = url.split('/');
-        channel = parts.slice(-1)[0]
-
-        if (channel == '') {
-            channel = 'ting';
-        }
-
         $(React.findDOMNode(this.refs.usernameSetModal)).modal('show');
         setTimeout(() => {
             React.findDOMNode(this.refs.username).focus();

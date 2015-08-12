@@ -29,7 +29,7 @@ var History = React.createClass({
     onLogin(myUsername) {
         this.state.myUsername = myUsername;
 
-        $.getJSON('/api/messages/' + channel, (messages) => {
+        $.getJSON('/api/messages/' + this.props.channel, (messages) => {
             this.setState({
                 // we must reverse the messages, as they are given to us in
                 // reverse chronological order by the history API
@@ -38,7 +38,7 @@ var History = React.createClass({
         });
 
         socket.on('message', (data) => {
-            if (data.target == channel) {
+            if (data.target == this.props.channel) {
                 var newState = React.addons.update(
                     this.state, {
                         messages: {
@@ -159,7 +159,11 @@ var MessageForm = React.createClass({
                 this.first = false;
             }
 
-            data = { type: 'channel', target: channel, text: message };
+            data = {
+                type: 'channel',
+                target: this.props.channel,
+                text: message
+            };
             socket.emit('message', data);
 
             React.findDOMNode(this.refs.inputField).value = '';

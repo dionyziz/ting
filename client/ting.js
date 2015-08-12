@@ -1,10 +1,20 @@
 var socket = null;
-var channel;
 
 var Ting = React.createClass({
     onLogin(username) {
         this.refs.history.onLogin(username);
         this.refs.userList.onLogin(username);
+    },
+    getInitialState() {
+        var url = location.href;
+        var parts = url.split('/');
+        var channel = parts.slice(-1)[0]
+
+        if (channel == '') {
+            channel = 'ting';
+        }
+
+        return {channel};
     },
     componentWillMount() {
         var URL = window.location.hostname + ':8080';
@@ -21,8 +31,8 @@ var Ting = React.createClass({
                         <UserList ref='userList' />
                     </div>
                     <div className='chat'>
-                        <History ref='history' />
-                        <MessageForm />
+                        <History ref='history' channel={this.state.channel} />
+                        <MessageForm channel={this.state.channel} />
                     </div>
                 </div>
                 <LoginForm onLogin={this.onLogin} />
