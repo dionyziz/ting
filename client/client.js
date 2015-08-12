@@ -95,23 +95,6 @@ $(document).ready(function() {
         }
     });
 
-    socket.on('login-response', function(resp) {
-        if (!resp.success) {
-            // TODO: Migrate this to Login Form
-            // usernameErrorShow(resp.error);
-            usernameErrorShow(resp.error);
-            return;
-        }
-        $.each(resp.people, function(clientid, username) {
-            addOnlineUserToList(username);
-        });
-        ready = true;
-        $('#username-set-modal').modal('hide');
-        $('#message input').focus();
-
-        updateOwnMessagesInHistory();
-    });
-
     //socket.on('disconnect', function() {
     //    $('#messages').append('<li><strong><span class='text-warning'>The server is not available</span></strong></li>');
     //    $('#message').attr('disabled', 'disabled');

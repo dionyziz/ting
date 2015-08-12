@@ -61,6 +61,20 @@ var LoginForm = React.createClass({
         setTimeout(function() {
             $('#username').focus();
         }, 300);
+
+        socket.on('login-response', function(success) {
+            if (!success) {
+                // TODO: Migrate this to Login Form
+                // usernameErrorShow('taken');
+                return;
+            }
+            ready = true;
+
+            $('#username-set-modal').modal('hide');
+            $('#message input').focus();
+
+            updateOwnMessagesInHistory();
+        });
     },
     render: function() {
         var alertClasses = classNames({
