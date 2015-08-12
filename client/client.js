@@ -2,17 +2,10 @@ var myUsername = null;
 var URL = window.location.hostname + ':8080';
 var socket = io.connect(URL);
 var channel;
-var wrapper = null;
 var ready = false;
 var active = true;
 var ENTER = 13;
 var first = true;
-
-function scrollDown() {
-    setTimeout(function() {
-        wrapper.scrollTop(wrapper.get(0).scrollHeight);
-    }, 30);
-}
 
 function updateOwnMessagesInHistory() {
     $('#message-list li').each(function() {

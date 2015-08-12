@@ -1,4 +1,12 @@
 var History = React.createClass({
+    _wrapper: null,
+    _scrollDown: function() {
+        var self = this;
+
+        setTimeout(function() {
+            self._wrapper.scrollTop(self._wrapper.get(0).scrollHeight);
+        }, 30);
+    },
     getInitialState: function() {
         return {
             messages: []
@@ -7,7 +15,7 @@ var History = React.createClass({
     componentDidMount: function() {
         var self = this;
 
-        wrapper = $('.history-wrapper');
+        this._wrapper = $('.history-wrapper');
 
         $.getJSON('/api/messages/' + channel, function(messages) {
             self.setState({
@@ -32,8 +40,6 @@ var History = React.createClass({
                     ++unread;
                     updateTitle();
                 }
-
-                scrollDown();
             }
         });
     },
@@ -55,7 +61,7 @@ var History = React.createClass({
         )
     },
     componentDidUpdate: function() {
-        scrollDown();
+        this._scrollDown();
     }
 });
 
