@@ -25,9 +25,7 @@ var History = React.createClass({
             active: true
         };
     },
-    componentDidMount() {
-        this._wrapper = $('.history-wrapper');
-
+    onLogin() {
         $.getJSON('/api/messages/' + channel, (messages) => {
             this.setState({
                 // we must reverse the messages, as they are given to us in
@@ -54,6 +52,9 @@ var History = React.createClass({
                 }
             }
         });
+    },
+    componentDidMount() {
+        this._wrapper = $('.history-wrapper');
 
         $(document).on({
             show: () => {

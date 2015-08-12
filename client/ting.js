@@ -15,6 +15,10 @@ function updateOwnMessagesInHistory() {
 }
 
 var Ting = React.createClass({
+    onLogin() {
+        updateOwnMessagesInHistory();
+        this.refs.history.onLogin();
+    },
     render() {
         return (
             <div>
@@ -26,11 +30,11 @@ var Ting = React.createClass({
                         <UserList />
                     </div>
                     <div className='chat'>
-                        <History />
+                        <History ref='history' />
                         <MessageForm />
                     </div>
                 </div>
-                <LoginForm />
+                <LoginForm onLogin={this.onLogin} />
             </div>
         );
     }
