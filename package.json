@@ -5,6 +5,9 @@
     "main": "index.js",
     "author": "The Ting Team",
     "license": "closed-source",
+    "scripts": {
+        "test": "bower install && forever start server.js && jasmine-node tests/ --matchall"
+    },
     "dependencies": {
         "socket.io": "^1.3.5",
         "forever": "^0.14.2",
