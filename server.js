@@ -18,20 +18,26 @@ var usernames = {};
 
 socket.on('connection', function (client) {
      client.on('login', function(username) {
+        var resp = { 
+            success: true
+        };
         if (usernames[username]) {
-            client.emit('login-response', false);
+            resp.success = false;
+            resp.error = 'taken';
+            client.emit('login-response', resp);
             return;
         }
         people[client.id] = username;
         usernames[username] = true;
+        resp.people = people;
         console.log(username + ' joined the server');
-        client.emit('login-response', true);
-        socket.sockets.emit('update-people', people);
+        client.emit('login-response', resp);
+        socket.sockets.emit('join', username);
     });
 
     client.on('message', function(data) {
         var text = data.text;
-        data.username = people[client.id]
+        data.username = people[client.id];
         socket.sockets.emit('message', data);
         console.log(people[client.id] + 'sent "' + text + '"');
 
@@ -62,7 +68,7 @@ socket.on('connection', function (client) {
         var username = people[client.id];
         delete people[client.id];
         delete usernames[username];
-        socket.sockets.emit('update-people', people);
+        socket.sockets.emit('part', username);
         console.log(username + ' disconnected from server');
     });
 });
