@@ -42,7 +42,6 @@ var LoginForm = React.createClass({
     },
     onSuccess() {
         $(React.findDOMNode(this.refs.usernameSetModal)).modal('hide');
-        $('#message input').focus();
     },
     handleChange(event) {
         var username = event.target.value;

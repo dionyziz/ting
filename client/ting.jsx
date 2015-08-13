@@ -3,6 +3,7 @@ var Ting = React.createClass({
     onLogin(username) {
         this.refs.history.onLogin(username);
         this.refs.userList.onLogin(username);
+        this.refs.messageForm.onLogin(username);
 
         $.getJSON('/api/messages/' + this.state.channel, (messages) => {
             // we must reverse the messages, as they are given to us in
