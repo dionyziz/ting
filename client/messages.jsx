@@ -26,35 +26,29 @@ var History = React.createClass({
             myUsername: null
         };
     },
+    onHistoricalMessagesAvailable(messages) {
+        this.setState({messages});
+    },
     onLogin(myUsername) {
-        this.state.myUsername = myUsername;
-
-        $.getJSON('/api/messages/' + this.props.channel, (messages) => {
-            this.setState({
-                // we must reverse the messages, as they are given to us in
-                // reverse chronological order by the history API
-                messages: messages.reverse()
-            });
-        });
-
-        socket.on('message', (data) => {
-            if (data.target == this.props.channel) {
-                var newState = React.addons.update(
-                    this.state, {
-                        messages: {
-                            $push: [data]
-                        }
+        this.setState({myUsername});
+    },
+    onMessage(data) {
+        if (data.target == this.props.channel) {
+            var newState = React.addons.update(
+                this.state, {
+                    messages: {
+                        $push: [data]
                     }
-                );
-                this.setState(newState);
-
-                if (!this.state.active && data.username != myUsername) {
-                    this.setState({
-                        unread: this.state.unread + 1
-                    });
                 }
+            );
+            this.setState(newState);
+
+            if (!this.state.active && data.username != this.state.myUsername) {
+                this.setState({
+                    unread: this.state.unread + 1
+                });
             }
-        });
+        }
     },
     componentDidMount() {
         this._wrapper = $('.history-wrapper');
@@ -137,7 +131,6 @@ var Message = React.createClass({
 });
 
 var MessageForm = React.createClass({
-    first: true,
     getInitialState() {
         return {
             message: ''
@@ -149,22 +142,7 @@ var MessageForm = React.createClass({
         var message = this.state.message;
 
         if (message.trim().length > 0) {
-            if (this.first) {
-                ga('send', 'event', {
-                    eventCategory: 'chat',
-                    eventAction: 'chat_form_submit',
-                    eventLabel: 'send',
-                    eventValue: 1
-                });
-                this.first = false;
-            }
-
-            data = {
-                type: 'channel',
-                target: this.props.channel,
-                text: message
-            };
-            socket.emit('message', data);
+            this.props.onMessageSubmit(message);
 
             React.findDOMNode(this.refs.inputField).value = '';
         }

@@ -37,6 +37,13 @@ var LoginForm = React.createClass({
             errorStr: this._validationErrorToString(validationState)
         });
     },
+    onError(error) {
+        this._handleError(error);
+    },
+    onSuccess() {
+        $(React.findDOMNode(this.refs.usernameSetModal)).modal('hide');
+        $('#message input').focus();
+    },
     handleChange(event) {
         var username = event.target.value;
 
@@ -52,28 +59,13 @@ var LoginForm = React.createClass({
             return;
         }
 
-        ga('send', 'event', {
-            eventCategory: 'join', eventAction: 'username_set', eventLabel: 'submit', eventValue: 1
-        });
-        socket.emit('login', this.state.username);
+        this.props.onLoginIntention(this.state.username);
     },
     componentDidMount() {
         $(React.findDOMNode(this.refs.usernameSetModal)).modal('show');
         setTimeout(() => {
             React.findDOMNode(this.refs.username).focus();
         }, 300);
-
-        socket.on('login-response', (success) => {
-            if (!success) {
-                this._handleError('taken');
-                return;
-            }
-
-            $(React.findDOMNode(this.refs.usernameSetModal)).modal('hide');
-            $('#message input').focus();
-
-            this.props.onLogin(this.state.username);
-        });
     },
     render() {
         var alertClasses = classNames({

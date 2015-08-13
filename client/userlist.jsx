@@ -5,14 +5,10 @@ var UserList = React.createClass({
             myUsername: null
         };
     },
-    componentDidMount() {
-        socket.on('join', this._join);
-        socket.on('part', this._part);
-    },
     onLogin(myUsername) {
         this.setState({myUsername});
     },
-    _join(username) {
+    onJoin(username) {
         if (username != this.state.myUsername) {
             var newState = React.addons.update(
                 this.state, {
@@ -24,7 +20,7 @@ var UserList = React.createClass({
             this.setState(newState);
         }
     },
-    _part(username) {
+    onPart(username) {
         var newUsers = this.state.users.filter((name) => {
             return username != name;
         });
