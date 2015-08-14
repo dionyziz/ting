@@ -3,7 +3,7 @@ import json
 import datetime
 import urllib
 
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
 from django_dynamic_fixture import G
 from django.utils.dateformat import format
@@ -24,6 +24,22 @@ def create_message(text, timestamp, username, channel):
         typing=True,
         channel=channel
     )
+
+
+class ChatClient(Client):
+    def delete(self, url, qstring):
+        return Client().delete(
+            url,
+            qstring,
+            content_type='application/x-www-form-urlencoded'
+        )
+
+    def patch(slef, url, qstring):
+        return Client().patch(
+            url,
+            qstring,
+            content_type='application/x-www-form-urlencoded'
+        )
 
 
 class ChatTests(TestCase):
@@ -383,6 +399,8 @@ class MessageViewGETTests(ChatTests):
         self.assertEqual(response.status_code, 404)
 
 class MessageViewPATCHTests(ChatTests):
+    client_class = ChatClient
+
     def patch_and_get_response(self, messageid, text, timestamp, typing):
         """
         Patches a message on chat:message and returns the response
@@ -395,8 +413,7 @@ class MessageViewPATCHTests(ChatTests):
         })
         return self.client.patch(
             reverse('chat:message', args=(self.channel.name,)),
-            qstring,
-            content_type='application/x-www-form-urlencoded'
+            qstring
         )
 
     def test_patch_message(self):
@@ -485,8 +502,7 @@ class MessageViewPATCHTests(ChatTests):
 
         response = self.client.patch(
             reverse('chat:message', args=(self.channel.name,)),
-            qstring,
-            content_type='application/x-www-form-urlencoded'
+            qstring
         )
 
         dbmessage = Message.objects.get(pk=message.id)
@@ -518,8 +534,7 @@ class MessageViewPATCHTests(ChatTests):
 
         response = self.client.patch(
             reverse('chat:message', args=(self.channel.name,)),
-            qstring,
-            content_type='application/x-www-form-urlencoded'
+            qstring
         )
 
         dbmessage = Message.objects.get(pk=message.id)
@@ -551,8 +566,7 @@ class MessageViewPATCHTests(ChatTests):
 
         response = self.client.patch(
             reverse('chat:message', args=(self.channel.name,)),
-            qstring,
-            content_type='application/x-www-form-urlencoded'
+            qstring
         )
 
         dbmessage = Message.objects.get(pk=message.id)
@@ -564,6 +578,8 @@ class MessageViewPATCHTests(ChatTests):
 
 
 class MessageViewDELETETests(ChatTests):
+    client_class = ChatClient
+
     def test_delete_message(self):
         """
         The view should delete the message with the
@@ -584,8 +600,7 @@ class MessageViewDELETETests(ChatTests):
 
         response = self.client.delete(
             reverse('chat:message', args=(self.channel.name,)),
-            qstring,
-            content_type='application/x-www-form-urlencoded'
+            qstring
         )
 
         messages = Message.objects.filter(username='vitsalis')
@@ -602,8 +617,7 @@ class MessageViewDELETETests(ChatTests):
 
         response = self.client.delete(
             reverse('chat:message', args=(self.channel.name,)),
-            qstring,
-            content_type='application/x-www-form-urlencoded'
+            qstring
         )
 
         self.assertEqual(response.status_code, 400)
@@ -627,8 +641,7 @@ class MessageViewDELETETests(ChatTests):
 
         response = self.client.delete(
             reverse('chat:message', args=(self.channel.name,)),
-            qstring,
-            content_type='application/x-www-form-urlencoded'
+            qstring
         )
 
         self.assertEqual(response.status_code, 404)
