@@ -28,18 +28,18 @@ describe('Node Server', function() {
         });
     });
 
-    describe('on join', function(done) {
+    describe('on login', function(done) {
         it('joins a user to Ting', function(done) {
-            socket.emit('join', 'Tattaglia');
+            socket.emit('login', 'Tattaglia');
 
-            socket.on('join-response', function(success) {
+            socket.on('login-response', function(success) {
                 expect(success).toBe(true);
                 done();
             });
         });
 
         it('updates online people list', function(done) {
-            socket.emit('join', 'Corleone');
+            socket.emit('login', 'Corleone');
 
             socket.on('update-people', function(people) {
                 id = Object.keys(people)[0];
@@ -51,14 +51,14 @@ describe('Node Server', function() {
 
     describe('on chat', function(done) {
         it('emits the message to sockets', function(done) {
-            var data = {ch: 'ting', msg: 'Brucia la luna ncielu E ju bruciu damuri'};
+            var data = {type: 'channel', target: 'ting', text: 'Brucia la luna ncielu E ju bruciu damuri'};
 
-            socket.emit('join', 'Stracci');
-            socket.emit('send', data);
+            socket.emit('login', 'Stracci');
+            socket.emit('message', data);
 
-            socket.on('chat', function(data) {
-                expect(data.who).toBe('Stracci');
-                expect(data.msg).toBe('Brucia la luna ncielu E ju bruciu damuri');
+            socket.on('message', function(data) {
+                expect(data.username).toBe('Stracci');
+                expect(data.text).toBe('Brucia la luna ncielu E ju bruciu damuri');
                 done();
             });
         });
