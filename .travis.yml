@@ -3,3 +3,5 @@ before_script:
     - npm install
     - bower install
     - forever start server.js 
+script: 
+    - jasmine-node tests/ --matchall
