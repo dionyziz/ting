@@ -236,6 +236,7 @@ class MessageViewGETTests(ChatTests):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(messages), 2)
 
+        # The order is reverse chronological
         self.assertEqual(messages[0]['text'], message2.text)
         self.assertEqual(messages[0]['username'], message2.username)
         self.assertEqual(messages[0]['datetime_start'], datetime_to_timestamp(message2.datetime_start))
