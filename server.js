@@ -1,6 +1,9 @@
 var io = require('socket.io');
 var req = require('request');
 var fs = require('fs');
+var winston = require('winston');
+
+winston.add(winston.transports.File, { filename: 'server.log' });
 
 var config = JSON.parse(fs.readFileSync('config/common.json', 'utf8'))
 
@@ -16,12 +19,20 @@ var socket = io.listen(PORT);
 var people = {};
 var usernames = {};
 
+function logUsersCount() {
+    winston.info('Currently ' + Object.keys(usernames).length + ' users are logged in the server.');
+}
+
+winston.info('Ting real-time server v1 listening on port ' + config.node.port + '.');
+
 socket.on('connection', function (client) {
+     winston.info('A user with client id "' + client.id + '" connected.'); 
      client.on('login', function(username) {
         var resp = { 
             success: true
         };
         if (usernames[username]) {
+            winston.info('[' + username + '] taken'); 
             resp.success = false;
             resp.error = 'taken';
             client.emit('login-response', resp);
@@ -30,7 +41,8 @@ socket.on('connection', function (client) {
         people[client.id] = username;
         usernames[username] = true;
         resp.people = people;
-        console.log(username + ' joined the server');
+        winston.info('[' + username + '] login');
+        logUsersCount();
         client.emit('login-response', resp);
         socket.sockets.emit('join', username);
     });
@@ -39,7 +51,7 @@ socket.on('connection', function (client) {
         var text = data.text;
         data.username = people[client.id];
         socket.sockets.emit('message', data);
-        console.log(people[client.id] + 'sent "' + text + '"');
+        winston.info('[' + data.username + '] message: ' + text);
 
         var headers = {
             'User-Agent':       'node-ting/0.1.0',
@@ -59,7 +71,7 @@ socket.on('connection', function (client) {
 
         req(options, function(error, response, body) {
             if (error) {
-                console.log(error);
+                winston.warning("Message from user: " + data.username + " couldn't be sent to Django. Error: " + error);
             }
         });
     });
@@ -69,6 +81,7 @@ socket.on('connection', function (client) {
         delete people[client.id];
         delete usernames[username];
         socket.sockets.emit('part', username);
-        console.log(username + ' disconnected from server');
+        winston.info('[' + username + '] disconnect');
+        logUsersCount();    
     });
 });
