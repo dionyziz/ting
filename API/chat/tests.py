@@ -448,6 +448,41 @@ class MessageViewPATCHTests(ChatTests):
         self.assertEqual(messages[0].username, 'vitsalis')
         self.assertFalse(messages[0].typing)
 
+    def test_patch_message_second_time(self):
+        """
+        The view should not update a message that has been
+        made persistent. Instead it should respond with a
+        400(Bad Request) code.
+        """
+        timestamp = 10 ** 11
+        message = create_message(
+            text='Message',
+            username='vitsalis',
+            channel=self.channel,
+            timestamp=timestamp
+        )
+
+        self.patch_and_get_response(
+            messageid=message.id,
+            text='Message Updated',
+            timestamp=timestamp + 10,
+            typing=False
+        )
+
+        response = self.patch_and_get_response(
+            messageid=message.id,
+            text='Message Updated Again',
+            timestamp=timestamp + 100,
+            typing=False
+        )
+
+        messages = Message.objects.filter(username='vitsalis')
+
+        self.assertTrue(messages.exists())
+        self.assertEqual(messages[0].text, 'Message Updated')
+
+        self.assertEqual(response.status_code, 400)
+
     def test_patch_message_with_datetime_sent_before_datetime_start(self):
         """
         When the datetime_sent is before datetime_start the view

@@ -37,6 +37,16 @@ class MessagePatchForm(forms.Form):
     datetime_sent = forms.IntegerField()
     typing = forms.BooleanField(required=False)
 
+    def is_valid(self):
+        if not super(MessagePatchForm, self).is_valid():
+            return False
+
+        message = Message.objects.get(pk=self.cleaned_data['id'])
+        if not message.typing:
+            return False
+
+        return True
+
     def save(self):
         message = Message.objects.get(pk=self.cleaned_data['id'])
 
