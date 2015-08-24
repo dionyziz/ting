@@ -112,12 +112,15 @@ The server can publish the following messages:
 
   1. `text`: A string which is the text of the message.
   2. `username`: A string which is the username of the user that's typing the message.
-  3. `typing`: A boolean that indicates if the message is currently being typed or not.
-  4. `datetime_start`: A unix epoch in ms which indicates the datetime the message started being typed.
+  3. `typing`: A boolean that indicates if the message is currently being typed
+     or not. If this is set to false, this means that the message is now
+     persistent.
+  4. `datetime_start`: A unix epoch in ms which indicates the datetime the
+     message started being typed.
 
 ## RESTful API
 
-The RESTful API deals with two resources currently: Messages and channels. The
+The RESTful API deals with two resources: Messages and channels. The
 responses are always given in JSON. As such, we make no use of Django templates,
 only models and views. The URLs of the RESTful API live under the
 `https://ting.gr/api` URL.
