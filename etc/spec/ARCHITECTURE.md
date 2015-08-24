@@ -2,37 +2,24 @@
 
 The ting architecture is shown in the following diagram:
 
-![Ting architecture](http://i.imgur.com/OadTh77.jpg)
+![Ting architecture](http://i.imgur.com/AdTsVNY.jpg)
 
 The application is split into two parts: The server-side and the client-side.
 The client-side portion is in Javascript and runs on the user's machine. The
 server-side portion runs on the ting servers.
 
 # Client-side architecture
-The client-side architecture follows an MVC pattern. All of these are written
-in Javascript and communicate with direct function calls and shared memory.
-Here are the components:
+The client-side architecture is built using
+[react](http://facebook.github.io/react/).
 
-* **Model**: The model is responsible for storing the current state of the world
-  and providing access to it through a programming interface. This exposes data
-  such as online people, channels currently joined, and message history in
-  currently active channels. The model offers publish/subscribe APIs for the
-  view to interact with through callbacks for model events. The model also
-  keeps track of changes that are pending and need to be communicated to the
-  server, for example user messages that have been sent by the user but have
-  not yet reached the server.
+There are several react components on the client-side. The Ting component is of
+significance, because it is responsible for networking with the server-side of
+the ting application. The Ting component uses web sockets to communicate with
+the real-time portion of the server and AJAX to communicate with the API
+portion of the server.
 
-* **View**: The view is responsible for presenting the data to the user and for
-  rendering the user interface. It uses the model's API directly to read the
-  data that represents the state of the world. Furthermore, it communicates
-  with the model to tell it if the user has changed something in the world
-  state, for example if the user has sent a message.
-
-* **Controller**: The controller provides a thin layer that talks to the server
-  and speaks its API. It is aware of the RESTful API end-points and data
-  formats, as well as the web-socket protocol for real-time communication. The
-  controller provides a publish/subscribe API for the model and offers an API
-  that allows the model to send data to the server reliably.
+The rest of the components are agnostic in regards to networking, and are able
+to communicate with the server only through the Ting component.
 
 # Server-side architecture
 The server-side architecture is split into two portions: The real-time service
@@ -70,12 +57,6 @@ be sent to the server are the following:
   user information. Requires a `username` parameter. If the username is
   invalid, the server will close the connection.
 
-* `join`: Indicates the user wishes to join a channel. Expects a `channel`
-  parameter indicating the channel name.
-
-* `part`: Indicates the user wishes to leave a channel. Expects a `channel`
-  parameter.
-
 * `message`: Sends a message from the user to a channel or to another user
   directly. Takes three parameters:
 
@@ -86,9 +67,12 @@ be sent to the server are the following:
   3. `text`: The text of the message.
 
 * `start-typing`: Indicates that a user started typing a new message. Expects
-  a `channel` parameter indicating the channel name and a `text` parameter
-  indicating the part of the text of the message that has already been typed
-  by the time `start-typing` is being sent.
+  the following parameters:
+
+  1. `type`: A string which is either `channel` or `user`.
+  2. `target`: The name of the channel or the user we wish to send the message
+     to.
+  3. `text`: The text of the message typed so far.
 
 * `typing-update`: Sends an update on the message that is being typed. Expects
   a `messageid` parameter indicating the id of the message that is being updated
@@ -103,20 +87,14 @@ The server can publish the following messages:
   is called `people` and is an array of strings which are usernames that are 
   online the time that the user logged in.
 
-* `join`: Indicates a user has joined a channel. Includes two parameters, the
-  `username` and the `channel`. This message is also sent back to the user who
-  has attempted to join a channel if it was successful. All users present in a
-  channel receive the join message for every user that joins that channel.
+* `join`: Indicates a user is now online. Includes one parameter, the
+  `username`. This message is also sent back to the user who
+  has attempted to login if it was successful. All users online
+  receive the join message for every user that goes online.
 
-* `part`: Indicates a user has parted a channel. Includes the `username` and
-  `channel`. This message is also sent back to the user who attempted to part
-  a channel. All users in a channel receive part messages for users leaving the
-  channel. If a user's connection is dropped, part messages are sent for all
-  the channels they were in.
-
-* `channel`: This message is sent to a user who has just joined a channel. It
-  includes one parameter, `participants`, which is an array with all the
-  usernames of the people who are currently online in the channel.
+* `part`: Indicates a user is now offline. Includes the `username`.
+  This message is sent to all online users when another user's connection
+  is dropped or they go offline.
 
 * `message`: Indicates a user has messaged in a channel you are in or in a private
   window. Includes four parameters, `username`, `type`, `target`, and `text`,
@@ -134,15 +112,18 @@ The server can publish the following messages:
 
   1. `text`: A string which is the text of the message.
   2. `username`: A string which is the username of the user that's typing the message.
-  3. `typing`: A boolean that indicates if the message is currently being typed or not.
-  4. `datetime_start`: A unix epoch in ms which indicates the datetime the message started being typed.
+  3. `typing`: A boolean that indicates if the message is currently being typed
+     or not. If this is set to false, this means that the message is now
+     persistent.
+  4. `datetime_start`: A unix epoch in ms which indicates the datetime the
+     message started being typed.
 
 ## RESTful API
 
-The RESTful API deals with two resources currently: Messages and channels. The
+The RESTful API deals with two resources: Messages and channels. The
 responses are always given in JSON. As such, we make no use of Django templates,
 only models and views. The URLs of the RESTful API live under the
-`https://ting.gr/api` URL.
+`https://ting.gr/api/v1` URL.
 
 ### Messages
 The Messages resource is used to store and retrieve chat messages. It is
@@ -150,35 +131,41 @@ accessible through the `/messages` URL.
 
 There are four operations:
 
-1. A GET operation on `/messages/<channel_name>`. This retrieves the chat
-   messages recently exchanged on a channel. They are returned as a JSON array
-   of messages. By default, the number of messages returned is limited to 100.
-   The GET variable `lim` can be used to alter the limit. The messages are
-   ordered from newest to oldest. Each message is represented as a dict with
-   six keys:
+1. A GET operation on `/messages/<type>/<target>`. This retrieves the chat
+   messages recently exchanged on a channel or private. `type` is a string
+   which is either `channel` or `user` and `target` is the name of the channel
+   or the username.
+
+   If `type` is `user`, then the private messages returned by this request are
+   between the user making the request and the target.
+
+   They are returned as a JSON array of messages. By default, the number of
+   messages returned is limited to 100. The GET variable `lim` can be used to
+   alter the limit. The messages are ordered from newest to oldest. Each
+   message is represented as a dict with six keys:
 
    * `id`: The id of the message in the database.
    * `text`: The text of the chat message.
-   * `username`: The username of the person who wrote the message.
+   * `username`: The username of the person who wrote the message. If the
+     `type` was set to `user`, then this must always be equal to `target`.
    * `datetime_start`: The time the message started being typed, in UTC epoch milliseconds.
    * `datetime_sent`: The time the message was sent, in UTC epoch milliseconds.
-   * `typing`: Indicates whether the message is currently being typed,
-      takes a boolean value.
+   * `typing`: Indicates whether the message is currently being typed.
+      Takes a boolean value.
 
-2. A POST operation on `/messages/<channel_name>`. This is a **privileged
-   operation** that persists a message on a given channel. The POST body
-   contains a dictionary with four keys, `text`, `username`,
+
+2. A POST operation on `/messages/<type>/<target>`. This is a **privileged
+   operation** that persists a message on a given channel or private. The POST
+   body contains a dictionary with four keys, `text`, `username`,
    `datetime_start` and `typing`, with the semantics above.
 
-3. A PATCH operation on `/messages/<channel_name>`. This is a **privileged
-   operation** that updates a message on a given channel. The PATCH body
-   contains a dictionary with four keys `text`, `id`, `datetime_sent`
-   and `typing`, with the semantics above. `id` is used for searching, while
-   `text`, `datetime_sent` and `typing` are used as the fields to update.
+3. A PATCH operation on `/messages/<id>`. This is a **privileged
+   operation** that updates a message with a given id. The PATCH body
+   contains a dictionary with three keys `text`, `datetime_sent`
+   and `typing`, with the semantics above, and with the values to update.
 
-4. A DELETE operation on `/messages/<channel_name>`. This is a **privileged
-   operation** that deletes a message on a given channel. The DELETE body
-   contains a dictionary with one key `id`, with the semantics above.
+4. A DELETE operation on `/messages/<id>`. This is a **privileged
+   operation** that deletes a given message.
 
 ### Channels
 The Channels resource is used to create and retrieve channel information.
