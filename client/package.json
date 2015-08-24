@@ -1,0 +1,22 @@
+{
+  "name": "ting",
+  "version": "0.1.0",
+  "description": "A chat platform",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dionyziz/ting.git"
+  },
+  "author": "the Ting team",
+  "license": "Closed source",
+  "bugs": {
+    "url": "https://github.com/dionyziz/ting/issues"
+  },
+  "homepage": "https://github.com/dionyziz/ting",
+  "dependencies": {
+    "socket.io": "^1.3.6"
+  }
+}

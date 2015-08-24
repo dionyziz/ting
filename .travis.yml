@@ -1,7 +1,7 @@
 language: node_js
 before_script:
     - npm install
-    - bower install
+    - cd client; bower install; cd ..
     - forever start server.js 
 script: 
     - jasmine-node tests/ --matchall

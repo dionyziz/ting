@@ -41,6 +41,7 @@
     border-radius: 50px;
     width: 20px;
     height: 20px;
+    margin-right: 5px;
 }
 .textarea {
     position: absolute;
@@ -93,7 +94,7 @@
     margin-bottom: 10px;    
     margin-top: 10px;
 }
-#username {
+#username-set input[type=text] {
     margin-right: auto;
     margin-left: auto;
     width: 30%;
