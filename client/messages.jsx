@@ -146,6 +146,10 @@ var MessageForm = React.createClass({
 
             React.findDOMNode(this.refs.inputField).value = '';
         }
+
+        this.setState({
+            message: ''
+        });
     },
     onLogin(username) {
         React.findDOMNode(this.refs.inputField).focus();
