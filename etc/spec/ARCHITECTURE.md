@@ -57,12 +57,6 @@ be sent to the server are the following:
   user information. Requires a `username` parameter. If the username is
   invalid, the server will close the connection.
 
-* `join`: Indicates the user wishes to join a channel. Expects a `channel`
-  parameter indicating the channel name.
-
-* `part`: Indicates the user wishes to leave a channel. Expects a `channel`
-  parameter.
-
 * `message`: Sends a message from the user to a channel or to another user
   directly. Takes three parameters:
 
@@ -90,20 +84,14 @@ The server can publish the following messages:
   is called `people` and is an array of strings which are usernames that are 
   online the time that the user logged in.
 
-* `join`: Indicates a user has joined a channel. Includes two parameters, the
-  `username` and the `channel`. This message is also sent back to the user who
-  has attempted to join a channel if it was successful. All users present in a
-  channel receive the join message for every user that joins that channel.
+* `join`: Indicates a user is now online. Includes one parameter, the
+  `username`. This message is also sent back to the user who
+  has attempted to login if it was successful. All users online
+  receive the join message for every user that goes online.
 
-* `part`: Indicates a user has parted a channel. Includes the `username` and
-  `channel`. This message is also sent back to the user who attempted to part
-  a channel. All users in a channel receive part messages for users leaving the
-  channel. If a user's connection is dropped, part messages are sent for all
-  the channels they were in.
-
-* `channel`: This message is sent to a user who has just joined a channel. It
-  includes one parameter, `participants`, which is an array with all the
-  usernames of the people who are currently online in the channel.
+* `part`: Indicates a user is now offline. Includes the `username`.
+  This message is sent to all online users when another user's connection
+  is dropped or they go offline.
 
 * `message`: Indicates a user has messaged in a channel you are in or in a private
   window. Includes four parameters, `username`, `type`, `target`, and `text`,
