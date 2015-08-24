@@ -159,15 +159,13 @@ There are four operations:
    body contains a dictionary with four keys, `text`, `username`,
    `datetime_start` and `typing`, with the semantics above.
 
-3. A PATCH operation on `/messages/<channel_name>`. This is a **privileged
-   operation** that updates a message on a given channel. The PATCH body
-   contains a dictionary with four keys `text`, `id`, `datetime_sent`
-   and `typing`, with the semantics above. `id` is used for searching, while
-   `text`, `datetime_sent` and `typing` are used as the fields to update.
+3. A PATCH operation on `/messages/<id>`. This is a **privileged
+   operation** that updates a message with a given id. The PATCH body
+   contains a dictionary with three keys `text`, `datetime_sent`
+   and `typing`, with the semantics above, and with the values to update.
 
-4. A DELETE operation on `/messages/<channel_name>`. This is a **privileged
-   operation** that deletes a message on a given channel. The DELETE body
-   contains a dictionary with one key `id`, with the semantics above.
+4. A DELETE operation on `/messages/<id>`. This is a **privileged
+   operation** that deletes a given message.
 
 ### Channels
 The Channels resource is used to create and retrieve channel information.
