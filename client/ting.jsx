@@ -1,9 +1,9 @@
 var Ting = React.createClass({
     _socket: null,
-    onLogin(username) {
-        this.refs.history.onLogin(username);
-        this.refs.userList.onLogin(username);
-        this.refs.messageForm.onLogin(username);
+    onLogin(username, people) {
+        this.refs.history.onLogin(username, people);
+        this.refs.messageForm.onLogin(username, people);
+        this.refs.userList.onLogin(username, people);
 
         $.getJSON('/api/messages/' + this.state.channel, (messages) => {
             // we must reverse the messages, as they are given to us in
@@ -29,13 +29,24 @@ var Ting = React.createClass({
         var URL = window.location.hostname + ':8080';
         this._socket = io.connect(URL);
 
-        this._socket.on('login-response', (success) => {
+        this._socket.on('login-response', (response) => {
+            var success = response.success;
+            var people = response.people;
+
             if (!success) {
-                this.refs.loginForm.onError('taken');
+                this.refs.loginForm.onError(response.error);
             }
             else {
                 this.refs.loginForm.onSuccess();
-                this.onLogin(this.state.intendedUsername);
+
+                var peopleList = [];
+                $.each(people, (clientid, username) => {
+                    if (this.intendedUsername != username) {
+                        peopleList.push(username);
+                    }
+                });
+
+                this.onLogin(this.state.intendedUsername, peopleList);
             }
         });
 
