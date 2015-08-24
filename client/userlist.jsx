@@ -5,8 +5,8 @@ var UserList = React.createClass({
             myUsername: null
         };
     },
-    onLogin(myUsername) {
-        this.setState({myUsername});
+    onLogin(myUsername, users) {
+        this.setState({myUsername, users});
     },
     onJoin(username) {
         if (username != this.state.myUsername) {
