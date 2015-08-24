@@ -123,7 +123,7 @@ The server can publish the following messages:
 The RESTful API deals with two resources: Messages and channels. The
 responses are always given in JSON. As such, we make no use of Django templates,
 only models and views. The URLs of the RESTful API live under the
-`https://ting.gr/api` URL.
+`https://ting.gr/api/v1` URL.
 
 ### Messages
 The Messages resource is used to store and retrieve chat messages. It is
@@ -150,8 +150,9 @@ There are four operations:
      `type` was set to `user`, then this must always be equal to `target`.
    * `datetime_start`: The time the message started being typed, in UTC epoch milliseconds.
    * `datetime_sent`: The time the message was sent, in UTC epoch milliseconds.
-   * `typing`: Indicates whether the message is currently being typed,
-      takes a boolean value.
+   * `typing`: Indicates whether the message is currently being typed.
+      Takes a boolean value.
+
 
 2. A POST operation on `/messages/<type>/<target>`. This is a **privileged
    operation** that persists a message on a given channel or private. The POST
