@@ -67,9 +67,12 @@ be sent to the server are the following:
   3. `text`: The text of the message.
 
 * `start-typing`: Indicates that a user started typing a new message. Expects
-  a `channel` parameter indicating the channel name and a `text` parameter
-  indicating the part of the text of the message that has already been typed
-  by the time `start-typing` is being sent.
+  the following parameters:
+
+  1. `type`: A string which is either `channel` or `user`.
+  2. `target`: The name of the channel or the user we wish to send the message
+     to.
+  3. `text`: The text of the message typed so far.
 
 * `typing-update`: Sends an update on the message that is being typed. Expects
   a `messageid` parameter indicating the id of the message that is being updated
@@ -125,24 +128,31 @@ accessible through the `/messages` URL.
 
 There are four operations:
 
-1. A GET operation on `/messages/<channel_name>`. This retrieves the chat
-   messages recently exchanged on a channel. They are returned as a JSON array
-   of messages. By default, the number of messages returned is limited to 100.
-   The GET variable `lim` can be used to alter the limit. The messages are
-   ordered from newest to oldest. Each message is represented as a dict with
-   six keys:
+1. A GET operation on `/messages/<type>/<target>`. This retrieves the chat
+   messages recently exchanged on a channel or private. `type` is a string
+   which is either `channel` or `user` and `target` is the name of the channel
+   or the username.
+
+   If `type` is `user`, then the private messages returned by this request are
+   between the user making the request and the target.
+
+   They are returned as a JSON array of messages. By default, the number of
+   messages returned is limited to 100. The GET variable `lim` can be used to
+   alter the limit. The messages are ordered from newest to oldest. Each
+   message is represented as a dict with six keys:
 
    * `id`: The id of the message in the database.
    * `text`: The text of the chat message.
-   * `username`: The username of the person who wrote the message.
+   * `username`: The username of the person who wrote the message. If the
+     `type` was set to `user`, then this must always be equal to `target`.
    * `datetime_start`: The time the message started being typed, in UTC epoch milliseconds.
    * `datetime_sent`: The time the message was sent, in UTC epoch milliseconds.
    * `typing`: Indicates whether the message is currently being typed,
       takes a boolean value.
 
-2. A POST operation on `/messages/<channel_name>`. This is a **privileged
-   operation** that persists a message on a given channel. The POST body
-   contains a dictionary with four keys, `text`, `username`,
+2. A POST operation on `/messages/<type>/<target>`. This is a **privileged
+   operation** that persists a message on a given channel or private. The POST
+   body contains a dictionary with four keys, `text`, `username`,
    `datetime_start` and `typing`, with the semantics above.
 
 3. A PATCH operation on `/messages/<channel_name>`. This is a **privileged
