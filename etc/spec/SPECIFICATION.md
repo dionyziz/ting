@@ -322,3 +322,6 @@ This specification is limited. It will be extended with the following features i
 * Voice
 * Channel moderation
 * Subscription to channels
+* Image uploads
+* Timestamps
+* Smileys
