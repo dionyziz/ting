@@ -1,6 +1,6 @@
 # Ting
 
-June 15, 2015 - July 12, 2015
+June 15, 2015 - August 25, 2015
 
 dionyziz for the Ting team.
 
