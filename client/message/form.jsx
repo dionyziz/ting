@@ -2,6 +2,9 @@ const React = require('react/addons'),
       i18n = require('i18next-client');
 
 const MessageForm = React.createClass({
+    _MIN_UPDATE: 3000,
+    _lastUpdate: 0,
+    _lastUpdateTimeout: null,
     getInitialState() {
         return {
             message: ''
@@ -26,9 +29,28 @@ const MessageForm = React.createClass({
         React.findDOMNode(this.refs.inputField).focus();
     },
     handleChange(event) {
-        this.setState({
-            message: event.target.value
-        });
+        var message = event.target.value;
+
+        if (message.trim().length > 0) {
+            if (this.state.message == '') {
+                this.props.onStartTyping(message);
+            }
+            else if (Date.now() - this._lastUpdate >= this._MIN_UPDATE) {
+                this.props.onTypingUpdate(message);
+                this._lastUpdate = Date.now();
+                clearTimeout(this._lastUpdateTimeout);
+            }
+            else {
+                clearTimeout(this._lastUpdateTimeout);
+                this._lastUpdateTimeout = setTimeout(() => {
+                    this.props.onTypingUpdate(message);
+                }, this._MIN_UPDATE);
+            }
+        }
+        else if (this.state.message.trim().length > 0) { // message was deleted
+            this.props.onTypingUpdate(message);
+        }
+        this.setState({message});
     },
     render() {
         return (
