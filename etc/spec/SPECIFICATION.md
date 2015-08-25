@@ -191,8 +191,8 @@ If a text is too long to fit in one line, it is wrapped around to the next
 line. No horizontal scrollbar is ever displayed in the history area.
 
 If there are less messages than the chat history can fit, the messages are
-displayed at the top of the chat history area. Otherwise, a vertical scrollbar
-is shown.
+displayed at the bottom of the chat history area. Otherwise, a vertical
+scrollbar is shown.
 
 Every time a message is posted by someone, a new chat message is appended to
 the bottom of the chat history area, and the area is scrolled towards the
