@@ -304,6 +304,12 @@ them as "ghosts", in a more transparent color. Additionally, the text of a
 non-persistent message is slowly flashing by becoming more and less trasparent
 to indicate that the message is ephemeral and currently changing.
 
+![Desktop chat typing](http://i.imgur.com/9MdtAgp.jpg)
+*Image: Desktop chat screen while typing*
+
+![Mobile chat typing](http://i.imgur.com/IjDrJlY.jpg)
+*Image: Mobile chat screen while typing*
+
 # Security
 For transport security purposes, ting.gr is served over HTTPS.
 
