@@ -13,6 +13,8 @@ anyone, where they can see the messages exchanged. Privates are messages
 exchanged directly between two people and can only be viewed by these people.
 Channels and privates are collectively referred to as conversations.
 
+Ting is a website that works both on desktop and on mobile.
+
 Ting consists of two screens: The login screen and the chat screen. These are
 described below. When the user enters the URL ting.gr on their browser, they
 are taken to the Login screen. If they enter www.ting.gr, they are redirected
@@ -115,6 +117,14 @@ follows:
 
 The error message is displayed above the textbox.
 
+On mobile, the whole screen is used to display the login window.
+
+![Mobile login screen](http://i.imgur.com/nUfvfVz.jpg)
+*Image: The mobile login screen*
+
+On mobile, care should be taken to ensure the button is visible while the
+username is being entered.
+
 # Chat screen
 The chat screen consists of the following elements:
 
@@ -127,7 +137,7 @@ The chat screen consists of the following elements:
 *Image: The chat screen*
 
 The top bar is located at the top and takes up the whole screen horizontally.
-On the top left, it has the text "ting".
+On the top left, it has the text "ting". On mobile, there is no top bar.
 
 Below it, the screen is split in two areas vertically. The left area contains
 the recent list and the right area is split horizontally in two smaller areas.
@@ -220,6 +230,35 @@ a user, it is delivered to everyone else who is currently online in the chat in
 the active channel. The textbox in the message area is then cleared, but
 remains focused. The message appears immediately on the side of the sending
 party.
+
+On mobile, the chat screen is separated into two different screens. These are
+the recent conversations screen and the mobile chat screen. The semantics are
+similar to the above desktop version, with the mobile differences described
+below.
+
+In the recent conversations screen, the text "Ting" is displayed at the top.
+Below it, a list of recent conversations appears. While in the recent
+conversations screen on mobile, no active conversation is highlighted. Tapping
+a recent conversation changes it to the active conversation and switches to the
+mobile chat screen.
+
+![Mobile recent conversations screen](http://i.imgur.com/YuXy3Ra.jpg)
+*Image: The mobile recent conversations screen*
+
+In the screen above, you can see a list of recent conversations, of which the
+most recent conversation is the channel "chicken", and the second most recent
+conversation is the channel "ting". The next two more recent conversations are
+two private conversations with the users "gtklocker", who is online, and
+"vitsalis", who is offline. The least recent conversation is the channel
+"party".
+
+In the mobile chat screen, a list of messages appears, which is rendered
+similar to the desktop version. At the top of the list, the name of the
+conversation appears in a separate title bar, along with a back button on the
+left, which allows the user to return to the recent conversation list screen.
+
+![Mobile chat screen](http://i.imgur.com/jECW8Jn.jpg)
+*Image: The mobile chat screen*
 
 # Typing
 Ting provides a different approach from usual chat platforms when it comes to
