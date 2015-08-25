@@ -133,7 +133,7 @@ The chat screen consists of the following elements:
 3. A chat history
 4. A message area
 
-![Chat screen](http://i.imgur.com/ASUdKzG.jpg)
+![Chat screen](http://i.imgur.com/4kl8upL.jpg)
 *Image: The chat screen*
 
 The top bar is located at the top and takes up the whole screen horizontally.
