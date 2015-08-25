@@ -76,6 +76,7 @@ The Login screen consists of only a modal window with the heading "Ting", a
 textbox and a button.
 
 ![Login screen](http://i.imgur.com/FKcFIzW.jpg)
+*Image: The login screen*
 
 The placeholder text in the textbox is "Γράψε ένα ψευδώνυμο". The textbox is
 focused by default when the screen is visited. The placeholder text is hidden
@@ -123,6 +124,7 @@ The chat screen consists of the following elements:
 4. A message area
 
 ![Chat screen](http://i.imgur.com/ASUdKzG.jpg)
+*Image: The chat screen*
 
 The top bar is located at the top and takes up the whole screen horizontally.
 On the top left, it has the text "ting".
