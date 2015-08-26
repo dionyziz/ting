@@ -1,3 +1,6 @@
+var React = require('react');
+var Avatar = require('./avatar.jsx');
+
 var UserList = React.createClass({
     getInitialState() {
         return {
@@ -54,3 +57,5 @@ var User = React.createClass({
         )
     }
 });
+
+module.exports = UserList;
