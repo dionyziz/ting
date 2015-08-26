@@ -74,7 +74,7 @@ var LoginForm = React.createClass({
                              id='login'>
                             <h1>Ting</h1>
                             <div className={alertClasses}
-                                 role="alert">
+                                 role='alert'>
                                 <p>{this.state.errorStr}</p>
                             </div>
                             <form id='username-set'

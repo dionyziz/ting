@@ -103,7 +103,7 @@ var Message = React.createClass({
 
         return {
             __html: html.autoLink({
-                target: "_blank", rel: "nofollow"
+                target: '_blank', rel: 'nofollow'
             })
         };
     },
