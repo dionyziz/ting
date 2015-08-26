@@ -20,21 +20,10 @@ var LoginForm = React.createClass({
         } 
         return true;
     },
-    _validationErrorToString(validationState) {
-        var errors = {
-            empty: 'Γράψε ένα ψευδώνυμο.',
-            length: 'Το ψευδώνυμο πρέπει να είναι έως 20 γράμματα.',
-            chars: 'Το ψευδώνυμο πρέπει να περιλαμβάνει μόνο γραμματα, αριθμούς ή σύμβολα.',
-            taken: 'Το ψευδώνυμο το έχει άλλος.',
-            true: ''
-        };
-
-        return errors[validationState];
-    },
     _handleError(validationState) {
         this.setState({
             validationState: validationState,
-            errorStr: this._validationErrorToString(validationState)
+            errorStr: i18n.t('usernameSet.errors.' + validationState)
         });
     },
     onError(error) {
@@ -92,13 +81,13 @@ var LoginForm = React.createClass({
                                   onSubmit={this.handleSubmit}>
                                 <input type='text'
                                        className='form-control input-small'
-                                       placeholder='Γράψε ένα ψευδώνυμο'
+                                       placeholder={i18n.t('usernameSet.placeholder')}
                                        ref='username'
                                        onChange={this.handleChange} />
                                 <input type='submit'
                                        name='join'
                                        id='join'
-                                       value='Mπες'
+                                       value={i18n.t('usernameSet.submit')}
                                        className='btn btn-primary' />
                             </form>
                         </div>

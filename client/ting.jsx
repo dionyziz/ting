@@ -104,4 +104,12 @@ var Ting = React.createClass({
     }
 });
 
-React.render(<Ting />, document.getElementsByClassName('ting')[0]);
+i18n.init(
+    { 
+        resGetPath:' locales/__lng__.json',
+        lng: 'el-GR'
+    },
+    (t) => {
+        React.render(<Ting />, document.getElementsByClassName('ting')[0]);
+    }   
+);

@@ -1,0 +1,15 @@
+{
+    "usernameSet": {
+        "placeholder": "Choose a username",
+        "submit": "Join",
+        "errors": {
+            "empty": "Choose a username.",
+            "length": "Your username must be less than 20 letters.",
+            "chars": "Your username must include only letters, numbers or symbols.",
+            "taken": "This username is taken."
+        }
+    },
+    "messageInput": {
+        "placeholder": "Type a message..." 
+    }
+}
