@@ -5,7 +5,7 @@
         "errors": {
             "empty": "Choose a username.",
             "length": "Your username must be less than 20 letters.",
-            "chars": "Your username must include only letters, numbers or symbols.",
+            "chars": "Your username must include only letters or numbers.",
             "taken": "This username is taken."
         }
     },
