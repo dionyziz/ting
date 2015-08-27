@@ -6,7 +6,7 @@ var Avatar = React.createClass({
         var src = this._getAvatar(this.props.username);
 
         return (
-            <img src={src} alt={this.props.username} className="avatar" />
+            <img src={src} alt={this.props.username} className='avatar' />
         );
     }
 });
