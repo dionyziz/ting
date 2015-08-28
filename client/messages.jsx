@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var Avatar = require('./avatar.jsx').Avatar;
+var Avatar = require('./avatar.jsx');
 var i18n = require('i18next-client');
 
 var History = React.createClass({
