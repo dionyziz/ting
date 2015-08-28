@@ -1,4 +1,5 @@
 var React = require('react');
+var i18n = require('i18next-client');
 
 var LoginForm = React.createClass({
     getInitialState() {

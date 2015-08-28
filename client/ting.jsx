@@ -5,6 +5,7 @@ var History = messages.History;
 var MessageForm = messages.MessageForm;
 var React = require('react');
 var Analytics = require('./analytics.jsx');
+var i18n = require('i18next-client');
 
 var Ting = React.createClass({
     _socket: null,
