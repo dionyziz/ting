@@ -98,8 +98,8 @@ var History = React.createClass({
 
 var Message = React.createClass({
     _escapeHTML(input) {
-        var div = document.createElement('div');
-        var text = document.createTextNode(input);
+        const div = document.createElement('div'),
+              text = document.createTextNode(input);
         div.appendChild(text);
         return div.innerHTML;
     },
