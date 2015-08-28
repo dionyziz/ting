@@ -6,6 +6,7 @@ var MessageForm = messages.MessageForm;
 var React = require('react');
 var Analytics = require('./analytics.js');
 var i18n = require('i18next-client');
+var io = require('socket.io-client');
 
 var Ting = React.createClass({
     _socket: null,
