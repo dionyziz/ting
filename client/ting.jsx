@@ -34,7 +34,7 @@ var Ting = React.createClass({
     getInitialState() {
         const url = location.href,
               parts = url.split('/');
-        var channel = parts.slice(-1)[0]
+        var [channel] = parts.slice(-1);
 
         if (channel == '' || channel == '?') {
             channel = 'ting';
@@ -49,12 +49,9 @@ var Ting = React.createClass({
         const URL = window.location.hostname + ':8080';
         this._socket = io.connect(URL);
 
-        this._socket.on('login-response', (response) => {
-            var success = response.success;
-            var people = response.people;
-
+        this._socket.on('login-response', ({success, people, error}) => {
             if (!success) {
-                this.refs.loginForm.onError(response.error);
+                this.refs.loginForm.onError(error);
             }
             else {
                 this.refs.loginForm.onSuccess();

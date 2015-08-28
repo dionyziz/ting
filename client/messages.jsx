@@ -72,12 +72,12 @@ var History = React.createClass({
         });
     },
     render() {
-        var messageNodes = this.state.messages.map((message) => {
+        var messageNodes = this.state.messages.map(({id, username, text}) => {
             return (
-                <Message key={message.id}
-                         username={message.username}
-                         own={message.username == this.state.myUsername}
-                         text={message.text} />
+                <Message key={id}
+                         username={username}
+                         own={username == this.state.myUsername}
+                         text={text} />
             );
         });
         return (
@@ -181,5 +181,4 @@ var MessageForm = React.createClass({
     }
 });
 
-module.exports.History = History;
-module.exports.MessageForm = MessageForm;
+module.exports = {History, MessageForm};
