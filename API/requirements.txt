@@ -1,6 +1,7 @@
 cffi==1.1.2
 cryptography==0.9.3
 Django==1.8.3
+django-dynamic-fixture==1.8.5
 enum34==1.0.4
 flake8==2.4.1
 idna==2.0
