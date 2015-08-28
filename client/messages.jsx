@@ -1,3 +1,6 @@
+var React = require('react/addons');
+var Avatar = require('./avatar.jsx').Avatar;
+
 var History = React.createClass({
     _wrapper: null,
     _title: document.title,
@@ -175,3 +178,6 @@ var MessageForm = React.createClass({
         );
     }
 });
+
+module.exports.History = History;
+module.exports.MessageForm = MessageForm;

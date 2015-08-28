@@ -1,3 +1,11 @@
+var UserList = require('./userlist.jsx');
+var LoginForm = require('./login.jsx');
+var messages = require('./messages.jsx');
+var History = messages.History;
+var MessageForm = messages.MessageForm;
+var React = require('react');
+var Analytics = require('./analytics.jsx');
+
 var Ting = React.createClass({
     _socket: null,
     onLogin(username, people) {

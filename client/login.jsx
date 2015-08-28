@@ -1,3 +1,5 @@
+var React = require('react');
+
 var LoginForm = React.createClass({
     getInitialState() {
         return {
@@ -97,3 +99,5 @@ var LoginForm = React.createClass({
         );
     }
 });
+
+module.exports = LoginForm;

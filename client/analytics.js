@@ -29,3 +29,5 @@ var Analytics = {
         });
     }
 };
+
+module.exports = Analytics;

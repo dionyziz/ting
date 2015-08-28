@@ -1,3 +1,5 @@
+var React = require('react');
+
 var Avatar = React.createClass({
     _getAvatar(username) {
         return 'https://avatars.githubusercontent.com/' + username.toLowerCase();
@@ -10,3 +12,5 @@ var Avatar = React.createClass({
         );
     }
 });
+
+module.exports = Avatar;
