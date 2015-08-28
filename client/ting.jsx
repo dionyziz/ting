@@ -57,12 +57,10 @@ var Ting = React.createClass({
             else {
                 this.refs.loginForm.onSuccess();
 
-                var peopleList = [];
-                $.each(people, (clientid, username) => {
-                    if (this.intendedUsername != username) {
-                        peopleList.push(username);
-                    }
-                });
+                var peopleList = _.chain(people)
+                    .values()
+                    .without(this.intendedUsername)
+                    .value();
 
                 this.onLogin(this.state.intendedUsername, peopleList);
             }
