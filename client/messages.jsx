@@ -74,7 +74,8 @@ var History = React.createClass({
     render() {
         var messageNodes = this.state.messages.map((message) => {
             return (
-                <Message username={message.username}
+                <Message key={message.id}
+                         username={message.username}
                          own={message.username == this.state.myUsername}
                          text={message.text} />
             );
