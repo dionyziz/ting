@@ -4,7 +4,7 @@ var messages = require('./messages.jsx');
 var History = messages.History;
 var MessageForm = messages.MessageForm;
 var React = require('react');
-var Analytics = require('./analytics.jsx');
+var Analytics = require('./analytics.js');
 var i18n = require('i18next-client');
 
 var Ting = React.createClass({
