@@ -8,7 +8,7 @@ var History = React.createClass({
     _title: document.title,
     _scrollDown() {
         setTimeout(() => {
-            this._wrapper.scrollTop(this._wrapper.get(0).scrollHeight);
+            this._wrapper.scrollTop = this._wrapper.scrollHeight;
         }, 30);
     },
     _updateTitle() {
@@ -56,7 +56,7 @@ var History = React.createClass({
         }
     },
     componentDidMount() {
-        this._wrapper = $('.history-wrapper');
+        this._wrapper = React.findDOMNode(this.refs.wrapper);
 
         $(document).on({
             show: () => {
@@ -83,7 +83,7 @@ var History = React.createClass({
         });
         return (
             <div className='history'>
-                <div className='history-wrapper' id='scroller'>
+                <div className='history-wrapper' id='scroller' ref='wrapper'>
                     <ul id='message-list'>
                         {messageNodes}
                     </ul>
