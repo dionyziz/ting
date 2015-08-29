@@ -4,10 +4,17 @@ var messages = require('./messages.jsx');
 var History = messages.History;
 var MessageForm = messages.MessageForm;
 var React = require('react');
-var Analytics = require('./analytics.jsx');
+var Analytics = require('./analytics.js');
+var i18n = require('i18next-client');
+var io = require('socket.io-client');
 
 var Ting = React.createClass({
     _socket: null,
+    _uid: 0,
+    _getUniqueMessageId() {
+        ++this._uid;
+        return this._uid;
+    },
     onLogin(username, people) {
         this.refs.history.onLogin(username, people);
         this.refs.messageForm.onLogin(username, people);
@@ -16,6 +23,11 @@ var Ting = React.createClass({
         $.getJSON('/api/messages/' + this.state.channel, (messages) => {
             // we must reverse the messages, as they are given to us in
             // reverse chronological order by the history API
+            messages = messages.map((message) => {
+                // TODO(vitsalis): grab this message id from the server
+                message.id = this._getUniqueMessageId();
+                return message;
+            });
             this.refs.history.onHistoricalMessagesAvailable(messages.reverse())
         });
     },
@@ -59,6 +71,7 @@ var Ting = React.createClass({
         });
 
         this._socket.on('message', (data) => {
+            data.id = this._getUniqueMessageId();
             this.refs.history.onMessage(data);
         });
 

@@ -1,5 +1,6 @@
 var React = require('react/addons');
-var Avatar = require('./avatar.jsx').Avatar;
+var Avatar = require('./avatar.jsx');
+var i18n = require('i18next-client');
 
 var History = React.createClass({
     _wrapper: null,
@@ -73,7 +74,8 @@ var History = React.createClass({
     render() {
         var messageNodes = this.state.messages.map((message) => {
             return (
-                <Message username={message.username}
+                <Message key={message.id}
+                         username={message.username}
                          own={message.username == this.state.myUsername}
                          text={message.text} />
             );
