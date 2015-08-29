@@ -84,7 +84,7 @@ var Ting = React.createClass({
         Analytics.init();
     },
     onMessageSubmit(message) {
-        data = {
+        const data = {
             type: 'channel',
             target: this.state.channel,
             text: message
