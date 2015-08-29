@@ -1,6 +1,7 @@
 language: node_js
 before_script:
     - cd realtime; npm install; cd ..
-    - cd client; bower install; cd ..
+    - cd client; bower install; npm install; cd ..
 script: 
-    - cd realtime; npm test
+    - cd realtime && npm test && cd ..
+    - cd client && find . -regex ".*\.jsx?"|grep -v node_modules/|grep -v bower_components/|grep -v dist/|xargs eslint && cd ..
