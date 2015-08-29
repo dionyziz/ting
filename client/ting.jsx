@@ -29,7 +29,7 @@ var Ting = React.createClass({
                 message.id = this._getUniqueMessageId();
                 return message;
             });
-            this.refs.history.onHistoricalMessagesAvailable(messages.reverse())
+            this.refs.history.onHistoricalMessagesAvailable(messages.reverse());
         });
     },
     getInitialState() {

@@ -54,7 +54,7 @@ var User = React.createClass({
                 <Avatar username={this.props.username} />
                 <span>{this.props.username}</span>
             </li>
-        )
+        );
     }
 });
 

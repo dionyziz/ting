@@ -89,7 +89,7 @@ var History = React.createClass({
                     </ul>
                 </div>
             </div>
-        )
+        );
     },
     componentDidUpdate() {
         this._updateTitle();
@@ -126,7 +126,7 @@ var Message = React.createClass({
                      dangerouslySetInnerHTML={this._formatMessage(this.props.text)}>
                 </div>
             </li>
-        )
+        );
     }
 });
 

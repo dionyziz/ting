@@ -37,7 +37,7 @@ var LoginForm = React.createClass({
         this.setState({username});
         if (!this.state.changed) {
             this.setState({
-                changed: true,
+                changed: true
             });
         }
 
