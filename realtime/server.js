@@ -5,10 +5,10 @@ var winston = require('winston');
 
 winston.add(winston.transports.File, { filename: 'server.log' });
 
-var config = JSON.parse(fs.readFileSync('../config/common.json', 'utf8'))
+var config = JSON.parse(fs.readFileSync('../config/common.json', 'utf8'));
 
 if (fs.existsSync('../config/local.json')) {
-    config = JSON.parse(fs.readFileSync('../config/local.json', 'utf8'))
+    config = JSON.parse(fs.readFileSync('../config/local.json', 'utf8'));
 }
 
 URL = 'http://' + config.node.hostname;
