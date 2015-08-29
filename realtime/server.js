@@ -26,13 +26,13 @@ function logUsersCount() {
 winston.info('Ting real-time server v1 listening on port ' + config.node.port + '.');
 
 socket.on('connection', function (client) {
-     winston.info('A user with client id "' + client.id + '" connected.'); 
-     client.on('login', function(username) {
-        var resp = { 
+    winston.info('A user with client id "' + client.id + '" connected.');
+    client.on('login', function(username) {
+        var resp = {
             success: true
         };
         if (usernames[username]) {
-            winston.info('[' + username + '] taken'); 
+            winston.info('[' + username + '] taken');
             resp.success = false;
             resp.error = 'taken';
             client.emit('login-response', resp);
@@ -56,7 +56,7 @@ socket.on('connection', function (client) {
         var headers = {
             'User-Agent':       'node-ting/0.1.0',
             'Content-Type':     'application/x-www-form-urlencoded'
-        }
+        };
 
         var options = {
             url: URL + '/api/messages/' + data.target + '/',
@@ -65,13 +65,13 @@ socket.on('connection', function (client) {
             form: {
                 'username': people[client.id],
                 'text': data.text,
-                'datetime': Date.now() 
+                'datetime': Date.now()
             }
-        }
+        };
 
         req(options, function(error, response, body) {
             if (error) {
-                winston.warning("Message from user: " + data.username + " couldn't be sent to Django. Error: " + error);
+                winston.warning('Message from user: ' + data.username + " couldn't be sent to Django. Error: " + error);
             }
         });
     });
@@ -82,6 +82,6 @@ socket.on('connection', function (client) {
         delete usernames[username];
         socket.sockets.emit('part', username);
         winston.info('[' + username + '] disconnect');
-        logUsersCount();    
+        logUsersCount();
     });
 });
