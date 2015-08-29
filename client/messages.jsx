@@ -1,6 +1,7 @@
 var React = require('react/addons');
 var Avatar = require('./avatar.jsx');
 var i18n = require('i18next-client');
+var escape = require('escape-html');
 
 var History = React.createClass({
     _wrapper: null,
@@ -97,14 +98,8 @@ var History = React.createClass({
 });
 
 var Message = React.createClass({
-    _escapeHTML(input) {
-        const div = document.createElement('div'),
-              text = document.createTextNode(input);
-        div.appendChild(text);
-        return div.innerHTML;
-    },
     _formatMessage(message) {
-        var html = this._escapeHTML(message);
+        var html = escape(message);
 
         return {
             __html: html.autoLink({
