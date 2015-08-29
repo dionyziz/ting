@@ -6,7 +6,8 @@ var LoginForm = React.createClass({
         return {
             validationState: true,
             errorStr: '',
-            username: ''
+            username: '',
+            changed: false
         };
     },
     _validate(username) {
@@ -29,6 +30,18 @@ var LoginForm = React.createClass({
             errorStr: i18n.t('usernameSet.errors.' + validationState)
         });
     },
+    _onUsernameChanged(username) {
+        var validationState = this._validate(username);
+
+        this.setState({username});
+        if (!this.state.changed) {
+            this.setState({
+                changed: true,
+            });
+        }
+
+        this._handleError(validationState);
+    },
     onError(error) {
         this._handleError(error);
     },
@@ -36,15 +49,15 @@ var LoginForm = React.createClass({
         $(React.findDOMNode(this.refs.usernameSetModal)).modal('hide');
     },
     handleChange(event) {
-        var username = event.target.value;
-
-        var validationState = this._validate(username);
-
-        this.setState({username});
-        this._handleError(validationState);
+        this._onUsernameChanged(event.target.value);
     },
     handleSubmit(event) {
         event.preventDefault();
+
+        if (!this.state.changed) {
+            this._onUsernameChanged('');
+            return;
+        }
 
         if (this.state.validationState !== true) {
             return;
