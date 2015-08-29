@@ -1,3 +1,7 @@
 language: node_js
+before_script:
+    - cd realtime; npm install; cd ..
+    - cd client; bower install; cd ..
+    - cd realtime; forever start server.js; cd ..
 script: 
-    - npm test
+    - cd realtime; npm test
