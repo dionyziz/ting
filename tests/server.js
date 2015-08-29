@@ -32,20 +32,10 @@ describe('Node Server', function() {
         it('joins a user to Ting', function(done) {
             socket.emit('login', 'Tattaglia');
 
-            socket.on('login-response', function(success) {
-                expect(success).toBe(true);
+            socket.on('login-response', function(resp) {
+                expect(resp.success).toBeTruthy();
                 done();
             });
-        });
-
-        it('updates online people list', function(done) {
-            socket.emit('login', 'Corleone');
-
-            socket.on('update-people', function(people) {
-                id = Object.keys(people)[0];
-                expect(people[id]).toBe('Corleone');
-                done();
-            }); 
         });
     });
 
