@@ -1,13 +1,14 @@
 var React = require('react/addons');
 var Avatar = require('./avatar.jsx');
 var i18n = require('i18next-client');
+var escape = require('escape-html');
 
 var History = React.createClass({
     _wrapper: null,
     _title: document.title,
     _scrollDown() {
         setTimeout(() => {
-            this._wrapper.scrollTop(this._wrapper.get(0).scrollHeight);
+            this._wrapper.scrollTop = this._wrapper.scrollHeight;
         }, 30);
     },
     _updateTitle() {
@@ -55,7 +56,7 @@ var History = React.createClass({
         }
     },
     componentDidMount() {
-        this._wrapper = $('.history-wrapper');
+        this._wrapper = React.findDOMNode(this.refs.wrapper);
 
         $(document).on({
             show: () => {
@@ -72,17 +73,17 @@ var History = React.createClass({
         });
     },
     render() {
-        var messageNodes = this.state.messages.map((message) => {
+        var messageNodes = this.state.messages.map(({id, username, text}) => {
             return (
-                <Message key={message.id}
-                         username={message.username}
-                         own={message.username == this.state.myUsername}
-                         text={message.text} />
+                <Message key={id}
+                         username={username}
+                         own={username == this.state.myUsername}
+                         text={text} />
             );
         });
         return (
             <div className='history'>
-                <div className='history-wrapper' id='scroller'>
+                <div className='history-wrapper' id='scroller' ref='wrapper'>
                     <ul id='message-list'>
                         {messageNodes}
                     </ul>
@@ -97,14 +98,8 @@ var History = React.createClass({
 });
 
 var Message = React.createClass({
-    _escapeHTML(input) {
-        var div = document.createElement('div');
-        var text = document.createTextNode(input);
-        div.appendChild(text);
-        return div.innerHTML;
-    },
     _formatMessage(message) {
-        var html = this._escapeHTML(message);
+        var html = escape(message);
 
         return {
             __html: html.autoLink({
@@ -181,5 +176,4 @@ var MessageForm = React.createClass({
     }
 });
 
-module.exports.History = History;
-module.exports.MessageForm = MessageForm;
+module.exports = {History, MessageForm};

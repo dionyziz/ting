@@ -7,6 +7,7 @@ var React = require('react');
 var Analytics = require('./analytics.js');
 var i18n = require('i18next-client');
 var io = require('socket.io-client');
+var _ = require('lodash');
 
 var Ting = React.createClass({
     _socket: null,
@@ -32,9 +33,9 @@ var Ting = React.createClass({
         });
     },
     getInitialState() {
-        var url = location.href;
-        var parts = url.split('/');
-        var channel = parts.slice(-1)[0]
+        const url = location.href,
+              parts = url.split('/');
+        var [channel] = parts.slice(-1);
 
         if (channel == '' || channel == '?') {
             channel = 'ting';
@@ -46,25 +47,20 @@ var Ting = React.createClass({
         };
     },
     componentWillMount() {
-        var URL = window.location.hostname + ':8080';
+        const URL = window.location.hostname + ':8080';
         this._socket = io.connect(URL);
 
-        this._socket.on('login-response', (response) => {
-            var success = response.success;
-            var people = response.people;
-
+        this._socket.on('login-response', ({success, people, error}) => {
             if (!success) {
-                this.refs.loginForm.onError(response.error);
+                this.refs.loginForm.onError(error);
             }
             else {
                 this.refs.loginForm.onSuccess();
 
-                var peopleList = [];
-                $.each(people, (clientid, username) => {
-                    if (this.intendedUsername != username) {
-                        peopleList.push(username);
-                    }
-                });
+                var peopleList = _.chain(people)
+                    .values()
+                    .without(this.intendedUsername)
+                    .value();
 
                 this.onLogin(this.state.intendedUsername, peopleList);
             }
@@ -75,12 +71,15 @@ var Ting = React.createClass({
             this.refs.history.onMessage(data);
         });
 
-        this._socket.on('part', (username) => {
-            this.refs.userList.onPart(username)
-        });
-        this._socket.on('join', (username) => {
-            this.refs.userList.onJoin(username)
-        });
+        this._socket.on(
+            'part',
+            (username) => this.refs.userList.onPart(username)
+        );
+
+        this._socket.on(
+            'join',
+            (username) => this.refs.userList.onJoin(username)
+        );
 
         Analytics.init();
     },
