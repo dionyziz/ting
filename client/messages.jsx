@@ -1,11 +1,11 @@
-var React = require('react/addons');
-var Avatar = require('./avatar.jsx');
-var emoticons = require('emoticons');
-var i18n = require('i18next-client');
-var escape = require('escape-html');
-var autolinks = require('autolinks');
+const React = require('react/addons'),
+      Avatar = require('./avatar.jsx'),
+      emoticons = require('emoticons'),
+      i18n = require('i18next-client'),
+      escape = require('escape-html'),
+      autolinks = require('autolinks');
 
-var History = React.createClass({
+const History = React.createClass({
     _wrapper: null,
     _title: document.title,
     _scrollDown() {
@@ -103,7 +103,7 @@ var History = React.createClass({
     }
 });
 
-var Message = React.createClass({
+const Message = React.createClass({
     _formatMessage(message) {
         var html = escape(message);
         html = emoticons.replace(html);
@@ -141,7 +141,7 @@ var Message = React.createClass({
     }
 });
 
-var MessageForm = React.createClass({
+const MessageForm = React.createClass({
     getInitialState() {
         return {
             message: ''

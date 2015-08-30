@@ -1,7 +1,7 @@
-var React = require('react');
-var Avatar = require('./avatar.jsx');
+const React = require('react'),
+      Avatar = require('./avatar.jsx');
 
-var UserList = React.createClass({
+const UserList = React.createClass({
     getInitialState() {
         return {
             users: [],
@@ -47,7 +47,7 @@ var UserList = React.createClass({
     }
 });
 
-var User = React.createClass({
+const User = React.createClass({
     render() {
         return (
             <li>
