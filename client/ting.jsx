@@ -29,7 +29,7 @@ var Ting = React.createClass({
                 message.id = this._getUniqueMessageId();
                 return message;
             });
-            this.refs.history.onHistoricalMessagesAvailable(messages.reverse())
+            this.refs.history.onHistoricalMessagesAvailable(messages.reverse());
         });
     },
     getInitialState() {
@@ -84,7 +84,7 @@ var Ting = React.createClass({
         Analytics.init();
     },
     onMessageSubmit(message) {
-        data = {
+        const data = {
             type: 'channel',
             target: this.state.channel,
             text: message
@@ -129,7 +129,7 @@ i18n.init(
         resGetPath:' locales/__lng__.json',
         lng: 'el-GR'
     },
-    (t) => {
+    () => {
         React.render(<Ting />, document.getElementsByClassName('ting')[0]);
     }   
 );
