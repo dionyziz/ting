@@ -2,7 +2,7 @@ language: node_js
 node_js: "iojs-v3"
 before_script:
     - cd realtime; npm install; cd ..
-    - cd client; bower install; npm install; cd ..
+    - cd client; npm install; bower install; cd ..
 script: 
     - cd realtime && npm test && cd ..
     - cd client && npm test && cd ..
