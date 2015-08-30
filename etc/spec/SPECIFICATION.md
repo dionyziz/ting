@@ -373,6 +373,26 @@ left, which allows the user to return to the recent conversation list screen.
 ![Mobile chat screen](http://i.imgur.com/jECW8Jn.jpg)
 *Image: The mobile chat screen*
 
+# Message Formatting
+
+In messages, smileys are replaced by their respective images. The list of
+supported emoticons is
+[taken from Skype](https://github.com/kof/emoticons/blob/master/support/skype/emoticons.json).
+
+Web links are formatted to be clickable.
+
+Dragging and dropping an image file from the user's computer into the messages
+history or into the message form allows the user to upload an image. While
+dragging the file over the website, the history and the message form are
+overlayed with a screen with the following text indicating that the user can
+drop the image to upload it:
+
+"Άφησε την εικόνα για να την ανεβάσεις"
+
+Dropping the image over this area uploads the image and immediately sends it as
+a separate message. This does not affect any text the user may be currently
+entering on the text box.
+
 # Typing
 Ting provides a different approach from usual chat platforms when it comes to
 notifications about typing. Users can see each other typing in real time. This
@@ -494,6 +514,4 @@ This specification is limited. It will be extended with the following features i
 * Voice
 * Channel moderation
 * Subscription to channels
-* Image uploads
 * Timestamps
-* Smileys
