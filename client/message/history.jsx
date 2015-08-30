@@ -1,9 +1,6 @@
 const React = require('react/addons'),
-      Avatar = require('./avatar.jsx'),
       emoticons = require('emoticons'),
-      i18n = require('i18next-client'),
-      escape = require('escape-html'),
-      autolinks = require('autolinks');
+      Message = require('./view.jsx');
 
 const History = React.createClass({
     _wrapper: null,
@@ -103,88 +100,4 @@ const History = React.createClass({
     }
 });
 
-const Message = React.createClass({
-    _formatMessage(message) {
-        var html = escape(message);
-        html = emoticons.replace(html);
-
-        return {
-            __html: autolinks(html, (title, url) => {
-                return `<a href="${url}"
-                           target="_blank"
-                           rel="nofollow">
-                            ${title}
-                        </a>`;
-            })
-        };
-    },
-    render() {
-        var className;
-
-        if (this.props.own) {
-            className = 'self';
-        }
-        else {
-            className = 'other';
-        }
-
-        return (
-            <li>
-                <Avatar username={this.props.username} />
-                <strong>{this.props.username}</strong>
-
-                <div className={className}
-                     dangerouslySetInnerHTML={this._formatMessage(this.props.text)}>
-                </div>
-            </li>
-        );
-    }
-});
-
-const MessageForm = React.createClass({
-    getInitialState() {
-        return {
-            message: ''
-        };
-    },
-    handleSubmit(event) {
-        event.preventDefault();
-
-        var message = this.state.message;
-
-        if (message.trim().length > 0) {
-            this.props.onMessageSubmit(message);
-
-            React.findDOMNode(this.refs.inputField).value = '';
-        }
-
-        this.setState({
-            message: ''
-        });
-    },
-    onLogin() {
-        React.findDOMNode(this.refs.inputField).focus();
-    },
-    handleChange(event) {
-        this.setState({
-            message: event.target.value
-        });
-    },
-    render() {
-        return (
-            <div className='textarea'>
-                <form id='message'
-                      onSubmit={this.handleSubmit}>
-                    <input type='text'
-                           className='form-control'
-                           placeholder={i18n.t('messageInput.placeholder')}
-                           value={this.state.message}
-                           onChange={this.handleChange}
-                           ref='inputField' />
-                </form>
-            </div>
-        );
-    }
-});
-
-module.exports = {History, MessageForm};
+module.exports = History;
