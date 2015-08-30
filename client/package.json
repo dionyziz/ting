@@ -38,6 +38,7 @@
     "gulp-util": "^3.0.6",
     "jest": "^0.1.40",
     "jest-cli": "^0.5.0",
+    "react-tools": "^0.13.3",
     "watchify": "^3.3.1"
   },
   "jest": {
