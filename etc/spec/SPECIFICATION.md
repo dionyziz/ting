@@ -319,7 +319,8 @@ line. No horizontal scrollbar is ever displayed in the history area.
 
 The user information area is shown above the message history area in case the
 currently active conversation is a private. The user information area shows the
-partner's avatar and username.
+partner's avatar and username. Below the username, the age, the sex, and the
+location of the user are shown, if they are available.
 
 ## Sending messages
 
@@ -490,8 +491,6 @@ Notice that multiple users can share the same e-mail address.
 # TODO
 This specification is limited. It will be extended with the following features in future editions:
 
-* Avatars
-* Age / sex / location
 * Voice
 * Channel moderation
 * Subscription to channels
