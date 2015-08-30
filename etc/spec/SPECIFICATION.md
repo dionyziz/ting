@@ -487,9 +487,6 @@ Otherwise, the form is saved and the user is taken back to the Chat screen.
 
 Notice that multiple users can share the same e-mail address.
 
-# Security
-For transport security purposes, ting.gr is served over HTTPS.
-
 # TODO
 This specification is limited. It will be extended with the following features in future editions:
 
