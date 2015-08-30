@@ -1,5 +1,5 @@
 language: node_js
-node_js: "0.12"
+node_js: "iojs-v3"
 before_script:
     - cd realtime; npm install; cd ..
     - cd client; bower install; npm install; cd ..
