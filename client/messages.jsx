@@ -3,6 +3,7 @@ var Avatar = require('./avatar.jsx');
 var emoticons = require('emoticons');
 var i18n = require('i18next-client');
 var escape = require('escape-html');
+var autolinks = require('autolinks');
 
 var History = React.createClass({
     _wrapper: null,
@@ -108,8 +109,12 @@ var Message = React.createClass({
         html = emoticons.replace(html);
 
         return {
-            __html: html.autoLink({
-                target: '_blank', rel: 'nofollow'
+            __html: autolinks(html, (title, url) => {
+                return `<a href="${url}"
+                           target="_blank"
+                           rel="nofollow">
+                            ${title}
+                        </a>`;
             })
         };
     },
