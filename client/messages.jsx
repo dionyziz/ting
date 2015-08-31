@@ -1,5 +1,6 @@
 var React = require('react/addons');
 var Avatar = require('./avatar.jsx');
+var emoticons = require('emoticons');
 var i18n = require('i18next-client');
 var escape = require('escape-html');
 
@@ -58,6 +59,10 @@ var History = React.createClass({
     componentDidMount() {
         this._wrapper = React.findDOMNode(this.refs.wrapper);
 
+        $.getJSON('node_modules/emoticons/support/skype/emoticons.json', function(definition) {
+            emoticons.define(definition);
+        });
+
         $(document).on({
             show: () => {
                 this.setState({
@@ -100,6 +105,7 @@ var History = React.createClass({
 var Message = React.createClass({
     _formatMessage(message) {
         var html = escape(message);
+        html = emoticons.replace(html);
 
         return {
             __html: html.autoLink({
