@@ -160,3 +160,8 @@ ul {
     top: 6px;
     z-index: 1;
 }
+.emoticon {
+    position: relative;
+    top: 10px;
+    left: 3px;
+}
