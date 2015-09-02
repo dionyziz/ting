@@ -9,7 +9,7 @@ class MessageCreationForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
     username = forms.CharField(max_length=20)
     datetime_start = forms.IntegerField()
-    typing = forms.BooleanField()
+    typing = forms.BooleanField(required=False)
 
     def save(self):
         now = int(round(time.time() * 1000))
@@ -23,7 +23,7 @@ class MessageCreationForm(forms.Form):
             text=self.data['text'],
             username=self.data['username'],
             datetime_start=datetime_start_field,
-            typing=self.data['typing'],
+            typing=self.data.get('typing', False),
             channel=self.channel
         )
         self.message = message
@@ -37,7 +37,7 @@ class MessagePatchForm(forms.Form):
     id = forms.IntegerField()
     text = forms.CharField(widget=forms.Textarea)
     datetime_sent = forms.IntegerField()
-    typing = forms.BooleanField(required=False, initial=False)
+    typing = forms.BooleanField(required=False)
 
     def save(self):
         message = Message.objects.get(pk=self.data['id'])

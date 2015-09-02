@@ -75,22 +75,6 @@ class MessageViewPOSTTests(ChatTests):
         self.assertEqual(message.text, text)
         self.assertEqual(datetime_to_timestamp(message.datetime_start), timestamp)
 
-    def test_post_message_without_typing(self):
-        """
-        When a message is sent without a typing the view
-        should produce an appropriate error and a 400(Bad Request)
-        status code. The message should not be saved.
-        """
-        post_dict = {'text': 'Message', 'username': 'vitsalis', 'datetime_start': 10 ** 11}
-
-        response = self.client.post(
-            reverse('chat:message', args=(self.channel.name,)),
-            post_dict
-        )
-
-        self.assertFalse(Message.objects.filter(username='vitsalis').exists())
-        self.assertEqual(response.status_code, 400)
-
     def test_post_message_without_datetime_start(self):
         """
         When a message is sent without a datetime_start the view
