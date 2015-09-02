@@ -13,17 +13,17 @@ class MessageCreationForm(forms.Form):
 
     def save(self):
         now = int(round(time.time() * 1000))
-        timestamp = int(self.data['datetime_start'])
+        timestamp = int(self.cleaned_data['datetime_start'])
         if now < timestamp:
             timestamp = now
 
         datetime_start_field = timestamp_to_datetime(timestamp)
 
         message = Message.objects.create(
-            text=self.data['text'],
-            username=self.data['username'],
+            text=self.cleaned_data['text'],
+            username=self.cleaned_data['username'],
             datetime_start=datetime_start_field,
-            typing=self.data.get('typing', False),
+            typing=self.cleaned_data.get('typing', False),
             channel=self.channel
         )
         self.message = message
@@ -40,20 +40,17 @@ class MessagePatchForm(forms.Form):
     typing = forms.BooleanField(required=False)
 
     def save(self):
-        message = Message.objects.get(pk=self.data['id'])
+        message = Message.objects.get(pk=self.cleaned_data['id'])
 
         timestamp_start = datetime_to_timestamp(message.datetime_start)
-        timestamp_sent = int(self.data['datetime_sent'])
+        timestamp_sent = int(self.cleaned_data['datetime_sent'])
 
         if timestamp_sent < timestamp_start:
             timestamp_sent = timestamp_start
 
         message.datetime_sent = timestamp_to_datetime(timestamp_sent)
-        message.text = self.data['text']
-        message.typing = self.data.get('typing', False)
-        # because django doesn't convert 'False' to False
-        if message.typing == 'false' or message.typing == 'False':
-            message.typing = False
+        message.text = self.cleaned_data['text']
+        message.typing = self.cleaned_data.get('typing', False)
 
         message.save()
 
