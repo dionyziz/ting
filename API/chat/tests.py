@@ -17,15 +17,13 @@ def create_message(text, timestamp, username, channel):
     Creates a message with the given text, datetime,
     username, channel and with typing set to True.
     """
-    message = Message(
+    return Message.objects.create(
         text=text,
         datetime_start=timestamp_to_datetime(timestamp),
         username=username,
         typing=True,
         channel=channel
     )
-    message.save()
-    return message
 
 
 class ChatTests(TestCase):
