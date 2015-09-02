@@ -21,7 +21,7 @@ class MessageView(View):
         form.channel = channel
         form.save()
 
-        return HttpResponse(status=204)
+        return HttpResponse(form.message.id)
 
     def get(self, request, channel_name, *args, **kwargs):
         lim = request.GET.get('lim', 100)
@@ -29,12 +29,12 @@ class MessageView(View):
         channel = get_object_or_404(Channel, name=channel_name)
 
         messages = Message.objects.values(
-            'text', 'username', 'datetime'
-        ).filter(channel=channel).order_by('-datetime')[:lim]
+            'text', 'username', 'datetime_start', 'typing'
+        ).filter(channel=channel).order_by('-datetime_start')[:lim]
 
-        # convert datetime to UTC epoch milliseconds
+        # convert datetime_start to UTC epoch milliseconds
         for message in messages:
-            message['datetime'] = datetime_to_timestamp(message['datetime'])
+            message['datetime_start'] = datetime_to_timestamp(message['datetime_start'])
 
         messages_json = json.dumps(list(messages))
 
