@@ -26,11 +26,12 @@ class MessageCreationForm(forms.Form):
             typing=self.cleaned_data.get('typing', False),
             channel=self.channel
         )
-        self.message = message
 
         if not message.typing:
             message.datetime_sent = message.datetime_start
             message.save()
+
+        return message;
 
 
 class MessagePatchForm(forms.Form):
@@ -54,4 +55,4 @@ class MessagePatchForm(forms.Form):
 
         message.save()
 
-        self.message = message
+        return message

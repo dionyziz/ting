@@ -19,9 +19,9 @@ class MessageView(View):
             return HttpResponseBadRequest(str(form.errors))
 
         form.channel = channel
-        form.save()
+        message = form.save()
 
-        return HttpResponse(form.message.id)
+        return HttpResponse(message.id)
 
     def patch(self, request, channel_name, *args, **kwargs):
         qdict = QueryDict(request.body)
