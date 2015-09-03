@@ -1,15 +1,14 @@
-var UserList = require('./userlist.jsx');
-var LoginForm = require('./login.jsx');
-var messages = require('./messages.jsx');
-var History = messages.History;
-var MessageForm = messages.MessageForm;
-var React = require('react');
-var Analytics = require('./analytics.js');
-var i18n = require('i18next-client');
-var io = require('socket.io-client');
-var _ = require('lodash');
+const UserList = require('./userlist.jsx'),
+      LoginForm = require('./login.jsx'),
+      History = require('./message/history.jsx'),
+      MessageForm = require('./message/form.jsx'),
+      React = require('react'),
+      Analytics = require('./analytics.js'),
+      i18n = require('i18next-client'),
+      io = require('socket.io-client'),
+      _ = require('lodash');
 
-var Ting = React.createClass({
+const Ting = React.createClass({
     _socket: null,
     _uid: 0,
     _getUniqueMessageId() {

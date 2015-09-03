@@ -21,10 +21,11 @@
         ]
     },
     "env": {
-        "es6": true,
         "browser": true,
         "commonjs": true,
-        "jquery": true
+        "es6": true,
+        "jquery": true,
+        "jest": true
     },
     "extends": "eslint:recommended",
     "ecmaFeatures": {

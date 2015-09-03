@@ -1,10 +1,8 @@
-var React = require('react/addons');
-var Avatar = require('./avatar.jsx');
-var emoticons = require('emoticons');
-var i18n = require('i18next-client');
-var escape = require('escape-html');
+const React = require('react/addons'),
+      emoticons = require('emoticons'),
+      Message = require('./view.jsx');
 
-var History = React.createClass({
+const History = React.createClass({
     _wrapper: null,
     _title: document.title,
     _scrollDown() {
@@ -102,84 +100,4 @@ var History = React.createClass({
     }
 });
 
-var Message = React.createClass({
-    _formatMessage(message) {
-        var html = escape(message);
-        html = emoticons.replace(html);
-
-        return {
-            __html: html.autoLink({
-                target: '_blank', rel: 'nofollow'
-            })
-        };
-    },
-    render() {
-        var className;
-
-        if (this.props.own) {
-            className = 'self';
-        }
-        else {
-            className = 'other';
-        }
-
-        return (
-            <li>
-                <Avatar username={this.props.username} />
-                <strong>{this.props.username}</strong>
-
-                <div className={className}
-                     dangerouslySetInnerHTML={this._formatMessage(this.props.text)}>
-                </div>
-            </li>
-        );
-    }
-});
-
-var MessageForm = React.createClass({
-    getInitialState() {
-        return {
-            message: ''
-        };
-    },
-    handleSubmit(event) {
-        event.preventDefault();
-
-        var message = this.state.message;
-
-        if (message.trim().length > 0) {
-            this.props.onMessageSubmit(message);
-
-            React.findDOMNode(this.refs.inputField).value = '';
-        }
-
-        this.setState({
-            message: ''
-        });
-    },
-    onLogin() {
-        React.findDOMNode(this.refs.inputField).focus();
-    },
-    handleChange(event) {
-        this.setState({
-            message: event.target.value
-        });
-    },
-    render() {
-        return (
-            <div className='textarea'>
-                <form id='message'
-                      onSubmit={this.handleSubmit}>
-                    <input type='text'
-                           className='form-control'
-                           placeholder={i18n.t('messageInput.placeholder')}
-                           value={this.state.message}
-                           onChange={this.handleChange}
-                           ref='inputField' />
-                </form>
-            </div>
-        );
-    }
-});
-
-module.exports = {History, MessageForm};
+module.exports = History;
