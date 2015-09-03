@@ -4,6 +4,7 @@ var fs = require('fs');
 var winston = require('winston');
 
 winston.add(winston.transports.File, { filename: 'server.log' });
+winston.level = 'debug';
 
 var config = JSON.parse(fs.readFileSync('../config/common.json', 'utf8'));
 
@@ -24,6 +25,8 @@ function logUsersCount() {
 }
 
 winston.info('Ting real-time server v1 listening on port ' + config.node.port + '.');
+winston.debug('Debug logging is enabled. Disable it if you see too many logs.');
+winston.debug('Using persistence API back-end at ' + URL);
 
 socket.on('connection', function (client) {
     winston.info('A user with client id "' + client.id + '" connected.');
