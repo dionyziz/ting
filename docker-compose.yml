@@ -6,13 +6,13 @@ db:
 
 api:
     build: .
-    dockerfile: Dockerfile-api
+    dockerfile: docker/api/Dockerfile
     links:
         - db
 
 realtime:
     build: .
-    dockerfile: Dockerfile-realtime
+    dockerfile: docker/realtime/Dockerfile
     ports:
         - "8080:8080"
     links:
@@ -20,7 +20,7 @@ realtime:
 
 front:
     build: .
-    dockerfile: Dockerfile-front
+    dockerfile: docker/front/Dockerfile
     ports:
         - "80:80"
     links:
