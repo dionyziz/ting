@@ -8,7 +8,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY client/package.json /usr/src/app/
-RUN npm install
+RUN JOBS=MAX npm install
 
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
