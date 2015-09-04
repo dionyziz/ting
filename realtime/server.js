@@ -71,7 +71,12 @@ socket.on('connection', function (client) {
 
         req(options, function(error, response, body) {
             if (error) {
-                winston.error('Message from user: ' + data.username + " couldn't be sent to Django. Error: " + error);
+                winston.error('Message from user: ' +
+                    data.username +
+                    " couldn't be sent to Django (" +
+                    options.url +
+                    "). " +
+                    error);
             }
         });
     });
