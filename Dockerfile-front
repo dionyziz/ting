@@ -15,6 +15,6 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY client/bower.json /usr/src/app/
 RUN bower --allow-root install
 
-COPY config/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/front/nginx.conf /etc/nginx/conf.d/default.conf
 COPY client/ /usr/src/app/
 RUN gulp browserify
