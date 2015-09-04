@@ -1,11 +1,7 @@
-FROM nginx
+FROM gtklocker/nginx-nodejs-base:v0.0.1
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-
-RUN apt-get update && \
-    apt-get install -y git nodejs nodejs-legacy npm && \
-    rm -rf /var/lib/apt/lists/*
 
 COPY client/package.json /usr/src/app/
 RUN JOBS=MAX npm install
