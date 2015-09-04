@@ -8,6 +8,6 @@ RUN JOBS=MAX npm install
 
 EXPOSE 8080
 
-COPY config/ /usr/src/config/
+COPY docker/config/common.json /usr/src/config/
 COPY realtime/ /usr/src/app/
 CMD ["node", "server.js"]
