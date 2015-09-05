@@ -140,23 +140,46 @@ The top bar is located at the top and takes up the whole screen horizontally.
 On the top left, it has the text "ting". On mobile, there is no top bar.
 
 Below it, the screen is split in two areas vertically. The left area contains
-the recent list and the right area is split horizontally in two smaller areas.
-The top portion is the larger and is the chat history. The bottom portion is
-the message area. The portions are not resizable. If the active conversation is
-a private message, there is an additional area above the message area, the user
-information area.
+the recent conversations list and the right area is split horizontally in two
+smaller areas. The top portion is the larger and is the chat history. The
+bottom portion is the message area. The portions are not resizable. If the
+active conversation is a private message, there is an additional area above the
+message area, the user information area.
 
-The recent list contains a list of recently used channels and recently accessed
-private message partners. Recent conversations are shown from most recent to
-least recent, one below the other. There is one currently active conversation
-at a time. That conversation is shown at the top of the recent conversation
-list. Recent conversations that are channels simply display the channel name.
-Recent conversations that are privates display the person's avatar, their name,
-and their online status. The online status is displayed with a green dot on the
-right of their name in case they are online.
+## Recent conversations
+
+The recent converstions list contains a list of recently used channels and
+recently accessed private message partners. Recent conversations are shown from
+most recent to least recent, one below the other. There is one currently active
+conversation at a time. That conversation may not always be shown at the top of
+the recent conversation list; see the rules below for the ordering of recent
+conversations. Recent conversations that are channels simply display the
+channel name. Recent conversations that are privates display the person's
+avatar, their name, and their online status. The online status is displayed
+with a green dot on the right of their name in case they are online.
+
+Recent conversations are reordered based on the following strategy: Initially,
+when a user first uses ting, the recent conversations list only includes the
+conversation they are accessing, usually the Ting channel. A new item is added
+to the conversation list when a new conversation becomes active. If a
+conversation that becomes active when it's already in the list, it is brought
+to the top of the list. If a new conversation is added to the list and the list
+contains more than 50 items, then the oldest conversation is removed from the
+recent conversations list ("milk" strategy).
+
+A conversation becomes active and is either added to the list or reordered to
+be at the top in the following events:
+
+1. When the user activates the conversation by clicking it and remains within
+the conversation for 4 seconds.
+2. When a message of user-interest is received in a conversation (see below).
+3. When the user starts typing a message within the conversation even if they
+do not send the message.
 
 If the list of conversations is too long to fit, a vertical scrollbar is
 displayed on the right-hand side of the nick list.
+
+## Searching conversations
 
 At the top of the recent conversations list is a searchbox. The searchbox
 allows the user to type in order to filter items from the recent conversation
@@ -167,17 +190,14 @@ text in the search textbox, an "X" is shown at the right of the textbox, which
 allows the user to clear their search text. While typing, the recent
 conversations list is filtered by the search text through a prefix-match test.
 
-The currently active conversation is shown highlighted at the top of the recent
-conversation list. Recent conversations are reordered only by reactivating
-them: They are not reordered by receiving messages in them or sending messages
-in them.
+## Unread messages and messages of interest
 
 Conversations with unread messages are also highlighted, but in a different
 color. Unread messages are any messages of user-interest which have not been
 viewed by the user yet. Activating a conversation with unread messages marks
 their messages as read. Messages of user-interest are defined as any received
-message in a private conversation, or any message mentioning the user's name in
-a channel.
+message in a private conversation, or any message mentioning the user's name
+prefixed with an `@` in a channel.
 
 If there are unread messages in the active conversation when the user is not
 active (has switched to another tab or window), the window title gets prepended
@@ -185,20 +205,13 @@ with the count of unread messages in parentheses. When the user is active
 again, the count is removed from the title and the previously unread messages
 are marked as read.
 
+## Message history
+
 The message history contains a list of messages posted by everyone in the
 active conversation. The messages are displayed in chronological order from top
 to bottom. When the user enters a conversation, the message history consists of
 the most recent 100 messages exchanged by the users priorly and is stored on
 the server.
-
-Each message posted has the following form: "[avatar] [username] Message",
-where username contains the username of the person making the post and Message
-contains the text posted. The message is displayed in a comicbook-like bubble
-indicating that someone is speaking. Messages of user-interest in channels are
-highlighted. Messages sent and received are displayed in different style.
-
-If a text is too long to fit in one line, it is wrapped around to the next
-line. No horizontal scrollbar is ever displayed in the history area.
 
 If there are less messages than the chat history can fit, the messages are
 displayed at the bottom of the chat history area. Otherwise, a vertical
@@ -213,9 +226,26 @@ history area.
 
 For efficiency reasons, very old messages can be removed from the chat history.
 
+## Message formatting
+
+Each message posted has the following form: "[avatar] [username] Message",
+where username contains the username of the person making the post and Message
+contains the text posted. The message is displayed in a comicbook-like bubble
+indicating that someone is speaking. Messages of user-interest in channels are
+highlighted in orange. Messages sent and received are displayed in different
+style; sent messages are displayed in blue and received messages are shown in
+gray.
+
+If a text is too long to fit in one line, it is wrapped around to the next
+line. No horizontal scrollbar is ever displayed in the history area.
+
+## User information
+
 The user information area is shown above the message history area in case the
 currently active conversation is a private. The user information area shows the
 partner's avatar and username.
+
+## Sending messages
 
 The message area is a textbox. The textbox is focused by default when the user
 enters the Chat screen. The textbox has the placeholder "Γράψε ένα μήνυμα...".
@@ -230,6 +260,8 @@ a user, it is delivered to everyone else who is currently online in the chat in
 the active channel. The textbox in the message area is then cleared, but
 remains focused. The message appears immediately on the side of the sending
 party.
+
+## Mobile
 
 On mobile, the chat screen is separated into two different screens. These are
 the recent conversations screen and the mobile chat screen. The semantics are
