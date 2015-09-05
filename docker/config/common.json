@@ -1,0 +1,19 @@
+{
+    "node": {
+        "hostname": "front",
+        "port": 8080
+    },
+    "django": {
+        "port": 8000,
+        "secret_key": "the_big_secret",
+        "allowed_hosts": [
+        ],
+        "database": {
+            "name": "ting",
+            "user": "root",
+            "password": "ting",
+            "host": "db"
+        },
+        "debug": 1
+    }
+}

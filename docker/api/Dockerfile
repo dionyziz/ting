@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY API/requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY config/ /usr/src/config/
+COPY docker/config/common.json /usr/src/config/
 COPY API/ /usr/src/app/
 
 COPY docker/api/create-default-channels.py /usr/src/runtime/
