@@ -197,8 +197,8 @@ Conversations with unread messages are also highlighted, but in a different
 color. Unread messages are any messages of user-interest which have not been
 viewed by the user yet. Activating a conversation with unread messages marks
 their messages as read. Messages of user-interest are defined as any received
-message in a private conversation, or any message mentioning the user's name in
-a channel.
+message in a private conversation, or any message mentioning the user's name
+prefixed with an `@` in a channel.
 
 If there are unread messages in the active conversation when the user is not
 active (has switched to another tab or window), the window title gets prepended
