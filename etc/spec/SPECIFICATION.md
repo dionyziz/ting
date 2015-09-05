@@ -140,20 +140,41 @@ The top bar is located at the top and takes up the whole screen horizontally.
 On the top left, it has the text "ting". On mobile, there is no top bar.
 
 Below it, the screen is split in two areas vertically. The left area contains
-the recent list and the right area is split horizontally in two smaller areas.
-The top portion is the larger and is the chat history. The bottom portion is
-the message area. The portions are not resizable. If the active conversation is
-a private message, there is an additional area above the message area, the user
-information area.
+the recent conversations list and the right area is split horizontally in two
+smaller areas. The top portion is the larger and is the chat history. The
+bottom portion is the message area. The portions are not resizable. If the
+active conversation is a private message, there is an additional area above the
+message area, the user information area.
 
-The recent list contains a list of recently used channels and recently accessed
-private message partners. Recent conversations are shown from most recent to
-least recent, one below the other. There is one currently active conversation
-at a time. That conversation is shown at the top of the recent conversation
-list. Recent conversations that are channels simply display the channel name.
-Recent conversations that are privates display the person's avatar, their name,
-and their online status. The online status is displayed with a green dot on the
-right of their name in case they are online.
+## Recent conversations
+
+The recent converstions list contains a list of recently used channels and
+recently accessed private message partners. Recent conversations are shown from
+most recent to least recent, one below the other. There is one currently active
+conversation at a time. That conversation may not always be shown at the top of
+the recent conversation list; see the rules below for the ordering of recent
+conversations. Recent conversations that are channels simply display the
+channel name. Recent conversations that are privates display the person's
+avatar, their name, and their online status. The online status is displayed
+with a green dot on the right of their name in case they are online.
+
+Recent conversations are reordered based on the following strategy: Initially,
+when a user first uses ting, the recent conversations list only includes the
+conversation they are accessing, usually the Ting channel. A new item is added
+to the conversation list when a new conversation becomes active. If a
+conversation that becomes active when it's already in the list, it is brought
+to the top of the list. If a new conversation is added to the list and the list
+contains more than 50 items, then the oldest conversation is removed from the
+recent conversations list ("milk" strategy).
+
+A conversation becomes active and is either added to the list or reordered to
+be at the top in the following events:
+
+1. When the user activates the conversation by clicking it and remains within
+the conversation for 4 seconds.
+2. When a message of user-interest is received in a conversation (see below).
+3. When the user starts typing a message within the conversation even if they
+do not send the message.
 
 If the list of conversations is too long to fit, a vertical scrollbar is
 displayed on the right-hand side of the nick list.
