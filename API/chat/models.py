@@ -13,13 +13,12 @@ class Message(models.Model):
         return self.text
 
     def to_dict(self):
-        return {
-            'text': self.text,
-            'datetime': self.datetime,
-            'username': self.username
-        }
+        serializable_fields = ('text', 'datetime_start', 'datetime_sent', 'username')
+        return {key: getattr(self, key) for key in serializable_fields}
 
     text = models.TextField(max_length=2000)
-    datetime = models.DateTimeField()
+    datetime_start = models.DateTimeField(default=None)
+    datetime_sent = models.DateTimeField(default=None, null=True)
+    typing = models.BooleanField(default=False)
     username = models.CharField(max_length=20)
     channel = models.ForeignKey(Channel)

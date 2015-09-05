@@ -10,25 +10,15 @@ const UserList = require('./userlist.jsx'),
 
 const Ting = React.createClass({
     _socket: null,
-    _uid: 0,
-    _getUniqueMessageId() {
-        ++this._uid;
-        return this._uid;
-    },
     onLogin(username, people) {
         this.refs.history.onLogin(username, people);
         this.refs.messageForm.onLogin(username, people);
         this.refs.userList.onLogin(username, people);
 
         $.getJSON('/api/messages/' + this.state.channel, (messages) => {
-            // we must reverse the messages, as they are given to us in
-            // reverse chronological order by the history API
-            messages = messages.map((message) => {
-                // TODO(vitsalis): grab this message id from the server
-                message.id = this._getUniqueMessageId();
-                return message;
-            });
-            this.refs.history.onHistoricalMessagesAvailable(messages.reverse());
+            const history = _.indexBy(messages, 'id');
+
+            this.refs.history.onHistoricalMessagesAvailable(history);
         });
     },
     getInitialState() {
@@ -42,7 +32,9 @@ const Ting = React.createClass({
 
         return {
             channel,
-            intendedUsername: null
+            intendedUsername: null,
+            // TODO(dionyziz): race conditions and queues
+            currentMessageId: null
         };
     },
     componentWillMount() {
@@ -66,7 +58,6 @@ const Ting = React.createClass({
         });
 
         this._socket.on('message', (data) => {
-            data.id = this._getUniqueMessageId();
             this.refs.history.onMessage(data);
         });
 
@@ -80,17 +71,55 @@ const Ting = React.createClass({
             (username) => this.refs.userList.onJoin(username)
         );
 
+        this._socket.on('start-typing-response', (messageid) => {
+            this.setState({currentMessageId: messageid});
+        });
+
+        this._socket.on('update-typing-messages', (messagesTyping) => {
+            this.refs.history.onUpdateTypingMessages(messagesTyping);
+        });
+
         Analytics.init();
     },
     onMessageSubmit(message) {
+        if (this.state.currentMessageId == null) {
+            //console.log('Skipping message submit');
+            return;
+        }
+
         const data = {
             type: 'channel',
             target: this.state.channel,
-            text: message
+            text: message,
+            messageid: this.state.currentMessageId
         };
         this._socket.emit('message', data);
 
         Analytics.onMessageSubmit(message);
+
+        this.setState({currentMessageId: null});
+    },
+    onStartTyping(message) {
+        var data = {
+            type: 'channel',
+            target: this.state.channel,
+            text: message
+        };
+        this._socket.emit('start-typing', data);
+    },
+    onTypingUpdate(message) {
+        if (this.state.currentMessageId == null) {
+            //console.log('Skipping typing-update');
+            return;
+        }
+
+        var data = {
+            type: 'channel',
+            target: this.state.channel,
+            text: message,
+            messageid: this.state.currentMessageId
+        };
+        this._socket.emit('typing-update', data);
     },
     onLoginIntention(intendedUsername) {
         this.setState({intendedUsername});
@@ -113,7 +142,9 @@ const Ting = React.createClass({
                                  channel={this.state.channel} />
                         <MessageForm ref='messageForm'
                                      channel={this.state.channel}
-                                     onMessageSubmit={this.onMessageSubmit} />
+                                     onMessageSubmit={this.onMessageSubmit}
+                                     onTypingUpdate={this.onTypingUpdate}
+                                     onStartTyping={this.onStartTyping} />
                     </div>
                 </div>
                 <LoginForm ref='loginForm'

@@ -4,6 +4,7 @@ var fs = require('fs');
 var winston = require('winston');
 
 winston.add(winston.transports.File, { filename: 'server.log' });
+winston.level = 'debug';
 
 var config = JSON.parse(fs.readFileSync('../config/common.json', 'utf8'));
 
@@ -18,12 +19,29 @@ var socket = io.listen(PORT);
 
 var people = {};
 var usernames = {};
+var messages_typing = {};
+
+function getOptions(form, target, method) {
+    var headers = {
+        'User-Agent':       'node-ting/0.1.0',
+        'Content-Type':     'application/x-www-form-urlencoded'
+    }
+
+    return {
+        url: URL + '/api/messages/' + target + '/',
+        method: method,
+        headers: headers,
+        form: form
+    }
+}
 
 function logUsersCount() {
     winston.info('Currently ' + Object.keys(usernames).length + ' users are logged in the server.');
 }
 
 winston.info('Ting real-time server v1 listening on port ' + config.node.port + '.');
+winston.debug('Debug logging is enabled. Disable it if you see too many logs.');
+winston.debug('Using persistence API back-end at ' + URL);
 
 socket.on('connection', function (client) {
     winston.info('A user with client id "' + client.id + '" connected.');
@@ -52,22 +70,33 @@ socket.on('connection', function (client) {
         data.username = people[client.id];
         socket.sockets.emit('message', data);
         winston.info('[' + data.username + '] message: ' + text);
+        delete messages_typing[data.messageid];
 
-        var headers = {
-            'User-Agent':       'node-ting/0.1.0',
-            'Content-Type':     'application/x-www-form-urlencoded'
-        };
+        var options = getOptions({
+            id: data.messageid,
+            text: text,
+            datetime_sent: Date.now(),
+            typing: false
+        }, data.target, 'PATCH');
 
-        var options = {
-            url: URL + '/api/messages/' + data.target + '/',
-            method: 'POST',
-            headers: headers,
-            form: {
-                'username': people[client.id],
-                'text': data.text,
-                'datetime': Date.now()
+        req(options, function(error, response, body) {
+            if (error) {
+                winston.warning('Error communicating with Django with PATCH request: ' + error);
             }
+        });
+    });
+
+    client.on('start-typing', function(data) {
+        winston.debug('[' + people[client.id] + '] start-typing');
+
+        var form = {
+            username: people[client.id],
+            text: data.text,
+            target: data.target,
+            datetime_start: Date.now(),
+            typing: true
         };
+        var options = getOptions(form, data.target, 'POST');
 
         req(options, function(error, response, body) {
             if (error) {
@@ -78,11 +107,64 @@ socket.on('connection', function (client) {
                     "). " +
                     error);
             }
+            else {
+                messageid = body;
+
+                messages_typing[messageid] = form;
+                socket.sockets.emit('update-typing-messages', messages_typing);
+                client.emit('start-typing-response', messageid);
+            }
         });
     });
 
+    function deletePersistentMessage(id, target) {
+        var form = {
+            'id': id
+        }
+        var options = getOptions(form, target, 'DELETE');
+
+        req(options, function(error, response, body) {
+            if (error) {
+                winston.warning('Error communicating with Django with DELETE request: ' + error);
+            }
+        });
+    }
+
+    client.on('typing-update', function(data) {
+        winston.debug('[' + people[client.id] + '] typing-update');
+
+        if (messages_typing[data.messageid] && messages_typing[data.messageid].username != people[client.id]) {
+            winston.warning('messageid ' + data.messageid + ' does not belong to user ' + people[client.id]);
+            return;
+        }
+
+        messages_typing[data.messageid].text = data.text;
+        socket.sockets.emit('update-typing-messages', messages_typing);
+
+        if (data.text.trim().length == 0) {
+            delete messages_typing[data.messageid];
+
+            deletePersistentMessage(data.messageid, data.target);
+        }
+    })
+
     client.on('disconnect', function() {
         var username = people[client.id];
+
+        var messagesTypingNew = {};
+
+        for (var messageid in messages_typing) {
+            var message = messages_typing[messageid];
+            if (messages_typing[messageid].username == username) {
+                deletePersistentMessage(messageid, message.target);
+            }
+            else {
+                messagesTypingNew[messageid] = message;
+            }
+        }
+
+        messages_typing = messagesTypingNew;
+
         delete people[client.id];
         delete usernames[username];
         socket.sockets.emit('part', username);

@@ -21,7 +21,7 @@ const Message = React.createClass({
         };
     },
     render() {
-        var className;
+        var className, text = this.props.text;
 
         if (this.props.own) {
             className = 'self';
@@ -30,13 +30,21 @@ const Message = React.createClass({
             className = 'other';
         }
 
+        if (this.props.typing) {
+            className += ' typing';
+        }
+
+        if (this.props.own && this.props.typing) {
+            text = '...';
+        }
+
         return (
             <li>
                 <Avatar username={this.props.username} />
                 <strong>{this.props.username}</strong>
 
                 <div className={className}
-                     dangerouslySetInnerHTML={this._formatMessage(this.props.text)}>
+                     dangerouslySetInnerHTML={this._formatMessage(text)}>
                 </div>
             </li>
         );
