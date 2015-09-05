@@ -6,6 +6,8 @@ from django.db import models, migrations
 
 class Migration(migrations.Migration):
 
+    replaces = [(b'chat', '0001_squashed_0008_auto_20150702_1437'), (b'chat', '0002_auto_20150707_1647')]
+
     dependencies = [
     ]
 
