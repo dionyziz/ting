@@ -100,7 +100,7 @@ The Simple Login screen consists of only a modal window with the heading
 ![Login screen](http://i.imgur.com/FirJeIL.jpg)
 *Image: The simple login screen*
 
-The placeholder text in the textbox is "Γράψε ένα ψευδώνυμο". The textbox is
+The placeholder text in the textbox is "Διάλεξε ένα ψευδώνυμο". The textbox is
 focused by default when the screen is visited. The placeholder text is hidden
 when the user starts typing some text, unless the text is cleared. Pressing the
 Enter key when the keyboard is focused on the textbox is equivalent to pressing
