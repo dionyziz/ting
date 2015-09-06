@@ -1,6 +1,6 @@
 # Ting
 
-June 15, 2015 - August 25, 2015
+June 15, 2015 - September 6, 2015
 
 dionyziz for the Ting team.
 
@@ -15,10 +15,15 @@ Channels and privates are collectively referred to as conversations.
 
 Ting is a website that works both on desktop and on mobile.
 
-Ting consists of two screens: The login screen and the chat screen. These are
-described below. When the user enters the URL ting.gr on their browser, they
-are taken to the Login screen. If they enter www.ting.gr, they are redirected
-to ting.gr and appropriate URL parameters are appended.
+Ting consists of serveral screens:
+
+* The login screen
+* The chat screen
+* The settings screen
+
+These are described below. When the user enters the URL ting.gr on their
+browser, they are taken to the Login screen. If they enter www.ting.gr, they
+are redirected to ting.gr and appropriate URL parameters are appended.
 
 When the user enters the URL ting.gr/channel, where channel is any
 valid channel name, the user is taken to the Login screen with the active
@@ -26,6 +31,9 @@ conversation set to the channel specified in the URL. When the user enters
 the URL ting.gr/u/user, where user is any valid user name, the user is taken
 to the Login screen with the active conversation set to a private with the
 user specified.
+
+However, if the user has stored credentials, then the Login screen is skipped
+and the user is taken directly to the Chat screen.
 
 The active conversation remains until the web page is refreshed, a different
 URL is visited, or the active channel is manually changed. When the active
@@ -74,13 +82,25 @@ rooms which is romantic or sexual interest, and focus on directing the user to
 make friendly, public conversations.
 
 # Login screen
-The Login screen consists of only a modal window with the heading "Ting", a
-textbox and a button.
+Ting users are authenticated by having their machine remember their credentials
+when they register and when they login. Registering is done by entering only a
+username.
 
-![Login screen](http://i.imgur.com/FKcFIzW.jpg)
-*Image: The login screen*
+If a user wants to keep their username, they have to enter a password by
+editing their user account through the Settings screen.
 
-The placeholder text in the textbox is "Γράψε ένα ψευδώνυμο". The textbox is
+The Login screen can be either a Simple Login screen or a Password Login
+screen. The Simple Login screen is shown by default.
+
+## Simple Login
+
+The Simple Login screen consists of only a modal window with the heading
+"Ting", a textbox, a button, and a link.
+
+![Login screen](http://i.imgur.com/FirJeIL.jpg)
+*Image: The simple login screen*
+
+The placeholder text in the textbox is "Διάλεξε ένα ψευδώνυμο". The textbox is
 focused by default when the screen is visited. The placeholder text is hidden
 when the user starts typing some text, unless the text is cleared. Pressing the
 Enter key when the keyboard is focused on the textbox is equivalent to pressing
@@ -95,13 +115,22 @@ is verified as follows:
  - The lower-case and upper-case greek characters α-ω and Α-Ω.
  - The numbers 0-9.
  - The symbols . , / ? ~ ! @ # $ % ^ & * ( ) - _ = + [ ] { } \ | ' " ` ; :
-3. The username must not be currently in use.
+3. The username must not be reserved.
 
-All usernames are not in use by default. If the username is valid, the
-username becomes in use and the user is taken to the Chat screen. The username
-is then associated with that user. The username stops being in use when the
-user exits the chat application by closing the browser window or by losing
-their internet connection.
+The username is also validated for form, but not for reservation, as the
+username is being typed.
+
+All usernames are not reserved by default. If the username is valid, the
+username is reserved and the user is taken to the Chat screen. The username is
+then associated with that user. The user's credentials are then stored on the
+machine they used to login. The next time the user accesses ting, the
+credentials are used to skip the Login screen. Once a username becomes
+reserved, no other user is allowed to use it, even if the user is not currently
+online.
+
+When the user logs in with an unreserved username, they are assigned a random
+avatar from a predefined set of avatars. They can later modify this avatar from
+the settings page.
 
 If the username is invalid, the textbox border is changed to red, the
 content text color is changed to red and an appropriate error is displayed as
@@ -112,12 +141,53 @@ follows:
    πρέπει να είναι έως 20 γράμματα."
 3. If the username field contains forbidden characters, the error message is
    "Το ψευδώνυμο πρέπει να περιλαμβάνει μόνο γράμματα, αριθμούς ή σύμβολα."
-4. If the username is currently in use, the error message is "Το ψευδώνυμο
+4. If the username is reserved, the error message is "Το ψευδώνυμο
    το έχει άλλος."
 
 The error message is displayed above the textbox.
 
-On mobile, the whole screen is used to display the login window.
+![Simple login screen error](http://i.imgur.com/se80ce8.jpg)
+*Image: An error logging in using the simple login screen*
+
+Below the username textbox, a link allowing the user to login with their
+reserved username is displayed, entitled "Έχω ήδη ψευδώνυμο". Clicking that
+link changes the Simple Login screen into the Password Login screen.
+
+## Password Login
+
+The Password Login screen allows the user to login with a username and a
+password of a reserved username. It is identical to the Simple Login screen,
+except it contains a password input underneath the username input and it
+doesn't contain a link at the bottom. The placeholders for the input boxes here
+are "Το ψευδώνυμό σου" for the username input and "Ο κωδικός σου" for the
+password input.
+
+![Password login screen](http://i.imgur.com/L47eF0G.jpg)
+*Image: The password login screen*
+
+The username is validated as above for form, but not for reservation. In
+addition:
+
+1. If the username is reserved but the password is incorrect, the error message
+   is "Ο κωδικός είναι λάθος."
+2. If the username is not reserved, the error message is "Το ψευδώνυμο δεν
+   υπάρχει. [Χρησιμοποίησέ το]".
+
+Clicking the link in the non-reservation case logs the user in with the
+unreserved username without a password, similar to the way they would have
+logged in using the Simple Login screen.
+
+![Password login screen error](http://i.imgur.com/vBdQAZ5.jpg)
+*Image: An error logging in using the password login screen*
+
+If the username and password combination is correct, the user is logged in with
+the reserved username. Notice that it is possible to login with the same
+reserved username in different devices simultaneously.
+
+## Mobile Login
+
+On mobile, the whole screen is used to display the login windows for both the
+simple and the password login screens.
 
 ![Mobile login screen](http://i.imgur.com/nUfvfVz.jpg)
 *Image: The mobile login screen*
@@ -136,11 +206,65 @@ The chat screen consists of the following elements:
 ![Chat screen](http://i.imgur.com/4kl8upL.jpg)
 *Image: The chat screen*
 
-The top bar is located at the top and takes up the whole screen horizontally.
-On the top left, it has the text "ting". On mobile, there is no top bar.
+## Top bar
 
-Below it, the screen is split in two areas vertically. The left area contains
-the recent conversations list and the right area is split horizontally in two
+The top bar is located at the top and takes up the whole screen horizontally.
+On mobile, there is no top bar.
+
+On the top left, it has the text "ting".
+On the right, it has an icon with the avatar of the user.
+
+![User menu](http://i.imgur.com/WoPGg2s.jpg)
+*Image: The user menu*
+
+Clicking the avatar icon pops up a menu with two options: Settings and Log out.
+Clicking on Settings takes the user to the Settings screen.
+
+## Logging out
+
+Clicking Log out in the user menu logs the user out and wipes their user
+credentials from their machine.
+
+If the user has a password associated with their account, then the username
+remains reserved. If no password is associated with their account, then Log out
+also frees up the username for future use. However, before wiping out the
+account, the user is shown a modal giving them a last chance of reserving their
+username.
+
+The user reservation modal has a label, a textbox, a button, a link, all
+appearing the one below the other.
+
+![User reservation modal](http://i.imgur.com/0SxifIu.jpg)
+*Image: The user reservation modal*
+
+Hitting the ESC key or pressing the browser back button closes the modal and
+cancels the log out procedure. The label states "Κράτα το ψευδώνυμό σου". The
+textbox has a placeholder of "Διάλεξε έναν κωδικό" and the button has a title
+of "Αποθήκευση". Typing a password and clicking "Αποθήκευση" permanently
+reserves the username with the password entered and logs the user out. The form
+can also be submitted by hitting the Enter key. If the form is submitted
+without entering a password, the following error message appears above the
+password textbox:
+
+"Πληκτρολόγησε έναν κωδικό."
+
+The link below the textbox is labelled "Όχι τώρα". Clicking the link logs the
+user out without reserving the username.
+
+After logging out, the Ting application is replaced with the following text:
+
+"Τα λέμε! [Ξαναμπές]"
+
+Clicking the button takes the user back to the Ting application and allows them
+to start over with logging in anew.
+
+![Logged out](http://i.imgur.com/EIn4gJw.jpg)
+*Image: Logged out of ting*
+
+## Main chat screen
+
+Below the top bar, the screen is split in two areas vertically. The left area
+contains the recent list and the right area is split horizontally in two
 smaller areas. The top portion is the larger and is the chat history. The
 bottom portion is the message area. The portions are not resizable. If the
 active conversation is a private message, there is an additional area above the
@@ -243,9 +367,10 @@ line. No horizontal scrollbar is ever displayed in the history area.
 
 The user information area is shown above the message history area in case the
 currently active conversation is a private. The user information area shows the
-partner's avatar and username.
+partner's avatar and username. Below the username, the age, the sex, and the
+location of the user are shown, if they are available.
 
-## Sending messages
+## Sending a message
 
 The message area is a textbox. The textbox is focused by default when the user
 enters the Chat screen. The textbox has the placeholder "Γράψε ένα μήνυμα...".
@@ -269,10 +394,14 @@ similar to the above desktop version, with the mobile differences described
 below.
 
 In the recent conversations screen, the text "Ting" is displayed at the top.
-Below it, a list of recent conversations appears. While in the recent
-conversations screen on mobile, no active conversation is highlighted. Tapping
-a recent conversation changes it to the active conversation and switches to the
-mobile chat screen.
+Next to it, on the right, is a cog icon. Clicking the cog icon displays a
+pop-up menu with two options, Settings and Log out, with similar semantics as
+the desktop top bar.
+
+Below the mobile top bar, a list of recent conversations appears. While in the
+recent conversations screen on mobile, no active conversation is highlighted.
+Tapping a recent conversation changes it to the active conversation and
+switches to the mobile chat screen.
 
 ![Mobile recent conversations screen](http://i.imgur.com/YuXy3Ra.jpg)
 *Image: The mobile recent conversations screen*
@@ -291,6 +420,26 @@ left, which allows the user to return to the recent conversation list screen.
 
 ![Mobile chat screen](http://i.imgur.com/jECW8Jn.jpg)
 *Image: The mobile chat screen*
+
+# Message Formatting
+
+In messages, smileys are replaced by their respective images. The list of
+supported emoticons is
+[taken from Skype](https://github.com/kof/emoticons/blob/master/support/skype/emoticons.json).
+
+Web links are formatted to be clickable.
+
+Dragging and dropping an image file from the user's computer into the messages
+history or into the message form allows the user to upload an image. While
+dragging the file over the website, the history and the message form are
+overlayed with a screen with the following text indicating that the user can
+drop the image to upload it:
+
+"Άφησε την εικόνα για να την ανεβάσεις"
+
+Dropping the image over this area uploads the image and immediately sends it as
+a separate message. This does not affect any text the user may be currently
+entering on the text box.
 
 # Typing
 Ting provides a different approach from usual chat platforms when it comes to
@@ -342,18 +491,75 @@ to indicate that the message is ephemeral and currently changing.
 ![Mobile chat typing](http://i.imgur.com/IjDrJlY.jpg)
 *Image: Mobile chat screen while typing*
 
-# Security
-For transport security purposes, ting.gr is served over HTTPS.
+# Settings screen
+The settings screen allows a user to specify details about their user profile.
+
+It consists of a form at the top and a save button with the title "Αποθήκευση"
+at the bottom.
+
+The form has the user's avatar displayed on the left. Below it is a button with
+the title "Αλλαγή της εικόνας μου". Clicking it pops up a window allowing the
+user to select a new avatar. The avatar is uploaded and displayed in the avatar
+location within the settings. Before displaying it, the avatar is first cropped
+into a square and then resized to fit the avatar size.
+
+It is also possible for the user to upload an avatar by dragging a file onto
+their avatar within their settings. While dragging a file over the screen, the
+avatar location is changed into the text "Άφησε την εικόνα εδώ".
+
+If the uploaded file is not a valid avatar, then the error message "Δοκίμασε
+κάποια άλλη εικόνα" is displayed.
+
+Next to the avatar, the username is displayed.
+
+Below the avatar and the username, there are five labels associated with their
+respective inputs. The inputs are prefilled with the settings the user has
+entered previously.
+
+The first label is "Password". The input is a text box. If the user has left
+this field empty, a warning text appears above the label and the field stating:
+"Διάλεξε έναν κωδικό ώστε να μην χάσεις την πρόσβαση στο λογαριασμό σου".
+
+The next label is "E-mail" with a text box input.
+
+The next label for the date of birth is "Ημερομηνία γέννησης". The input
+consists of three select fields, for the day, the month, and the year. All
+fields contain the range of valid numbers for days, months, and years
+respectively, as well as the "-" option. The days allow selecting from 1 to 31
+ascending, the months from 1 to 12 ascending, and the years from 1920 to the
+current year descending.
+
+The next label for the gender is "Φύλο". The input consists of a select field
+with three options "Αγόρι", "Κορίτσι" and "-".
+
+The next label for the location is "Περιοχή". The input is a select box
+listing all the major cities of Greece as well as the option "-".
+
+Clicking the save button validates the form as follows:
+
+1. The e-mail address is validated for form with a simple validation algorithm
+and not exhaustively. It must contain an `@` symbol. It must contain at least
+one alphanumeric character before the `@` sumbol. It must contain at least
+three characters after the `@` symbol, one of which must be a `.`. The e-mail
+must be at most 128 characters. The user can also leave the e-mail address
+empty if they do not wish to associate an e-mail address with their account.
+
+2. The date of birth must be a valid date.
+
+If the form fails to validate, the following error messages are displayed above
+their respective fields and the fields are highlighted in red:
+
+1. "Γράψε ένα έγκυρο e-mail" if the e-mail address is invalid.
+2. "Δώσε μία έγκυρη ημερομηνία γέννησης" if the date of birth is invalid.
+
+Otherwise, the form is saved and the user is taken back to the Chat screen.
+
+Notice that multiple users can share the same e-mail address.
 
 # TODO
 This specification is limited. It will be extended with the following features in future editions:
 
-* Username registration
-* Avatars
-* Age / sex / location
 * Voice
 * Channel moderation
 * Subscription to channels
-* Image uploads
 * Timestamps
-* Smileys
