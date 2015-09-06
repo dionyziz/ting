@@ -117,6 +117,9 @@ is verified as follows:
  - The symbols . , / ? ~ ! @ # $ % ^ & * ( ) - _ = + [ ] { } \ | ' " ` ; :
 3. The username must not be reserved.
 
+The username is also validated for form, but not for reservation, as the
+username is being typed.
+
 All usernames are not reserved by default. If the username is valid, the
 username is reserved and the user is taken to the Chat screen. The username is
 then associated with that user. The user's credentials are then stored on the
