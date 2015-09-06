@@ -120,7 +120,7 @@ The server can publish the following messages:
 
 ## RESTful API
 
-The RESTful API deals with two resources: Messages and channels. The
+The RESTful API deals with four resources: Messages, Channels, Users, Sessions. The
 responses are always given in JSON. As such, we make no use of Django templates,
 only models and views. The URLs of the RESTful API live under the
 `https://ting.gr/api/v1` URL.
@@ -182,3 +182,78 @@ There are two operations:
 2. A POST operation on `/channels`. This creates a new channel with the given
    name. The POST body contains a dictionary with one key, "name", which
    contains the name of the channel.
+
+###Users
+The Users resource is used to update user data like the password and birthday.
+It is accessible through the `/users` URL.
+
+There is 1 operation:
+
+1. A PATCH operation on `/users/<username>`. This updates the user's data with the given ones.
+The PATCH body contains a dictionary with up to 4 keys. If a key isn't contained in 
+the dict during the request then it doesn't get updated:
+
+ * `email`: A string containing the user's e-mail address. The e-mail address is validated. The
+   email can be empty, in case the user wants to delete it.
+ * `password`: A string chosen from the user.
+ * `birthday`: A past valid date in the form `YYYY-MM-DD` after 1900. 
+ * `gender`: Its value is going to be chosen from 'male', 'female' and '-' with '-' being 
+   the default.
+
+In case the request contains invalid data, a 422 status code is returned.
+
+The operation succeeds only if the <username> is the same as the username of the authenticated user.
+In case these usernames differ or there isn't any authenticated user, it returns a 403 
+status code.
+
+###Session
+The Session resource is used to create and delete a session for logging in and out. 
+It is accessible through the `/sessions` URL. 
+
+There are 2 operations:
+
+####Logging in
+
+A POST request on `/sessions`. The body of the request contains a dictionary:
+
+ * `username`: A mandatory string. In case it isn't reserved, it gets validated as 
+   mentioned in the [spec](https://github.com/dionyziz/ting/blob/master/etc/spec/SPECIFICATION.md).
+
+ * `password`: An optional string in case the username is reserved. 
+
+The server checks if the username is reserved. 
+
+ * If the username is reserved:
+ 
+     - If the password of the already created user is set: 
+        
+        - If there isn't any password on the request body, the server
+          returns a 403 status code with the error `password_required`.
+
+        - If the password value of the request isn't correct, the server
+          returns a 403 status code with the error `wrong_password`.
+        
+        - If the password value of the request is correct, the server returns
+          a 200 status code.
+
+     - If the password of the already created user is not set, the server returns
+       a 403 status code with the error `username_reserved`. 
+     
+ * If the username is not reserved:
+
+     - If the password is set in the request, the server returns a 404 status code.
+
+     - If the password is not set in the request, the server returns a 200 status code. 
+
+In case the session is created successfully, a cookie named `ting_auth` will be sent 
+from the server for future authentication.
+    
+At this point we should mention that if the user isn't created before the `/sessions` POST
+request, it gets created internally. 
+
+####Logging out
+
+A DELETE request on `/sessions`.
+
+During this request the server checks if this user has set a password. If not, then along 
+with the session, the user gets deleted, too.
