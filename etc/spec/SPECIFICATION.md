@@ -206,6 +206,8 @@ The chat screen consists of the following elements:
 ![Chat screen](http://i.imgur.com/4kl8upL.jpg)
 *Image: The chat screen*
 
+## Top bar
+
 The top bar is located at the top and takes up the whole screen horizontally.
 On the top left, it has the text "ting". On the right, it has a cog icon.
 Clicking the cog icon pops up a menu with two options: Settings and Log out.
@@ -220,10 +222,10 @@ After logging out, the Ting application is replaced with the following text:
 Clicking the button takes the user back to the Ting application and allows them
 to start over with logging in anew.
 
-On mobile, there is no top bar.
+## Main chat screen
 
-Below it, the screen is split in two areas vertically. The left area contains
-the recent conversations list and the right area is split horizontally in two
+Below the top bar, the screen is split in two areas vertically. The left area
+contains the recent list and the right area is split horizontally in two
 smaller areas. The top portion is the larger and is the chat history. The
 bottom portion is the message area. The portions are not resizable. If the
 active conversation is a private message, there is an additional area above the
@@ -329,7 +331,7 @@ currently active conversation is a private. The user information area shows the
 partner's avatar and username. Below the username, the age, the sex, and the
 location of the user are shown, if they are available.
 
-## Sending messages
+## Sending a message
 
 The message area is a textbox. The textbox is focused by default when the user
 enters the Chat screen. The textbox has the placeholder "Γράψε ένα μήνυμα...".
