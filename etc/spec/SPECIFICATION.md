@@ -209,18 +209,57 @@ The chat screen consists of the following elements:
 ## Top bar
 
 The top bar is located at the top and takes up the whole screen horizontally.
-On the top left, it has the text "ting". On the right, it has a cog icon.
-Clicking the cog icon pops up a menu with two options: Settings and Log out.
-Clicking on Settings takes the user to the Settings screen. Clicking Log out
-logs the user out and wipes their user credentials from their machine. If the
-user has no e-mail address associated with their account, then Log out also
-frees up the username for future use. Otherwise, the username remains reserved.
+On mobile, there is no top bar.
+
+On the top left, it has the text "ting".
+On the right, it has an icon with the avatar of the user.
+
+![User menu](http://i.imgur.com/WoPGg2s.jpg)
+*Image: The user menu*
+
+Clicking the avatar icon pops up a menu with two options: Settings and Log out.
+Clicking on Settings takes the user to the Settings screen.
+
+## Logging out
+
+Clicking Log out in the user menu logs the user out and wipes their user
+credentials from their machine.
+
+If the user has a password associated with their account, then the username
+remains reserved. If no password is associated with their account, then Log out
+also frees up the username for future use. However, before wiping out the
+account, the user is shown a modal giving them a last chance of reserving their
+username.
+
+The user reservation modal has a label, a textbox, a button, a link, all
+appearing the one below the other.
+
+![User reservation modal](http://i.imgur.com/0SxifIu.jpg)
+*Image: The user reservation modal*
+
+Hitting the ESC key or pressing the browser back button closes the modal and
+cancels the log out procedure. The label states "Κράτα το ψευδώνυμό σου". The
+textbox has a placeholder of "Διάλεξε έναν κωδικό" and the button has a title
+of "Αποθήκευση". Typing a password and clicking "Αποθήκευση" permanently
+reserves the username with the password entered and logs the user out. The form
+can also be submitted by hitting the Enter key. If the form is submitted
+without entering a password, the following error message appears above the
+password textbox:
+
+"Πληκτρολόγησε έναν κωδικό."
+
+The link below the textbox is labelled "Όχι τώρα". Clicking the link logs the
+user out without reserving the username.
+
 After logging out, the Ting application is replaced with the following text:
 
-"Τα ξαναλέμε σύντομα! [Πίσω στο ting]"
+"Τα λέμε! [Ξαναμπές]"
 
 Clicking the button takes the user back to the Ting application and allows them
 to start over with logging in anew.
+
+![Logged out](http://i.imgur.com/EIn4gJw.jpg)
+*Image: Logged out of ting*
 
 ## Main chat screen
 
