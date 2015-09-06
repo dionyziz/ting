@@ -1,15 +1,14 @@
 FROM gtklocker/nginx-nodejs-base:v0.0.1
 
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/{app,runtime}
 WORKDIR /usr/src/app
 
-COPY client/package.json /usr/src/app/
-RUN JOBS=MAX npm install
-
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
+COPY docker/front/build.sh /usr/src/runtime/
 
+COPY client/package.json /usr/src/app/
 COPY client/bower.json /usr/src/app/
-RUN bower --allow-root install
+RUN /usr/src/runtime/build.sh
 
 COPY docker/front/nginx.conf /etc/nginx/conf.d/default.conf
 COPY client/ /usr/src/app/
