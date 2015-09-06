@@ -133,7 +133,12 @@ socket.on('connection', function (client) {
     client.on('typing-update', function(data) {
         winston.debug('[' + people[client.id] + '] typing-update');
 
-        if (messages_typing[data.messageid] && messages_typing[data.messageid].username != people[client.id]) {
+        if (!messages_typing[data.messageid]) {
+            winston.warning('There is no message with id: ' + data.messageid);
+            return;
+        }
+
+        if (messages_typing[data.messageid].username != people[client.id]) {
             winston.warning('messageid ' + data.messageid + ' does not belong to user ' + people[client.id]);
             return;
         }
