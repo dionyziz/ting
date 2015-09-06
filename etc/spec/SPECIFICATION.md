@@ -128,6 +128,10 @@ credentials are used to skip the Login screen. Once a username becomes
 reserved, no other user is allowed to use it, even if the user is not currently
 online.
 
+When the user logs in with an unreserved username, they are assigned a random
+avatar from a predefined set of avatars. They can later modify this avatar from
+the settings page.
+
 If the username is invalid, the textbox border is changed to red, the
 content text color is changed to red and an appropriate error is displayed as
 follows:
