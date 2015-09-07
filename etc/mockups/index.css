@@ -78,9 +78,9 @@ body {
 }
 .chat ul div {
     display: inline;
-    margin-left: 10px;
-    padding: 5px;
-    border-radius: 5px;
+    margin: 2px 8px;
+    padding: 5px 9px;
+    border-radius: 10px;
     background-color: #f1f0f0;
     color: black;
     position: relative;
