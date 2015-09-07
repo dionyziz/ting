@@ -1,14 +1,17 @@
+body {
+    font: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
 .top {
     border-bottom: 1px solid #cfcfcf;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 40px;
+    height: 47px;
 }
 .app {
     position: absolute;
-    top: 40px;
+    top: 47px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -128,7 +131,7 @@
 }
 .top h1 {
     font-size: 22px;
-    margin-top: 7px;    
+    margin-top: 11px;
     margin-left: 20px;
 }
 #username-set input {
@@ -185,4 +188,25 @@ li.active:after {
 }
 div.menu {
     float: right;
+    margin: 4px 7px;
+}
+div.menu img.avatar {
+    width: 29px;
+    height: 29px;
+    border-radius: 25px;
+    margin: 4px 0;
+    cursor: pointer;
+}
+div.menu span {
+    font-weight: bold;
+    position: relative;
+    top: 1px;
+    padding: 4px 17px 4px 3px;
+    font-size: 90%;
+}
+div.menu .cog {
+    width: 15px;
+    border-radius: 25px;
+    margin: 11px 3px;
+    cursor: pointer;
 }
