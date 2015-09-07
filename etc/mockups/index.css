@@ -102,6 +102,26 @@ body {
     color: #f1f0f0;
     font-weight: bold;
 }
+.chat ul li.self div {
+    margin-right: 10px;
+}
+.chat ul li.self {
+    text-align: right;
+}
+.chat ul li.self img {
+    float: right;
+}
+.chat ul li.self strong {
+    display: none;
+}
+.chat ul li.self div:after {
+    content: "►";
+    display: block;
+    position: absolute;
+    right: -8px;
+    top: 5px;
+    font-weight: bold;
+}
 .chat ul div.self:after {
     color: #0084ff;
 }
