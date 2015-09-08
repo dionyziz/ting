@@ -8,6 +8,7 @@ BOOT2DOCKER_IP := $(shell boot2docker ip 2> /dev/null)
 DOCKER_VERSION := $(shell docker version 2> /dev/null)
 DOCKER_COMPOSE_VERSION := $(shell docker-compose version 2> /dev/null)
 DOCKER_DOES_NOT_WORK := $(shell (docker info 1> /dev/null) 2>&1|grep -v WARNING)
+DOCKER_COMPOSE_DOES_NOT_WORK := $(shell docker-compose ps 2>&1|grep "client and server don't have same version")
 PORT_80_USED := $(shell netstat -lnt|awk '$$4 ~ ".80"')
 PORT_8080_USED := $(shell netstat -lnt|awk '$$4 ~ ".8080"')
 
@@ -61,6 +62,20 @@ endif
 ifdef DOCKER_DOES_NOT_WORK
 	@echo "ERROR: Docker is not installed correctly."
 	@echo "You may need boot2docker on OSX, or to start the docker service on Linux."
+	exit 1
+endif
+ifdef DOCKER_COMPOSE_DOES_NOT_WORK
+	@echo "ERROR: Your docker version is incompatible with your docker-compose version."
+ifdef BOOT2DOCKER_IP
+	@echo "You can try:"
+	@echo "    brew update && brew upgrade docker boot2docker"
+	@echo "    boot2docker upgrade && boot2docker up"
+else
+	@echo "It's recommended that you install both on the latest version."
+	@echo "Remove all docker packages and docker-compose executables and consult these links:"
+	@echo " https://docs.docker.com/installation/ubuntulinux/#installation"
+	@echo " https://docs.docker.com/compose/install/"
+endif
 	exit 1
 endif
 
