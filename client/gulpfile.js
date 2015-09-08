@@ -28,8 +28,16 @@ function act(watch) {
         });
     });
     if (watch) {
-        b.on('update', function() {
+        b.on('update', function(ids) {
+            gutil.log('Updated files:');
+            gutil.log(ids.join(','));
             bundle(b);
+        });
+        b.on('log', function(msg) {
+            gutil.log(msg);
+        });
+        b.on('time', function(time) {
+            gutil.log('Finished in ' + time + 'ms');
         });
     }
     b.add('./main.js');
