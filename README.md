@@ -13,13 +13,22 @@ Running Ting
 2. Set up a MySQL database
 3. Make a copy of `config/common.json` into `config/local.json` and add your
    settings.
-4. Run the Django API using `python manage.py runserver` inside the `API`
-   folder.
-5. If it asks you to run migrations, do it.
-6. Run the node service using `node server.js`.
-7. Build the client-side bundle with `gulp browserify` inside the `client`
+4. Install the dependencies required to run Django requirements installation
+   by running `sudo apt-get install python-dev libmysqlclient-dev libffi-dev` and 
+   `pip install MySQL-python`
+5. Go to API/  and run `pip install -r requirements.txt` to install all the dependencies of 
+   Django server.
+6. Run the Django server using `python manage.py runserver` inside the `API`
+   folder. If it asks you to run migrations, do it.
+7. Install the required dependencies for the node server and the client by running
+   `npm install` in client/ and realtime/. Then `bower install` in client/.
+   (Please note that some dependencies like bower or gulp may not be working through 
+   the absolute path so `PATH=$(npm bin):$PATH` should solve the problem.)
+8. Run the node service using `node server.js` or `forever start server.js` inside the
+   `realtime` folder.
+9. Build the client-side bundle with `gulp browserify` inside the `client`
    folder. Or run `gulp watchify` if you plan to edit the client-side source.
-8. Set up nginx to statically serve the `client` folder.
+10. Set up nginx to statically serve the `client` folder.
 
 Contributing
 ============
