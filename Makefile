@@ -36,7 +36,7 @@ ifneq ($(USERNAME),root)
 ifndef IS_DOCKER_MEMBER
 	@echo "ERROR: Are you in the docker group?"
 	@echo "You can try:"
-	@echo "    usermod -aG docker $(USERNAME)"
+	@echo "    sudo usermod -aG docker $(USERNAME)"
 	exit 1
 endif
 endif
