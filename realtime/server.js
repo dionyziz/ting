@@ -35,6 +35,14 @@ function getOptions(form, target, method) {
     }
 }
 
+function sendLoginErrorResponse(username, client, error) {
+    winston.info('Username [' + username + '] of client with id ' + client.id + ' had error ' + error + '.');
+    client.emit('login-response', {
+        success: false,
+        error: error
+    });
+}
+
 function logUsersCount() {
     winston.info('Currently ' + Object.keys(usernames).length + ' users are logged in the server.');
 }
@@ -46,14 +54,24 @@ winston.debug('Using persistence API back-end at ' + URL);
 socket.on('connection', function (client) {
     winston.info('A user with client id "' + client.id + '" connected.');
     client.on('login', function(username) {
+        var rex = /^[α-ωa-z0-9]+$/i;
         var resp = {
             success: true
         };
+        if (username == '') {
+            sendLoginErrorResponse(username, client, 'empty');
+            return;
+        }
+        if (username.length > 20) {
+            sendLoginErrorResponse(username, client, 'length');
+            return;
+        }
+        if (!rex.test(username)) {
+            sendLoginErrorResponse(username, client, 'chars');
+            return;
+        }
         if (usernames[username]) {
-            winston.info('[' + username + '] taken');
-            resp.success = false;
-            resp.error = 'taken';
-            client.emit('login-response', resp);
+            sendLoginErrorResponse(username, client, 'taken');
             return;
         }
         people[client.id] = username;

@@ -85,7 +85,8 @@ The server can publish the following messages:
   if the log in procedure succeded. The second parameter is a string called `error` 
   in case the log in failed and describes the error that occured, otherwise it
   is called `people` and is an array of strings which are usernames that are 
-  online the time that the user logged in.
+  online the time that the user logged in. The possible error responses are
+  `empty`, `length`, `chars`, `taken`.
 
 * `join`: Indicates a user is now online. Includes one parameter, the
   `username`. This message is also sent back to the user who
