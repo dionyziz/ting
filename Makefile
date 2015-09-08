@@ -31,6 +31,9 @@ COMPOSE_FILE := development.yml
 export COMPOSE_FILE
 endif
 
+IS_FRONT_UP := $(shell docker-compose -f $(COMPOSE_FILE) ps front|grep Up)
+IS_REALTIME_UP := $(shell docker-compose -f $(COMPOSE_FILE) ps realtime|grep Up)
+
 deps:
 ifeq ($(UNAME_S),Linux)
 ifneq ($(USERNAME),root)
@@ -42,13 +45,18 @@ ifndef IS_DOCKER_MEMBER
 endif
 endif
 
+ifndef IS_FRONT_UP
 ifdef PORT_80_USED
 	@echo "ERROR: We need to bind to port 80, but something is using it. Please free it up and rerun this."
 	exit 1
 endif
+endif
+
+ifndef IS_REALTIME_UP
 ifdef PORT_8080_USED
 	@echo "ERROR: We need to bind to port 8080, but something is using it. Please free it up and rerun this."
 	exit 1
+endif
 endif
 endif
 ifndef DOCKER_VERSION
