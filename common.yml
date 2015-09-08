@@ -7,21 +7,15 @@ db:
 api:
     build: .
     dockerfile: docker/api/Dockerfile
-    links:
-        - db
 
 realtime:
     build: .
     dockerfile: docker/realtime/Dockerfile
     ports:
         - "8080:8080"
-    links:
-        - front
 
 front:
     build: .
     dockerfile: docker/front/Dockerfile
     ports:
         - "80:80"
-    links:
-        - api

@@ -1,0 +1,34 @@
+db:
+    extends:
+        file: common.yml
+        service: db
+
+api:
+    extends:
+        file: common.yml
+        service: api
+    command: sh -c "/usr/src/runtime/run.sh"
+    volumes:
+        - ./API:/usr/src/app
+    links:
+        - db
+
+realtime:
+    extends:
+        file: common.yml
+        service: realtime
+    command: sh -c "/usr/src/runtime/build.sh && /usr/src/runtime/run.sh"
+    volumes:
+        - ./realtime:/usr/src/app
+    links:
+        - front
+
+front:
+    extends:
+        file: common.yml
+        service: front
+    command: sh -c "/usr/src/runtime/build.sh && /usr/src/runtime/run.sh"
+    volumes:
+        - ./client:/usr/src/app
+    links:
+        - api

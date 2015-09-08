@@ -1,0 +1,25 @@
+db:
+    extends:
+        file: common.yml
+        service: db
+
+api:
+    extends:
+        file: common.yml
+        service: api
+    links:
+        - db
+
+realtime:
+    extends:
+        file: common.yml
+        service: realtime
+    links:
+        - front
+
+front:
+    extends:
+        file: common.yml
+        service: front
+    links:
+        - api
