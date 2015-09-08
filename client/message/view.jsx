@@ -39,12 +39,11 @@ const Message = React.createClass({
         }
 
         return (
-            <li>
+            <li className={className}>
                 <Avatar username={this.props.username} />
                 <strong>{this.props.username}</strong>
 
-                <div className={className}
-                     dangerouslySetInnerHTML={this._formatMessage(text)}>
+                <div dangerouslySetInnerHTML={this._formatMessage(text)}>
                 </div>
             </li>
         );
