@@ -68,7 +68,7 @@ ifdef DOCKER_COMPOSE_DOES_NOT_WORK
 	@echo "ERROR: Your docker version is incompatible with your docker-compose version."
 ifdef BOOT2DOCKER_IP
 	@echo "You can try:"
-	@echo "    brew update && brew upgrade docker boot2docker"
+	@echo "    brew update && brew upgrade docker docker-compose boot2docker"
 	@echo "    boot2docker upgrade && boot2docker up"
 else
 	@echo "It's recommended that you install both on the latest version."
