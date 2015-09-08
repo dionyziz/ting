@@ -55,7 +55,7 @@ ifndef DOCKER_VERSION
 	@echo "ERROR: You need to install Docker first. Exiting."
 	exit 1
 endif
-ifndef DOCKER_VERSION
+ifndef DOCKER_COMPOSE_VERSION
 	@echo "ERROR: You need to install docker-compose first. Exiting."
 	exit 1
 endif
