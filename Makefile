@@ -1,11 +1,15 @@
 .PHONY: deps start open stop kill logs restart shell test
 
 UNAME_S := $(shell uname -s)
+USERNAME := $(shell whoami)
+IS_DOCKER_MEMBER := $(shell groups|grep docker)
 ROOT_NAME := $(shell basename $(shell pwd))
 BOOT2DOCKER_IP := $(shell boot2docker ip 2> /dev/null)
 DOCKER_VERSION := $(shell docker version 2> /dev/null)
 DOCKER_COMPOSE_VERSION := $(shell docker-compose version 2> /dev/null)
 DOCKER_DOES_NOT_WORK := $(shell (docker info 1> /dev/null) 2>&1|grep -v WARNING)
+PORT_80_USED := $(shell netstat -lnt|awk '$$4 ~ ".80"')
+PORT_8080_USED := $(shell netstat -lnt|awk '$$4 ~ ".8080"')
 
 ifndef BOOT2DOCKER_IP
 DOCKER_IP := 127.0.0.1
@@ -27,6 +31,25 @@ export COMPOSE_FILE
 endif
 
 deps:
+ifeq ($(UNAME_S),Linux)
+ifneq ($(USERNAME),root)
+ifndef IS_DOCKER_MEMBER
+	@echo "ERROR: Are you in the docker group?"
+	@echo "You can try:"
+	@echo "    usermod -aG docker $(USERNAME)"
+	exit 1
+endif
+endif
+
+ifdef PORT_80_USED
+	@echo "ERROR: We need to bind to port 80, but something is using it. Please free it up and rerun this."
+	exit 1
+endif
+ifdef PORT_8080_USED
+	@echo "ERROR: We need to bind to port 8080, but something is using it. Please free it up and rerun this."
+	exit 1
+endif
+endif
 ifndef DOCKER_VERSION
 	@echo "ERROR: You need to install Docker first. Exiting."
 	exit 1
