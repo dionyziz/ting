@@ -20,7 +20,9 @@ function act(watch) {
         fullPaths: true
     });
     if (watch) {
-        b = watchify(b);
+        b = watchify(b, {
+            poll: true
+        });
     }
     b.transform(function(file) {
         return reactify(file, {
