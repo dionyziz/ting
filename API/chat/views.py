@@ -42,7 +42,7 @@ class MessageView(View):
 
         messages = Message.objects.values(
             'text', 'username', 'datetime_start', 'typing', 'id', 'datetime_sent'
-        ).filter(channel=channel).order_by('-datetime_start')[:lim]
+        ).filter(channel=channel).order_by('-id')[:lim]
 
         # convert datetime_start to UTC epoch milliseconds
         for message in messages:
