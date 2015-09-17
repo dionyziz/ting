@@ -99,7 +99,7 @@ socket.on('connection', function (client) {
 
         req(options, function(error, response, body) {
             if (error) {
-                winston.warning('Error communicating with Django with PATCH request: ' + error);
+                winston.warn('Error communicating with Django with PATCH request: ' + error);
             }
         });
     });
@@ -143,7 +143,7 @@ socket.on('connection', function (client) {
 
         req(options, function(error, response, body) {
             if (error) {
-                winston.warning('Error communicating with Django with DELETE request: ' + error);
+                winston.warn('Error communicating with Django with DELETE request: ' + error);
             }
         });
     }
@@ -152,12 +152,12 @@ socket.on('connection', function (client) {
         winston.debug('[' + people[client.id] + '] typing-update');
 
         if (!messages_typing[data.messageid]) {
-            winston.warning('There is no message with id: ' + data.messageid);
+            winston.warn('There is no message with id: ' + data.messageid);
             return;
         }
 
         if (messages_typing[data.messageid].username != people[client.id]) {
-            winston.warning('messageid ' + data.messageid + ' does not belong to user ' + people[client.id]);
+            winston.warn('messageid ' + data.messageid + ' does not belong to user ' + people[client.id]);
             return;
         }
 
