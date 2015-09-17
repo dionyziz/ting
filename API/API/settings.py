@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import json
+import sys
 
 config = json.load(open('../config/common.json'))
 
@@ -90,6 +91,10 @@ DATABASES = {
         'HOST': config['django']['database']['host']
     }
 }
+
+# checks if the tests are running
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 
 # Internationalization
