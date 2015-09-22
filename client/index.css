@@ -45,6 +45,9 @@
 .history li:last-child {
     margin-bottom: 4px;
 }
+.history li strong {
+    float: left;
+}
 .history img.avatar {
     border-radius: 50px;
     width: 20px;
@@ -139,24 +142,6 @@ ul {
 }
 .chat ul .self div:after {
     color: #0084ff;
-}
-.chat ul li.self {
-    text-align: right;
-    float: right;
-}
-.chat ul li.self img {
-    float: right;
-}
-.chat ul li.self strong {
-    display: none;
-}
-.chat ul li.self div:after {
-    content: "►";
-    display: block;
-    position: absolute;
-    right: -8px;
-    top: 8px;
-    font-weight: bold;
 }
 #online-list {
     margin: 10px 0 0 0;
