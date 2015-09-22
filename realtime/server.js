@@ -54,7 +54,7 @@ winston.debug('Using persistence API back-end at ' + URL);
 socket.on('connection', function (client) {
     winston.info('A user with client id "' + client.id + '" connected.');
     client.on('login', function(username) {
-        var rex = /^[α-ωa-z0-9]+$/i;
+        var rex = /^[ά-ώα-ωa-z0-9]+$/i;
         var resp = {
             success: true
         };

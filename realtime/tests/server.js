@@ -75,6 +75,15 @@ describe('Node Server', function() {
             });
         });
 
+        it('accepts a username with greek characters and punctuation', function(done) {
+            socket.emit('login', 'ΓιώργοςΜαζωνάκης');
+
+            socket.on('login-response', function(resp) {
+                expect(resp.success).toBe(true);
+                done();
+            });
+        });
+
         it('rejects a username over 20 characters', function(done) {
             socket.emit('login', 'karraspaolapantelidis');
 

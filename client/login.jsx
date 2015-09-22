@@ -12,7 +12,7 @@ var LoginForm = React.createClass({
         };
     },
     _validate(username) {
-        var rex = /^[α-ωa-z0-9]+$/i;
+        var rex = /^[ά-ώα-ωa-z0-9]+$/i;
 
         if (username == '') {
             return 'empty';
