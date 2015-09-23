@@ -98,7 +98,6 @@
 .chat ul .self div {
     background-color: #0084ff;
     color: white;
-    margin-right: 10px;
 }
 .chat ul .typing div {
     opacity: 0.5;
@@ -184,11 +183,11 @@ ul {
     z-index: 1;
 }
 .chat .emoticon {
-    display: inline;
     position: relative;
     left: 2px;
-    vertical-align: bottom;
+    top: -5px;
+    vertical-align: top;
     text-align: left;
-    padding: 2px 7px;
+    padding: 2px 7px 2px 4px;
     color: transparent;
 }
