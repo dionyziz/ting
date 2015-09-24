@@ -54,7 +54,7 @@ class MessageViewPOSTTests(ChatTests):
         Posts a message on chat:message and returns the response
         """
         return self.client.post(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=('channel', self.channel.name,)),
             {'text': text, 'username': username, 'datetime_start': timestamp, 'typing': typing}
         )
 
@@ -98,7 +98,7 @@ class MessageViewPOSTTests(ChatTests):
         post_dict = {'text': 'Message', 'username': 'vitsalis', 'typing': True}
 
         response = self.client.post(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=('channel', self.channel.name,)),
             post_dict
         )
 
@@ -115,7 +115,7 @@ class MessageViewPOSTTests(ChatTests):
         post_dict = {'text': 'Message', 'datetime_start': timestamp, 'typing': True}
 
         response = self.client.post(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=('channel', self.channel.name,)),
             post_dict
         )
 
@@ -132,7 +132,7 @@ class MessageViewPOSTTests(ChatTests):
         timestamp = 10 ** 11
 
         response = self.client.post(
-            reverse('chat:message', args=('invalid_channel',)),
+            reverse('chat:message', args=('channel', 'invalid_channel',)),
             {'text': 'Message', 'username': 'vitsalis', 'datetime_start': timestamp, 'typing': True}
         )
 
@@ -149,7 +149,7 @@ class MessageViewPOSTTests(ChatTests):
         post_dict = {'username': 'vitsalis', 'datetime_start': timestamp, 'typing': True}
 
         response = self.client.post(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=('channel', self.channel.name,)),
             post_dict
         )
 
@@ -244,7 +244,7 @@ class MessageViewGETTests(ChatTests):
         )
 
         response = self.client.get(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=('channel', self.channel.name,)),
             {'lim': lim}
         )
         messages = json.loads(response.content)
@@ -291,7 +291,7 @@ class MessageViewGETTests(ChatTests):
         )
 
         messages = json.loads(self.client.get(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=('channel', self.channel.name,)),
             {'lim': lim}
         ).content)
 
@@ -316,7 +316,7 @@ class MessageViewGETTests(ChatTests):
             )
 
         messages = json.loads(self.client.get(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=('channel', self.channel.name,)),
             {'lim': lim}
         ).content)
 
@@ -341,7 +341,7 @@ class MessageViewGETTests(ChatTests):
             )
 
         messages = json.loads(self.client.get(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=('channel', self.channel.name,)),
         ).content)
 
         self.assertEqual(len(messages), 100)
@@ -370,7 +370,7 @@ class MessageViewGETTests(ChatTests):
         )
 
         messages = json.loads(self.client.get(
-            reverse('chat:message', args=(channel1.name,)),
+            reverse('chat:message', args=('channel', channel1.name,)),
         ).content)
 
         self.assertEqual(len(messages), 1)
@@ -393,7 +393,7 @@ class MessageViewGETTests(ChatTests):
         )
 
         response = self.client.get(
-            reverse('chat:message', args=('invalid_name',)),
+            reverse('chat:message', args=('channel', 'invalid_name',)),
         )
 
         self.assertEqual(response.status_code, 404)
@@ -406,13 +406,12 @@ class MessageViewPATCHTests(ChatTests):
         Patches a message on chat:message and returns the response
         """
         qstring = urllib.urlencode({
-            'id': messageid,
             'text': text,
             'datetime_sent': timestamp,
             'typing': typing
         })
         return self.client.patch(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=(messageid,)),
             qstring
         )
 
@@ -515,38 +514,6 @@ class MessageViewPATCHTests(ChatTests):
         self.assertEqual(datetime_to_timestamp(dbmessage.datetime_start), timestamp)
         self.assertFalse(dbmessage.typing)
 
-    def test_patch_message_without_id(self):
-        """
-        When the id is not specified the view should
-        not patch the message and respond with a
-        400(Bad Request) code.
-        """
-        timestamp = 10 ** 11
-        message = create_message(
-            text='Message',
-            username='vitsalis',
-            channel=self.channel,
-            timestamp=timestamp
-        )
-
-        qstring = urllib.urlencode({
-            'text': 'Message Updated',
-            'datetime_sent': timestamp + 10,
-            'typing': False
-        })
-
-        response = self.client.patch(
-            reverse('chat:message', args=(self.channel.name,)),
-            qstring
-        )
-
-        dbmessage = Message.objects.get(pk=message.id)
-
-        self.assertEqual(response.status_code, 400)
-
-        self.assertEqual(dbmessage.text, message.text)
-        self.assertIsNone(dbmessage.datetime_sent)
-
     def test_patch_message_without_text(self):
         """
         When the text is not specified the view
@@ -562,13 +529,12 @@ class MessageViewPATCHTests(ChatTests):
         )
 
         qstring = urllib.urlencode({
-            'id': message.id,
             'datetime_sent': timestamp + 10,
             'typing': False
         })
 
         response = self.client.patch(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=(message.id,)),
             qstring
         )
 
@@ -594,13 +560,12 @@ class MessageViewPATCHTests(ChatTests):
         )
 
         qstring = urllib.urlencode({
-            'id': message.id,
             'text': 'Message Updated',
             'typing': False
         })
 
         response = self.client.patch(
-            reverse('chat:message', args=(self.channel.name,)),
+            reverse('chat:message', args=(message.id,)),
             qstring
         )
 
@@ -629,33 +594,15 @@ class MessageViewDELETETests(ChatTests):
             timestamp=timestamp
         )
 
-        qstring = urllib.urlencode({
-            'id': message.id
-        })
-
         response = self.client.delete(
-            reverse('chat:message', args=(self.channel.name,)),
-            qstring
+            reverse('chat:message', args=(message.id,)),
+            {}
         )
 
         messages = Message.objects.filter(username='vitsalis')
 
         self.assertEqual(response.status_code, 204)
         self.assertEqual(len(messages), 0)
-
-    def test_delete_message_without_id(self):
-        """
-        When the id is not specified the view should
-        return a 400(Bad Request) code.
-        """
-        qstring = urllib.urlencode({})
-
-        response = self.client.delete(
-            reverse('chat:message', args=(self.channel.name,)),
-            qstring
-        )
-
-        self.assertEqual(response.status_code, 400)
 
     def test_delete_message_that_does_not_exist(self):
         """
@@ -670,13 +617,9 @@ class MessageViewDELETETests(ChatTests):
             timestamp=timestamp
         )
 
-        qstring = urllib.urlencode({
-            'id': message.id + 1
-        })
-
         response = self.client.delete(
-            reverse('chat:message', args=(self.channel.name,)),
-            qstring
+            reverse('chat:message', args=(message.id + 1,)),
+            {}
         )
 
         self.assertEqual(response.status_code, 404)
@@ -773,6 +716,6 @@ class ChannelModelTests(ChatTests):
 class URLTests(ChatTests):
     def test_urls(self):
         self.assertEqual(
-            reverse('chat:message', args=('foo',)),
-            '/messages/foo/'
+            reverse('chat:message', args=('channel', 'foo',)),
+            '/messages/channel/foo/'
         )
