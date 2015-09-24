@@ -38,12 +38,25 @@
 }
 .history li {
     padding: 4px 0;
+    clear: both;
+    height: 30px;
+    margin: 0;
+}
+.history li:last-child {
+    margin-bottom: 4px;
+}
+.history li strong {
+    float: left;
 }
 .history img.avatar {
     border-radius: 50px;
     width: 20px;
     height: 20px;
     margin-right: 5px;
+    float: left;
+}
+.history strong {
+    float: left;
 }
 .textarea {
     position: absolute;
@@ -69,13 +82,18 @@
     width: 100%;
 }
 .chat ul div {
-    display: inline;
-    margin: 2px 8px;
-    padding: 5px 9px;
-    border-radius: 10px;
+    display: block;
+    margin: 0 0 0 12px;
+    padding: 9px;
+    border-radius: 16px;
     background-color: #f1f0f0;
     color: black;
     position: relative;
+    line-height: 9px;
+    height: 26px;
+    float: left;
+    top: -2px;
+    cursor: text;
 }
 .chat ul .self div {
     background-color: #0084ff;
@@ -117,32 +135,12 @@ ul {
     display: block;
     position: absolute;
     left: -8px;
-    top: 5px;
+    top: 8px;
     color: #f1f0f0;
     font-weight: bold;
 }
 .chat ul .self div:after {
     color: #0084ff;
-}
-.chat ul li.self div {
-    margin-right: 10px;
-}
-.chat ul li.self {
-    text-align: right;
-}
-.chat ul li.self img {
-    float: right;
-}
-.chat ul li.self strong {
-    display: none;
-}
-.chat ul li.self div:after {
-    content: "►";
-    display: block;
-    position: absolute;
-    right: -8px;
-    top: 5px;
-    font-weight: bold;
 }
 #online-list {
     margin: 10px 0 0 0;
@@ -184,8 +182,12 @@ ul {
     top: 6px;
     z-index: 1;
 }
-.emoticon {
+.chat .emoticon {
     position: relative;
-    top: 10px;
-    left: 3px;
+    left: 2px;
+    top: -5px;
+    vertical-align: top;
+    text-align: left;
+    padding: 2px 7px 2px 4px;
+    color: transparent;
 }
