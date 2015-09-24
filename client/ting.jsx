@@ -16,7 +16,8 @@ const Ting = React.createClass({
         this.refs.messageForm.onLogin(username, people);
         this.refs.userList.onLogin(username, people);
 
-        $.getJSON('/api/messages/' + this.state.channel, (messages) => {
+        // currently `type` is always 'channel'
+        $.getJSON('/api/messages/channel/' + this.state.channel, (messages) => {
             const history = _.indexBy(messages, 'id');
 
             this.refs.history.onHistoricalMessagesAvailable(history);
@@ -115,8 +116,6 @@ const Ting = React.createClass({
         }
 
         var data = {
-            type: 'channel',
-            target: this.state.channel,
             text: message,
             messageid: this.state.currentMessageId
         };

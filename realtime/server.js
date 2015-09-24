@@ -21,14 +21,14 @@ var people = {};
 var usernames = {};
 var messages_typing = {};
 
-function getOptions(form, target, method) {
+function getOptions(form, path, method) {
     var headers = {
         'User-Agent':       'node-ting/0.1.0',
         'Content-Type':     'application/x-www-form-urlencoded'
     }
 
     return {
-        url: URL + '/api/messages/' + target + '/',
+        url: URL + '/api/messages/' + path + '/',
         method: method,
         headers: headers,
         form: form
@@ -90,12 +90,14 @@ socket.on('connection', function (client) {
         winston.info('[' + data.username + '] message: ' + text);
         delete messages_typing[data.messageid];
 
+        var path = data.messageid;
+
         var options = getOptions({
             id: data.messageid,
             text: text,
             datetime_sent: Date.now(),
             typing: false
-        }, data.target, 'PATCH');
+        }, path, 'PATCH');
 
         req(options, function(error, response, body) {
             if (error) {
@@ -114,7 +116,10 @@ socket.on('connection', function (client) {
             datetime_start: Date.now(),
             typing: true
         };
-        var options = getOptions(form, data.target, 'POST');
+
+        var path = data.type + '/' + data.target;
+
+        var options = getOptions(form, path, 'POST');
 
         req(options, function(error, response, body) {
             if (error) {
@@ -135,11 +140,9 @@ socket.on('connection', function (client) {
         });
     });
 
-    function deletePersistentMessage(id, target) {
-        var form = {
-            'id': id
-        }
-        var options = getOptions(form, target, 'DELETE');
+    function deletePersistentMessage(id) {
+        var path = id;
+        var options = getOptions({}, path, 'DELETE');
 
         req(options, function(error, response, body) {
             if (error) {
@@ -167,7 +170,7 @@ socket.on('connection', function (client) {
         if (data.text.trim().length == 0) {
             delete messages_typing[data.messageid];
 
-            deletePersistentMessage(data.messageid, data.target);
+            deletePersistentMessage(data.messageid);
         }
     })
 
@@ -179,7 +182,7 @@ socket.on('connection', function (client) {
         for (var messageid in messages_typing) {
             var message = messages_typing[messageid];
             if (messages_typing[messageid].username == username) {
-                deletePersistentMessage(messageid, message.target);
+                deletePersistentMessage(messageid);
             }
             else {
                 messagesTypingNew[messageid] = message;
