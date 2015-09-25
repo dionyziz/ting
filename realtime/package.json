@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "author": "The Ting Team",
-  "license": "closed-source",
+  "license": "MIT",
   "scripts": {
     "test": "forever start server.js && jasmine-node tests/ --matchall"
   },

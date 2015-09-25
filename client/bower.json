@@ -10,7 +10,7 @@
   "keywords": [
     "chat"
   ],
-  "license": "Closed source",
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
