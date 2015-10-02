@@ -6,7 +6,6 @@ const UserList = require('./userlist.jsx'),
       Analytics = require('./analytics.js'),
       i18n = require('i18next-client'),
       io = require('socket.io-client'),
-      config = require('./config.jsx'),
       _ = require('lodash');
 
 const Ting = React.createClass({
@@ -39,8 +38,8 @@ const Ting = React.createClass({
         };
     },
     componentWillMount() {
-        const URL = window.location.hostname + ':' + config.port;
-        this._socket = io.connect(URL, {secure: config.websocket.secure});
+        const URL = window.location.hostname + ':8080';
+        this._socket = io.connect(URL);
 
         this._socket.on('login-response', ({success, people, error}) => {
             if (!success) {
