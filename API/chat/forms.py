@@ -32,24 +32,11 @@ class MessageCreationForm(forms.Form):
 
 
 class MessagePatchForm(forms.Form):
-    id = forms.IntegerField()
     text = forms.CharField(widget=forms.Textarea)
     datetime_sent = forms.IntegerField()
     typing = forms.BooleanField(required=False)
 
-    def is_valid(self):
-        if not super(MessagePatchForm, self).is_valid():
-            return False
-
-        message = Message.objects.get(pk=self.cleaned_data['id'])
-        if not message.typing:
-            return False
-
-        return True
-
-    def save(self):
-        message = Message.objects.get(pk=self.cleaned_data['id'])
-
+    def save(self, message):
         timestamp_start = datetime_to_timestamp(message.datetime_start)
         timestamp_sent = int(self.cleaned_data['datetime_sent'])
 
@@ -61,5 +48,3 @@ class MessagePatchForm(forms.Form):
         message.typing = self.cleaned_data.get('typing', False)
 
         message.save()
-
-        return message

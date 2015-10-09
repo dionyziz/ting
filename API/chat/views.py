@@ -10,8 +10,9 @@ from .forms import MessageCreationForm, MessagePatchForm
 
 
 class MessageView(View):
-    def post(self, request, channel_name, *args, **kwargs):
-        channel = get_object_or_404(Channel, name=channel_name)
+    def post(self, request, type, target, *args, **kwargs):
+        # currently `type` is always 'channel'
+        channel = get_object_or_404(Channel, name=target)
 
         form = MessageCreationForm(request.POST)
 
@@ -23,22 +24,25 @@ class MessageView(View):
 
         return HttpResponse(message.id)
 
-    def patch(self, request, channel_name, *args, **kwargs):
+    def patch(self, request, id, *args, **kwargs):
         qdict = QueryDict(request.body)
+
+        message = Message.objects.get(pk=id)
 
         form = MessagePatchForm(qdict)
 
-        if not form.is_valid():
+        if not form.is_valid() or not message.typing:
             return HttpResponseBadRequest(str(form.errors))
 
-        form.save()
+        form.save(message)
 
         return HttpResponse(status=204)
 
-    def get(self, request, channel_name, *args, **kwargs):
+    def get(self, request, type, target, *args, **kwargs):
         lim = request.GET.get('lim', 100)
 
-        channel = get_object_or_404(Channel, name=channel_name)
+        # currently `type` is always 'channel'
+        channel = get_object_or_404(Channel, name=target)
 
         messages = Message.objects.values(
             'text', 'username', 'datetime_start', 'typing', 'id', 'datetime_sent'
@@ -54,13 +58,8 @@ class MessageView(View):
 
         return HttpResponse(messages_json, content_type='application/json')
 
-    def delete(self, request, channel_name, *args, **kwargs):
-        qdict = QueryDict(request.body)
-
-        if 'id' not in qdict:
-            return HttpResponseBadRequest()
-
-        message = get_object_or_404(Message, pk=qdict['id'])
+    def delete(self, request, id, *args, **kwargs):
+        message = get_object_or_404(Message, pk=id)
 
         message.delete()
 

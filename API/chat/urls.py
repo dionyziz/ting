@@ -5,7 +5,12 @@ from . import views
 
 urlpatterns = [
     url(
-        r'^messages/(?P<channel_name>[a-zA-Z0-9_.-]+)/$',
+        r'^messages/(?P<id>[0-9]+)/$',
+        csrf_exempt(views.MessageView.as_view()),
+        name='message'
+    ),
+    url(
+        r'^messages/(?P<type>[a-z]+)/(?P<target>[a-zA-Z0-9_.-]+)/$',
         csrf_exempt(views.MessageView.as_view()),
         name='message'
     ),
