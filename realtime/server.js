@@ -6,8 +6,10 @@ var winston = require('winston');
 winston.add(winston.transports.File, { filename: 'server.log' });
 winston.level = 'debug';
 
+// Obtain information like 'hostname' and 'port' from common.json
 var config = JSON.parse(fs.readFileSync('../config/common.json', 'utf8'));
 
+// if local.json exists we are running ting locally, so we overwrite info of 'config' variable
 if (fs.existsSync('../config/local.json')) {
     config = JSON.parse(fs.readFileSync('../config/local.json', 'utf8'));
 }
@@ -75,7 +77,7 @@ socket.on('connection', function (client) {
             return;
         }
         people[client.id] = username;
-        usernames[username] = true;
+        usernames[username] = true; // true means that 'username' exists
         resp.people = people;
         winston.info('[' + username + '] login');
         logUsersCount();
@@ -108,7 +110,6 @@ socket.on('connection', function (client) {
 
     client.on('start-typing', function(data) {
         winston.debug('[' + people[client.id] + '] start-typing');
-
         var form = {
             username: people[client.id],
             text: data.text,
@@ -154,6 +155,7 @@ socket.on('connection', function (client) {
     client.on('typing-update', function(data) {
         winston.debug('[' + people[client.id] + '] typing-update');
 
+        // check for possible errors, while the message is being processed
         if (!messages_typing[data.messageid]) {
             winston.warn('There is no message with id: ' + data.messageid);
             return;
@@ -167,9 +169,8 @@ socket.on('connection', function (client) {
         messages_typing[data.messageid].text = data.text;
         socket.sockets.emit('update-typing-messages', messages_typing);
 
-        if (data.text.trim().length == 0) {
+        if (data.text.trim().length == 0) { // if message is deleted, then we delete its info
             delete messages_typing[data.messageid];
-
             deletePersistentMessage(data.messageid);
         }
     })
@@ -179,13 +180,14 @@ socket.on('connection', function (client) {
 
         var messagesTypingNew = {};
 
+        // if the user is writing a message, and he disconnects, we delete the message
         for (var messageid in messages_typing) {
             var message = messages_typing[messageid];
             if (messages_typing[messageid].username == username) {
                 deletePersistentMessage(messageid);
             }
             else {
-                messagesTypingNew[messageid] = message;
+                messagesTypingNew[messageid] = message; // object keeps only the messages whose user is still connected
             }
         }
 
