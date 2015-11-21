@@ -38,25 +38,17 @@
 }
 .history li {
     padding: 4px 0;
-    clear: both;
-    height: 30px;
     margin: 0;
+    display: flex;
 }
 .history li:last-child {
     margin-bottom: 4px;
-}
-.history li strong {
-    float: left;
 }
 .history img.avatar {
     border-radius: 50px;
     width: 20px;
     height: 20px;
     margin-right: 5px;
-    float: left;
-}
-.history strong {
-    float: left;
 }
 .textarea {
     position: absolute;
@@ -82,16 +74,15 @@
     width: 100%;
 }
 .chat ul div {
-    display: block;
     margin: 0 0 0 12px;
     padding: 9px;
     border-radius: 16px;
     background-color: #f1f0f0;
     color: black;
     position: relative;
-    line-height: 9px;
-    height: 26px;
-    float: left;
+    line-height: 15px;
+    min-width: 25px;
+    word-wrap: break-word;
     top: -2px;
     cursor: text;
 }
