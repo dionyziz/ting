@@ -27,8 +27,9 @@ Running Ting
    Django server.
 7. Run the Django server using `python manage.py runserver` inside the `API`
    folder. If it asks you to run migrations, do it.
-8. Install the required dependencies for the node server and the client by running
-   `npm install` in client/ and realtime/. Then `bower install` in client/.
+8. Install bower by running `sudo npm install -g bower`.
+   Install the required dependencies for the node server and the client by
+   running `npm install` in client/ and realtime/. Then `bower install` in client/.
    (Please note that some dependencies like bower or gulp may not be working through 
    the absolute path so `PATH=$(npm bin):$PATH` should solve the problem.)
 9. Run the node service using `node server.js` or `forever start server.js` inside the
