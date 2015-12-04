@@ -13,9 +13,9 @@ Running Ting
 2. Set up a MySQL database
 3. Make a copy of `config/common.json` into `config/local.json` and add your
    settings.
-4. Install the dependencies required to run Django requirements installation
-   by running `sudo apt-get install python-dev libmysqlclient-dev libffi-dev` and 
-   `pip install MySQL-python`
+4. Install node package manager and the dependencies required to run Django 
+   installation by running `sudo apt-get install python-dev libmysqlclient-dev
+   libffi-dev python-pip npm` and `pip install MySQL-python`.
 5. **Optional**. You can skip to step 6 although it's highly recommended that
    you follow these instructions.
    Make a virtual python environment using `virtualenv venv` on the API/ folder.
