@@ -2,6 +2,7 @@ var io = require('socket.io');
 var req = require('request');
 var fs = require('fs');
 var winston = require('winston');
+var _ = require('lodash');
 
 winston.add(winston.transports.File, { filename: 'server.log' });
 winston.level = 'debug';
@@ -77,8 +78,8 @@ socket.on('connection', function (client) {
             return;
         }
         people[client.id] = username;
+        resp.people = _.values(people);
         usernames[username] = true; // true means that 'username' exists
-        resp.people = people;
         winston.info('[' + username + '] login');
         logUsersCount();
         client.emit('login-response', resp);
