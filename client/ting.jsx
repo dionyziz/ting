@@ -62,10 +62,10 @@ const Ting = React.createClass({
             this.refs.history.onMessage(data);
         });
 
-        this._socket.on(
-            'part',
-            (username) => this.refs.userList.onPart(username)
-        );
+        this._socket.on('part', (username) => {
+            this.refs.userList.onPart(username);
+            this.refs.history.deleteTypingMessage(username);
+        });
 
         this._socket.on(
             'join',

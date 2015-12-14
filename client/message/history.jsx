@@ -31,6 +31,17 @@ const History = React.createClass({
             myUsername: null
         };
     },
+    deleteTypingMessage(username) {
+        var messages = this.state.messages;
+
+        for (var id in messages) {
+            if (messages[id].username == username && messages[id].typing) {
+                delete messages[id];
+            }
+        }
+
+        this.setState({messages});
+    },
     onUpdateTypingMessages(messagesTyping) {
         var messages = this.state.messages;
 
