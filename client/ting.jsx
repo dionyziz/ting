@@ -51,7 +51,6 @@ const Ting = React.createClass({
                 this.refs.loginForm.onSuccess();
 
                 var peopleList = _.chain(people)
-                    .values()
                     .without(this.intendedUsername)
                     .value();
 
