@@ -15,7 +15,7 @@ Running Ting
    settings.
 4. Install node package manager and the dependencies required to run Django 
    installation by running `sudo apt-get install python-dev libmysqlclient-dev
-   libffi-dev python-pip npm` and `pip install MySQL-python`.
+   libffi-dev python-pip npm`.
 5. Make a virtual python environment using `virtualenv venv` on the API/ folder.
    We recommend this because the API will use its own copies of python and of the
    required dependencies, so you can update your libraries in your system
@@ -23,20 +23,21 @@ Running Ting
    In order to use the virtual environment you only have to run `source venv/bin/activate`
    when you want to run python or pip. To deactivate it you can just run `deactivate`
    or close the terminal.
-6. Go to API/  and run `pip install -r requirements.txt` to install all the dependencies of 
+6. Run `pip install MySQL-python`.
+7. Go to API/  and run `pip install -r requirements.txt` to install all the dependencies of 
    Django server.
-7. Run the Django server using `python manage.py runserver` inside the `API`
+8. Run the Django server using `python manage.py runserver` inside the `API`
    folder. If it asks you to run migrations, do it.
-8. Install bower by running `sudo npm install -g bower`.
+9. Install bower by running `sudo npm install -g bower`.
    Install the required dependencies for the node server and the client by
    running `npm install` in client/ and realtime/. Then `bower install` in client/.
    (Please note that some dependencies like bower or gulp may not be working through 
    the absolute path so `PATH=$(npm bin):$PATH` should solve the problem.)
-9. Run the node service using `node server.js` or `forever start server.js` inside the
+10. Run the node service using `node server.js` or `forever start server.js` inside the
    `realtime` folder.
-10. Build the client-side bundle with `gulp browserify` inside the `client`
+11. Build the client-side bundle with `gulp browserify` inside the `client`
    folder. Or run `gulp watchify` if you plan to edit the client-side source.
-11. Set up nginx to statically serve the `client` folder.
+12. Set up nginx to statically serve the `client` folder.
 
 Contributing
 ============
