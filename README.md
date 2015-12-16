@@ -16,9 +16,7 @@ Running Ting
 4. Install node package manager and the dependencies required to run Django 
    installation by running `sudo apt-get install python-dev libmysqlclient-dev
    libffi-dev python-pip npm` and `pip install MySQL-python`.
-5. **Optional**. You can skip to step 6 although it's highly recommended that
-   you follow these instructions.
-   Make a virtual python environment using `virtualenv venv` on the API/ folder.
+5. Make a virtual python environment using `virtualenv venv` on the API/ folder.
    We recommend this because the API will use its own copies of python and of the
    required dependencies, so you can update your libraries in your system
    without worrying that you might "break" the API.
