@@ -449,7 +449,8 @@ works as follows.
 Messages in ting are separated into persistent and non-persistent. Persistent
 messages are messages that have been sent. Non-persistent messages are messages
 that are currently being typed, but have not been sent yet (the Enter key has
-not been pressed by the user.) Users can see both persistent and non-persistent
+not been pressed by the user.). A non-persistent message of a user that disconnects
+is deleted. Users can see both persistent and non-persistent
 messages and both are communicated on the network in real time.
 
 When a user starts typing a message in a channel, they reserve a position in
