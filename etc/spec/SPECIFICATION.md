@@ -348,6 +348,13 @@ scrolled upwards into the history enough to read older messages. In that case,
 a new message being posted does not affect the scrolling position of the
 history area.
 
+When the user scrolls upwards and reaches the top of the displayed messages,
+there is a button with the prompt "Δες παλαιότερα μυνήματα" if there are older 
+messages to show. In case there are not older messages to show, the button
+should not appear. Clicking the button diplays 100 older messages (if more than
+100 older messages exist), otherwise it displays the remaining of older
+messsages.
+
 For efficiency reasons, very old messages can be removed from the chat history.
 
 ## Message formatting
