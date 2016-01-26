@@ -448,6 +448,9 @@ Dropping the image over this area uploads the image and immediately sends it as
 a separate message. This does not affect any text the user may be currently
 entering on the text box.
 
+![Image Uploader](http://i.imgur.com/GDkryfj.jpg)
+*Image: Image Uploader*
+
 # Typing
 Ting provides a different approach from usual chat platforms when it comes to
 notifications about typing. Users can see each other typing in real time. This
