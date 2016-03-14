@@ -5,11 +5,15 @@ from .models import Message
 from .utils import timestamp_to_datetime, datetime_to_timestamp
 
 
-class MessageCreationForm(forms.Form):
+
+class MessageForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
+    typing = forms.BooleanField(required=False)
+
+
+class MessageCreationForm(MessageForm):
     username = forms.CharField(max_length=20)
     datetime_start = forms.IntegerField()
-    typing = forms.BooleanField(required=False)
 
     def clean_datetime_start(self):
         now = int(round(time.time() * 1000))
@@ -31,10 +35,8 @@ class MessageCreationForm(forms.Form):
         return message;
 
 
-class MessagePatchForm(forms.Form):
-    text = forms.CharField(widget=forms.Textarea)
+class MessagePatchForm(MessageForm):
     datetime_sent = forms.IntegerField()
-    typing = forms.BooleanField(required=False)
 
     def save(self, message):
         timestamp_start = datetime_to_timestamp(message.datetime_start)
