@@ -89,6 +89,7 @@ socket.on('connection', function (client) {
 
     client.on('message', function(data) {
         var text = data.text;
+        var messageType = data.message_type;
         data.username = people[client.id];
         socket.sockets.emit('message', data);
         winston.info('[' + data.username + '] message: ' + text);
@@ -100,7 +101,8 @@ socket.on('connection', function (client) {
             id: data.messageid,
             text: text,
             datetime_sent: Date.now(),
-            typing: false
+            typing: false,
+            message_type: messageType
         }, path, 'PATCH');
 
         req(options, function(error, response, body) {
@@ -117,7 +119,8 @@ socket.on('connection', function (client) {
             text: data.text,
             target: data.target,
             datetime_start: Date.now(),
-            typing: true
+            typing: true,
+            message_type: data.message_type
         };
 
         var path = data.type + '/' + data.target;

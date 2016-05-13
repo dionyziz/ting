@@ -74,6 +74,7 @@ const Ting = React.createClass({
 
         this._socket.on('start-typing-response', (messageid) => {
             this.setState({currentMessageId: messageid});
+            this.refs.messageForm.onStartTypingResponse(messageid);
         });
 
         this._socket.on('update-typing-messages', (messagesTyping) => {
@@ -82,7 +83,7 @@ const Ting = React.createClass({
 
         Analytics.init();
     },
-    onMessageSubmit(message) {
+    onMessageSubmit(message, messageType) {
         if (this.state.currentMessageId == null) {
             //console.log('Skipping message submit');
             return;
@@ -92,7 +93,8 @@ const Ting = React.createClass({
             type: 'channel',
             target: this.state.channel,
             text: message,
-            messageid: this.state.currentMessageId
+            messageid: this.state.currentMessageId,
+            message_type: messageType
         };
         this._socket.emit('message', data);
 
@@ -100,11 +102,12 @@ const Ting = React.createClass({
 
         this.setState({currentMessageId: null});
     },
-    onStartTyping(message) {
+    onStartTyping(message, messageType) {
         var data = {
             type: 'channel',
             target: this.state.channel,
-            text: message
+            text: message,
+            message_type: messageType
         };
         this._socket.emit('start-typing', data);
     },

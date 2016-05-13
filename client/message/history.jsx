@@ -59,7 +59,8 @@ const History = React.createClass({
                         username: message.username,
                         target: message.target,
                         id: messageid,
-                        typing: true
+                        typing: true,
+                        message_type: message.message_type
                     };
                 }
             }
@@ -115,13 +116,14 @@ const History = React.createClass({
         const messageNodes = _.chain(this.state.messages)
             .values()
             .sortBy('id')
-            .map(({id, username, text, typing}) => {
+            .map(({id, username, text, typing, message_type}) => {
                 return (
                     <Message key={id}
                              username={username}
                              own={username == this.state.myUsername}
                              text={text}
-                             typing={typing} />
+                             typing={typing} 
+                             messageType={message_type} />
                 );
             })
             .value();
