@@ -17,7 +17,7 @@ const MessageForm = React.createClass({
         var message = this.state.message;
 
         if (message.trim().length > 0) {
-            this.props.onMessageSubmit(message);
+            this.props.onMessageSubmit(message, 'text');
 
             React.findDOMNode(this.refs.inputField).value = '';
         }
@@ -31,10 +31,11 @@ const MessageForm = React.createClass({
     },
     handleChange(event) {
         var message = event.target.value;
+        this._typeLastMessage = 'text';
 
         if (message.trim().length > 0) {
             if (this.state.message == '') {
-                this.props.onStartTyping(message);
+                this.props.onStartTyping(message, 'text');
             }
             else if (Date.now() - this._lastUpdate >= this._MIN_UPDATE_WHILE_TYPING) {
                 this.props.onTypingUpdate(message);
