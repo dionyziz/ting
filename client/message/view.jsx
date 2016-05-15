@@ -4,7 +4,7 @@ const React = require('react/addons'),
 
 const Message = React.createClass({
     render() {
-        var className, text = this.props.text;
+        var className, message_content = this.props.message_content;
 
         if (this.props.own) {
             className = 'self';
@@ -18,7 +18,7 @@ const Message = React.createClass({
         }
 
         if (this.props.own && this.props.typing) {
-            text = '...';
+            message_content = '...';
         }
 
         return (

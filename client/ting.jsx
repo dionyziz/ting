@@ -92,7 +92,7 @@ const Ting = React.createClass({
         const data = {
             type: 'channel',
             target: this.state.channel,
-            text: message,
+            message_content: message,
             messageid: this.state.currentMessageId,
             message_type: messageType
         };
@@ -106,7 +106,7 @@ const Ting = React.createClass({
         var data = {
             type: 'channel',
             target: this.state.channel,
-            text: message,
+            message_content: message,
             message_type: messageType
         };
         this._socket.emit('start-typing', data);
@@ -118,7 +118,7 @@ const Ting = React.createClass({
         }
 
         var data = {
-            text: message,
+            message_content: message,
             messageid: this.state.currentMessageId
         };
         this._socket.emit('typing-update', data);

@@ -7,7 +7,7 @@ from .utils import timestamp_to_datetime, datetime_to_timestamp
 
 
 class MessageForm(forms.Form):
-    text = forms.CharField(widget=forms.Textarea)
+    message_content = forms.CharField(widget=forms.Textarea)
     typing = forms.BooleanField(required=False)
     message_type = forms.CharField(widget=forms.Textarea)
 
@@ -47,7 +47,7 @@ class MessagePatchForm(MessageForm):
             timestamp_sent = timestamp_start
 
         message.datetime_sent = timestamp_to_datetime(timestamp_sent)
-        message.text = self.cleaned_data['text']
+        message.message_content = self.cleaned_data['message_content']
         message.typing = self.cleaned_data.get('typing', False)
 
         message.save()

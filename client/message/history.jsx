@@ -46,16 +46,16 @@ const History = React.createClass({
         var messages = this.state.messages;
 
         $.each(messagesTyping, (messageid, message) => {
-            if (message.text.trim().length == 0) {
+            if (message.message_content.trim().length == 0) {
                 delete messages[messageid];
             }
             else if (message.target == this.props.channel) {
                 if (messages[messageid]) {
-                    messages[messageid].text = message.text;
+                    messages[messageid].message_content = message.message_content;
                 }
                 else {
                     messages[messageid] = {
-                        text: message.text,
+                        message_content: message.message_content,
                         username: message.username,
                         target: message.target,
                         id: messageid,
@@ -78,7 +78,7 @@ const History = React.createClass({
         if (data.target == this.props.channel) {
             this.setState((previousState, currentProps) => {
                 var messages = previousState.messages;
-                messages[data.messageid].text = data.text;
+                messages[data.messageid].message_content = data.message_content;
                 messages[data.messageid].typing = false;
 
                 return {messages};
@@ -116,13 +116,13 @@ const History = React.createClass({
         const messageNodes = _.chain(this.state.messages)
             .values()
             .sortBy('id')
-            .map(({id, username, text, typing, message_type}) => {
+            .map(({id, username, message_content, typing, message_type}) => {
                 return (
                     <Message key={id}
                              username={username}
                              own={username == this.state.myUsername}
-                             text={text}
-                             typing={typing} 
+                             message_content={message_content}
+                             typing={typing}
                              messageType={message_type} />
                 );
             })
