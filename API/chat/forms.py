@@ -9,6 +9,7 @@ from .utils import timestamp_to_datetime, datetime_to_timestamp
 class MessageForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
     typing = forms.BooleanField(required=False)
+    message_type = forms.CharField(widget=forms.Textarea)
 
 
 class MessageCreationForm(MessageForm):
