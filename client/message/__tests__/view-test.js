@@ -16,12 +16,13 @@ describe('Message', function() {
         return domNode;
     }
 
-    function renderMessage(username, own, text, typing) {
+    function renderMessage(username, own, message_content, typing, message_type) {
         return renderAndGetNode(
             <Message username={username}
                      own={own}
-                     text={text}
-                     typing={typing} />,
+                     message_content={message_content}
+                     typing={typing}
+                     messageType={message_type}/>,
             'li'
         );
     }
@@ -31,7 +32,8 @@ describe('Message', function() {
             'hilbert',
             false,
             'Wir müssen wissen — wir werden wissen!',
-            false
+            false,
+            'text'
         );
 
         expect(li.textContent).toContain('hilbert');
@@ -44,7 +46,8 @@ describe('Message', function() {
             'hilbert',
              true,
              'Wir müssen wissen — wir werden wissen!',
-             false
+             false,
+             'text'
         );
 
         expect(React.findDOMNode(li).className).toContain('self');
@@ -55,7 +58,20 @@ describe('Message', function() {
             'hilbert',
              true,
              'Wir müssen wissen — wir werden wissen!',
-             true
+             true,
+             'text'
+        );
+
+        expect(React.findDOMNode(li).className).toContain('typing');
+
+        var link = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAG1BMVEX///8AAACdnZ3X19eZmZnq6ur7+/vOzs7x8fHjK9NyAAAARElEQVRoge3NiQmAMBAAsNrr4/4TC9YNlBNKskBKAT42W7317LgdS2THVSzeLu6xnCN7foy/YgAAAAAAAAAAAAAAgJcuaoEAp2NAe+UAAAAASUVORK5CYII='; 
+
+        li = renderMessage(
+            'hilbert',
+             true,
+             link,
+             true,
+             'text'
         );
 
         expect(React.findDOMNode(li).className).toContain('typing');
