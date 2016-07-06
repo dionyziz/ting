@@ -1,12 +1,24 @@
 import json
 
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, QueryDict
+from django.http import HttpResponse, HttpResponseBadRequest, QueryDict
 from django.views.generic import View
 from .utils import datetime_to_timestamp
 
 from .models import Channel, Message
 from .forms import MessageCreationForm, MessagePatchForm
+from django.conf import settings
+
+
+def privileged(f):
+    """
+    Do a password check for privileged operations
+    """
+    def check(self, request, *args, **kwargs):
+        if settings.PASS != request.META.get('HTTP_AUTHORIZATION'):
+            return HttpResponse('Unauthorized', status=401)
+        return f(self, request, *args, **kwargs)
+    return check
 
 
 class MessageView(View):
