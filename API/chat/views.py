@@ -22,6 +22,7 @@ def privileged(f):
 
 
 class MessageView(View):
+    @privileged
     def post(self, request, type, target, *args, **kwargs):
         # currently `type` is always 'channel'
         channel = get_object_or_404(Channel, name=target)
@@ -36,6 +37,7 @@ class MessageView(View):
 
         return HttpResponse(message.id)
 
+    @privileged
     def patch(self, request, id, *args, **kwargs):
         qdict = QueryDict(request.body)
 
@@ -70,11 +72,11 @@ class MessageView(View):
 
         return HttpResponse(messages_json, content_type='application/json')
 
+    @privileged
     def delete(self, request, id, *args, **kwargs):
         message = get_object_or_404(Message, pk=id)
 
         message.delete()
-
         return HttpResponse(status=204)
 
 
