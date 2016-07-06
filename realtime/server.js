@@ -17,7 +17,7 @@ if (fs.existsSync('../config/local.json')) {
 
 URL = 'http://' + config.node.hostname;
 PORT = config.node.port;
-
+PASS = config.password;
 var socket = io.listen(PORT);
 
 var people = {};
@@ -27,7 +27,8 @@ var messages_typing = {};
 function getOptions(form, path, method) {
     var headers = {
         'User-Agent':       'node-ting/0.1.0',
-        'Content-Type':     'application/x-www-form-urlencoded'
+        'Content-Type':     'application/x-www-form-urlencoded',
+        'Authorization':    PASS
     }
 
     return {

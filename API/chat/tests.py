@@ -8,7 +8,10 @@ from django.core.urlresolvers import reverse
 from django_dynamic_fixture import G
 from django.utils.dateformat import format
 from .utils import datetime_to_timestamp, timestamp_to_datetime
+from django.conf import settings
+from django.http import HttpResponse, HttpRequest
 
+from .views import privileged
 from .models import Message, Channel
 
 
@@ -27,18 +30,22 @@ def create_message(text, timestamp, username, channel):
 
 
 class ChatClient(Client):
-    def delete(self, url, qstring):
+    def delete(self, url, qstring, *args, **kwargs):
         return Client().delete(
             url,
             qstring,
-            content_type='application/x-www-form-urlencoded'
+            content_type='application/x-www-form-urlencoded',
+            *args,
+            **kwargs
         )
 
-    def patch(slef, url, qstring):
+    def patch(self, url, qstring, *args, **kwargs):
         return Client().patch(
             url,
             qstring,
-            content_type='application/x-www-form-urlencoded'
+            content_type='application/x-www-form-urlencoded',
+            *args,
+            **kwargs
         )
 
 
@@ -47,15 +54,22 @@ class ChatTests(TestCase):
         super(ChatTests, self).setUp()
         self.channel = G(Channel, name='Channel')
 
+    def privileged_operation(self, endpoint, data, method):
+        return getattr(self.client, method)(
+            endpoint,
+            data,
+            HTTP_AUTHORIZATION=settings.PASS
+        )
 
 class MessageViewPOSTTests(ChatTests):
     def post_and_get_response(self, text, timestamp, username, typing):
         """
         Posts a message on chat:message and returns the response
         """
-        return self.client.post(
+        return self.privileged_operation(
             reverse('chat:message', args=('channel', self.channel.name,)),
-            {'text': text, 'username': username, 'datetime_start': timestamp, 'typing': typing}
+            {'text': text, 'username': username, 'datetime_start': timestamp, 'typing': typing},
+            'post'
         )
 
     def test_post_valid_message(self):
@@ -97,9 +111,10 @@ class MessageViewPOSTTests(ChatTests):
         """
         post_dict = {'text': 'Message', 'username': 'vitsalis', 'typing': True}
 
-        response = self.client.post(
+        response = self.privileged_operation(
             reverse('chat:message', args=('channel', self.channel.name,)),
-            post_dict
+            post_dict,
+            'post'
         )
 
         self.assertFalse(Message.objects.filter(username='vitsalis').exists())
@@ -114,9 +129,10 @@ class MessageViewPOSTTests(ChatTests):
         timestamp = 10 ** 11
         post_dict = {'text': 'Message', 'datetime_start': timestamp, 'typing': True}
 
-        response = self.client.post(
+        response = self.privileged_operation(
             reverse('chat:message', args=('channel', self.channel.name,)),
-            post_dict
+            post_dict,
+            'post'
         )
 
         datetime_start_field = timestamp_to_datetime(timestamp)
@@ -131,9 +147,10 @@ class MessageViewPOSTTests(ChatTests):
         """
         timestamp = 10 ** 11
 
-        response = self.client.post(
+        response = self.privileged_operation(
             reverse('chat:message', args=('channel', 'invalid_channel',)),
-            {'text': 'Message', 'username': 'vitsalis', 'datetime_start': timestamp, 'typing': True}
+            {'text': 'Message', 'username': 'vitsalis', 'datetime_start': timestamp, 'typing': True},
+            'post'
         )
 
         self.assertFalse(Message.objects.filter(username='vitsalis').exists())
@@ -148,9 +165,10 @@ class MessageViewPOSTTests(ChatTests):
         timestamp = 10 ** 11
         post_dict = {'username': 'vitsalis', 'datetime_start': timestamp, 'typing': True}
 
-        response = self.client.post(
+        response = self.privileged_operation(
             reverse('chat:message', args=('channel', self.channel.name,)),
-            post_dict
+            post_dict,
+            'post'
         )
 
         self.assertFalse(Message.objects.filter(username='vitsalis').exists())
@@ -400,7 +418,6 @@ class MessageViewGETTests(ChatTests):
 
 class MessageViewPATCHTests(ChatTests):
     client_class = ChatClient
-
     def patch_and_get_response(self, messageid, text, timestamp, typing):
         """
         Patches a message on chat:message and returns the response
@@ -410,9 +427,10 @@ class MessageViewPATCHTests(ChatTests):
             'datetime_sent': timestamp,
             'typing': typing
         })
-        return self.client.patch(
+        return self.privileged_operation(
             reverse('chat:message', args=(messageid,)),
-            qstring
+            qstring,
+            'patch'
         )
 
     def test_patch_message(self):
@@ -533,9 +551,10 @@ class MessageViewPATCHTests(ChatTests):
             'typing': False
         })
 
-        response = self.client.patch(
+        response = self.privileged_operation(
             reverse('chat:message', args=(message.id,)),
-            qstring
+            qstring,
+            'patch'
         )
 
         dbmessage = Message.objects.get(pk=message.id)
@@ -564,9 +583,10 @@ class MessageViewPATCHTests(ChatTests):
             'typing': False
         })
 
-        response = self.client.patch(
+        response = self.privileged_operation(
             reverse('chat:message', args=(message.id,)),
-            qstring
+            qstring,
+            'patch'
         )
 
         dbmessage = Message.objects.get(pk=message.id)
@@ -579,7 +599,6 @@ class MessageViewPATCHTests(ChatTests):
 
 class MessageViewDELETETests(ChatTests):
     client_class = ChatClient
-
     def test_delete_message(self):
         """
         The view should delete the message with the
@@ -594,9 +613,10 @@ class MessageViewDELETETests(ChatTests):
             timestamp=timestamp
         )
 
-        response = self.client.delete(
+        response = self.privileged_operation(
             reverse('chat:message', args=(message.id,)),
-            {}
+            {},
+            'delete'
         )
 
         messages = Message.objects.filter(username='vitsalis')
@@ -617,9 +637,10 @@ class MessageViewDELETETests(ChatTests):
             timestamp=timestamp
         )
 
-        response = self.client.delete(
+        response = self.privileged_operation(
             reverse('chat:message', args=(message.id + 1,)),
-            {}
+            {},
+            'delete'
         )
 
         self.assertEqual(response.status_code, 404)
@@ -719,3 +740,49 @@ class URLTests(ChatTests):
             reverse('chat:message', args=('channel', 'foo',)),
             '/messages/channel/foo/'
         )
+
+
+class DecoratorTests(TestCase):
+    @privileged
+    def privileged_view_mock(self, request, *args, **kwargs):
+        """
+        Mock of a view that returns an HttpResponse
+        with status code 200(OK).
+        """
+        return HttpResponse(status=200)
+
+    def get_request(self, password=None):
+        request = HttpRequest()
+        request.META = {}
+        request.META['HTTP_AUTHORIZATION'] = password
+        return request
+
+    def test_request_with_correct_password(self):
+        """
+        When the password is correct the decorator should call
+        the function passed.
+        """
+        request = self.get_request(password=settings.PASS)
+
+        response = self.privileged_view_mock(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_request_with_wrong_password(self):
+        """
+        When the password is wrong the decorator should respond
+        with a 401(Unauthorized) status code.
+        """
+        request = self.get_request(password='wrong')
+
+        response = self.privileged_view_mock(request)
+        self.assertEqual(response.status_code, 401)
+
+    def test_request_with_HTTP_AUTHORIZATION_not_defined(self):
+        """
+        When the password is not defined the decorator should
+        respond with a 401(Unauthorized) status code.
+        """
+        request = self.get_request()
+
+        response = self.privileged_view_mock(request)
+        self.assertEqual(response.status_code, 401)

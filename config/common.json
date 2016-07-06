@@ -1,4 +1,5 @@
 {
+    "password": "apassword",
     "node": {
         "hostname": "ting.gr",
         "port": 8080
