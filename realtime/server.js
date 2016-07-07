@@ -88,19 +88,21 @@ socket.on('connection', function (client) {
     });
 
     client.on('message', function(data) {
-        var text = data.text;
+        var message_content = data.message_content;
+        var messageType = data.message_type;
         data.username = people[client.id];
         socket.sockets.emit('message', data);
-        winston.info('[' + data.username + '] message: ' + text);
+        winston.info('[' + data.username + '] message: ' + message_content);
         delete messages_typing[data.messageid];
 
         var path = data.messageid;
 
         var options = getOptions({
             id: data.messageid,
-            text: text,
+            message_content: message_content,
             datetime_sent: Date.now(),
-            typing: false
+            typing: false,
+            message_type: messageType
         }, path, 'PATCH');
 
         req(options, function(error, response, body) {
@@ -114,10 +116,11 @@ socket.on('connection', function (client) {
         winston.debug('[' + people[client.id] + '] start-typing');
         var form = {
             username: people[client.id],
-            text: data.text,
+            message_content: data.message_content,
             target: data.target,
             datetime_start: Date.now(),
-            typing: true
+            typing: true,
+            message_type: data.message_type
         };
 
         var path = data.type + '/' + data.target;
@@ -168,10 +171,10 @@ socket.on('connection', function (client) {
             return;
         }
 
-        messages_typing[data.messageid].text = data.text;
+        messages_typing[data.messageid].message_content = data.message_content;
         socket.sockets.emit('update-typing-messages', messages_typing);
 
-        if (data.text.trim().length == 0) { // if message is deleted, then we delete its info
+        if (data.message_content.trim().length == 0) { // if message is deleted, then we delete its info
             delete messages_typing[data.messageid];
             deletePersistentMessage(data.messageid);
         }

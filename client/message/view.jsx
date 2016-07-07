@@ -1,27 +1,10 @@
 const React = require('react/addons'),
       Avatar = require('../avatar.jsx'),
-      escape = require('escape-html'),
-      emoticons = require('emoticons'),
-      autolinks = require('autolinks');
+      MessageContent = require('./content.jsx');
 
 const Message = React.createClass({
-    _formatMessage(message) {
-        var html = escape(message);
-
-        html = emoticons.replace(html);
-
-        return {
-            __html: autolinks(html, (title, url) => {
-                return `<a href="${url}"
-                           target="_blank"
-                           rel="nofollow">
-                            ${title}
-                        </a>`;
-            })
-        };
-    },
     render() {
-        var className, text = this.props.text;
+        var className, message_content = this.props.message_content;
 
         if (this.props.own) {
             className = 'self';
@@ -35,16 +18,15 @@ const Message = React.createClass({
         }
 
         if (this.props.own && this.props.typing) {
-            text = '...';
+            message_content = '...';
         }
 
         return (
             <li className={className}>
                 <Avatar username={this.props.username} />
                 <strong>{this.props.username}</strong>
-
-                <div dangerouslySetInnerHTML={this._formatMessage(text)}>
-                </div>
+                <MessageContent messageType={this.props.messageType}
+                                message_content={message_content} />
             </li>
         );
     }

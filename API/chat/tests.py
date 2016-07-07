@@ -15,17 +15,18 @@ from .views import privileged
 from .models import Message, Channel
 
 
-def create_message(text, timestamp, username, channel):
+def create_message(message_content, timestamp, username, channel, message_type):
     """
     Creates a message with the given text, datetime,
     username, channel and with typing set to True.
     """
     return Message.objects.create(
-        text=text,
+        message_content=message_content,
         datetime_start=timestamp_to_datetime(timestamp),
         username=username,
         typing=True,
-        channel=channel
+        channel=channel,
+        message_type=message_type
     )
 
 
@@ -62,13 +63,13 @@ class ChatTests(TestCase):
         )
 
 class MessageViewPOSTTests(ChatTests):
-    def post_and_get_response(self, text, timestamp, username, typing):
+    def post_and_get_response(self, message_content, timestamp, username, typing, message_type):
         """
         Posts a message on chat:message and returns the response
         """
         return self.privileged_operation(
             reverse('chat:message', args=('channel', self.channel.name,)),
-            {'text': text, 'username': username, 'datetime_start': timestamp, 'typing': typing},
+            {'message_content': message_content, 'username': username, 'datetime_start': timestamp, 'typing': typing, 'message_type': message_type},
             'post'
         )
 
@@ -80,13 +81,15 @@ class MessageViewPOSTTests(ChatTests):
         """
         timestamp = 10 ** 11
         username = 'vitsalisa'
-        text = 'Message'
+        message_content = 'Message'
+        message_type = 'text'
 
         response = self.post_and_get_response(
-            text=text,
+            message_content=message_content,
             timestamp=timestamp,
             username=username,
-            typing=True
+            typing=True,
+            message_type=message_type
         )
 
         messages = Message.objects.filter(username=username)
@@ -100,7 +103,7 @@ class MessageViewPOSTTests(ChatTests):
         self.assertEqual(int(response.content), message.id);
         self.assertEqual(message.username, username);
         self.assertTrue(message.typing)
-        self.assertEqual(message.text, text)
+        self.assertEqual(message.message_content, message_content)
         self.assertEqual(datetime_to_timestamp(message.datetime_start), timestamp)
 
     def test_post_message_without_datetime_start(self):
@@ -109,7 +112,7 @@ class MessageViewPOSTTests(ChatTests):
         should produce an appropriate error and a 400(Bad Request)
         status code. The message should not be saved.
         """
-        post_dict = {'text': 'Message', 'username': 'vitsalis', 'typing': True}
+        post_dict = {'message_content': 'Message', 'username': 'vitsalis', 'typing': True, 'message_type': 'text'}
 
         response = self.privileged_operation(
             reverse('chat:message', args=('channel', self.channel.name,)),
@@ -127,7 +130,7 @@ class MessageViewPOSTTests(ChatTests):
         status code. The message should not be saved.
         """
         timestamp = 10 ** 11
-        post_dict = {'text': 'Message', 'datetime_start': timestamp, 'typing': True}
+        post_dict = {'message_content': 'Message', 'datetime_start': timestamp, 'typing': True, 'message_type': 'text'}
 
         response = self.privileged_operation(
             reverse('chat:message', args=('channel', self.channel.name,)),
@@ -149,7 +152,7 @@ class MessageViewPOSTTests(ChatTests):
 
         response = self.privileged_operation(
             reverse('chat:message', args=('channel', 'invalid_channel',)),
-            {'text': 'Message', 'username': 'vitsalis', 'datetime_start': timestamp, 'typing': True},
+            {'message_content': 'Message', 'username': 'vitsalis', 'datetime_start': timestamp, 'typing': True, 'message_type': 'text'},
             'post'
         )
 
@@ -163,7 +166,7 @@ class MessageViewPOSTTests(ChatTests):
         status code. The message should not be saved.
         """
         timestamp = 10 ** 11
-        post_dict = {'username': 'vitsalis', 'datetime_start': timestamp, 'typing': True}
+        post_dict = {'username': 'vitsalis', 'datetime_start': timestamp, 'typing': True, 'message_type': 'text'}
 
         response = self.privileged_operation(
             reverse('chat:message', args=('channel', self.channel.name,)),
@@ -181,10 +184,11 @@ class MessageViewPOSTTests(ChatTests):
         status code. The message should not be saved.
         """
         response = self.post_and_get_response(
-            text='Message',
+            message_content='Message',
             timestamp='wtf',
             username='vitsalis',
-            typing=True
+            typing=True,
+            message_type='text'
         )
 
         self.assertFalse(Message.objects.filter(username='vitsalis').exists())
@@ -197,10 +201,11 @@ class MessageViewPOSTTests(ChatTests):
         """
         timestamp = int(format(datetime.datetime.utcnow() + datetime.timedelta(days=1), 'U')) * 1000
         response = self.post_and_get_response(
-            text='Message',
+            message_content='Message',
             timestamp=timestamp,
             username='vitsalis',
-            typing=True
+            typing=True,
+            message_type='text'
         )
 
         messages = Message.objects.filter(username='vitsalis')
@@ -219,10 +224,11 @@ class MessageViewPOSTTests(ChatTests):
         timestamp = 10 ** 11
 
         response = self.post_and_get_response(
-            text='Message',
+            message_content='Message',
             timestamp=timestamp,
             username='vitsalis',
-            typing=False
+            typing=False,
+            message_type='text'
         )
 
         messages = Message.objects.filter(username='vitsalis')
@@ -236,7 +242,7 @@ class MessageViewGETTests(ChatTests):
         """
         When a valid request is sent the view should return
         a JSON object containing messages. Each message should be
-        in the form {text: ...,username: ..., datetime: ...}.
+        in the form {message_content: ...,username: ..., datetime: ...}.
         The messages should be in chronological order(more recent first).
         The number of objects is specified by the lim argument.
         """
@@ -244,21 +250,23 @@ class MessageViewGETTests(ChatTests):
         timestamp = 10 ** 11
 
         message1 = Message.objects.create(
-            text='Message1',
+            message_content='Message1',
             datetime_start=timestamp_to_datetime(timestamp),
             datetime_sent=timestamp_to_datetime(timestamp + 10),
             username='vitsalis',
             typing=True,
-            channel=self.channel
+            channel=self.channel,
+            message_type='text'
         )
 
         message2 = Message.objects.create(
-            text='Message2',
+            message_content='Message2',
             datetime_start=timestamp_to_datetime(timestamp + 60 * 60),
             datetime_sent=timestamp_to_datetime(timestamp + 60 * 60 + 10),
             username='pkakelas',
             typing=True,
-            channel=self.channel
+            channel=self.channel,
+            message_type='text'
         )
 
         response = self.client.get(
@@ -271,14 +279,14 @@ class MessageViewGETTests(ChatTests):
         self.assertEqual(len(messages), 2)
 
         # The order is reverse chronological
-        self.assertEqual(messages[0]['text'], message2.text)
+        self.assertEqual(messages[0]['message_content'], message2.message_content)
         self.assertEqual(messages[0]['username'], message2.username)
         self.assertEqual(messages[0]['datetime_start'], datetime_to_timestamp(message2.datetime_start))
         self.assertTrue(messages[0]['typing'])
         self.assertEqual(messages[0]['id'], message2.id)
         self.assertEqual(messages[0]['datetime_sent'], datetime_to_timestamp(message2.datetime_sent))
 
-        self.assertEqual(messages[1]['text'], message1.text)
+        self.assertEqual(messages[1]['message_content'], message1.message_content)
         self.assertEqual(messages[1]['username'], message1.username)
         self.assertEqual(messages[1]['datetime_start'], datetime_to_timestamp(message1.datetime_start))
         self.assertTrue(messages[1]['typing'])
@@ -295,17 +303,19 @@ class MessageViewGETTests(ChatTests):
         timestamp = 10 ** 11
 
         create_message(
-            text='Message1',
+            message_content='Message1',
             timestamp=timestamp,
             username='vitsalis',
-            channel=self.channel
+            channel=self.channel,
+            message_type='text'
         )
 
         create_message(
-            text='Message2',
+            message_content='Message2',
             timestamp=timestamp + 60 * 60,
             username='pkakelas',
-            channel=self.channel
+            channel=self.channel,
+            message_type='text'
         )
 
         messages = json.loads(self.client.get(
@@ -327,10 +337,11 @@ class MessageViewGETTests(ChatTests):
 
         for i in range(100):
             create_message(
-                text='Message' + str(i),
+                message_content='Message' + str(i),
                 timestamp=timestamp + i,
                 username='vitsalis',
-                channel=self.channel
+                channel=self.channel,
+                message_type='text'
             )
 
         messages = json.loads(self.client.get(
@@ -340,8 +351,8 @@ class MessageViewGETTests(ChatTests):
 
         self.assertEqual(len(messages), 2)
 
-        self.assertEqual(messages[0]['text'], 'Message99')
-        self.assertEqual(messages[1]['text'], 'Message98')
+        self.assertEqual(messages[0]['message_content'], 'Message99')
+        self.assertEqual(messages[1]['message_content'], 'Message98')
 
     def test_request_messages_without_lim(self):
         """
@@ -352,10 +363,11 @@ class MessageViewGETTests(ChatTests):
 
         for i in range(200):
             create_message(
-                text='Message' + str(i),
+                message_content='Message' + str(i),
                 timestamp=timestamp + i,
                 username='vitsalis',
-                channel=self.channel
+                channel=self.channel,
+                message_type='text'
             )
 
         messages = json.loads(self.client.get(
@@ -374,17 +386,19 @@ class MessageViewGETTests(ChatTests):
         timestamp = 10 ** 11
 
         message1 = create_message(
-            text='Message1',
+            message_content='Message1',
             timestamp=timestamp,
             username='vitsalis',
-            channel=channel1
+            channel=channel1,
+            message_type='text'
         )
 
         create_message(
-            text='Message2',
+            message_content='Message2',
             timestamp=timestamp,
             username='vitsalis',
-            channel=channel2
+            channel=channel2,
+            message_type='text'
         )
 
         messages = json.loads(self.client.get(
@@ -393,7 +407,7 @@ class MessageViewGETTests(ChatTests):
 
         self.assertEqual(len(messages), 1)
 
-        self.assertEqual(messages[0]['text'], message1.text)
+        self.assertEqual(messages[0]['message_content'], message1.message_content)
 
     def test_request_messages_with_invalid_channel_name(self):
         """
@@ -404,10 +418,11 @@ class MessageViewGETTests(ChatTests):
         timestamp = 10 ** 11
 
         create_message(
-            text='Message1',
+            message_content='Message1',
             timestamp=timestamp,
             username='vitsalis',
-            channel=self.channel
+            channel=self.channel,
+            message_type='text'
         )
 
         response = self.client.get(
@@ -418,14 +433,16 @@ class MessageViewGETTests(ChatTests):
 
 class MessageViewPATCHTests(ChatTests):
     client_class = ChatClient
-    def patch_and_get_response(self, messageid, text, timestamp, typing):
+
+    def patch_and_get_response(self, messageid, message_content, timestamp, typing, message_type):
         """
         Patches a message on chat:message and returns the response
         """
         qstring = urllib.urlencode({
-            'text': text,
+            'message_content': message_content,
             'datetime_sent': timestamp,
-            'typing': typing
+            'typing': typing,
+            'message_type': message_type
         })
         return self.privileged_operation(
             reverse('chat:message', args=(messageid,)),
@@ -440,17 +457,19 @@ class MessageViewPATCHTests(ChatTests):
         """
         timestamp = 10 ** 11
         message = create_message(
-            text='Message',
+            message_content='Message',
             username='vitsalis',
             channel=self.channel,
-            timestamp=timestamp
+            timestamp=timestamp,
+            message_type='text'
         )
 
         response = self.patch_and_get_response(
             messageid=message.id,
-            text='Message Updated',
+            message_content='Message Updated',
             timestamp=timestamp + 10,
-            typing=False
+            typing=False,
+            message_type='text'
         )
 
         messages = Message.objects.filter(username='vitsalis')
@@ -459,7 +478,7 @@ class MessageViewPATCHTests(ChatTests):
         self.assertEqual(len(messages), 1)
         self.assertEqual(response.status_code, 204)
 
-        self.assertEqual(messages[0].text, 'Message Updated')
+        self.assertEqual(messages[0].message_content, 'Message Updated')
         self.assertEqual(datetime_to_timestamp(messages[0].datetime_start), timestamp)
         self.assertEqual(datetime_to_timestamp(messages[0].datetime_sent), timestamp + 10)
         self.assertEqual(messages[0].username, 'vitsalis')
@@ -473,30 +492,33 @@ class MessageViewPATCHTests(ChatTests):
         """
         timestamp = 10 ** 11
         message = create_message(
-            text='Message',
+            message_content='Message',
             username='vitsalis',
             channel=self.channel,
-            timestamp=timestamp
+            timestamp=timestamp,
+            message_type='text'
         )
 
         self.patch_and_get_response(
             messageid=message.id,
-            text='Message Updated',
+            message_content='Message Updated',
             timestamp=timestamp + 10,
-            typing=False
+            typing=False,
+            message_type='text'
         )
 
         response = self.patch_and_get_response(
             messageid=message.id,
-            text='Message Updated Again',
+            message_content='Message Updated Again',
             timestamp=timestamp + 100,
-            typing=False
+            typing=False,
+            message_type='text'
         )
 
         messages = Message.objects.filter(username='vitsalis')
 
         self.assertTrue(messages.exists())
-        self.assertEqual(messages[0].text, 'Message Updated')
+        self.assertEqual(messages[0].message_content, 'Message Updated')
 
         self.assertEqual(response.status_code, 400)
 
@@ -508,24 +530,26 @@ class MessageViewPATCHTests(ChatTests):
         """
         timestamp = 10 ** 11
         message = create_message(
-            text='Message',
+            message_content='Message',
             username='vitsalis',
             channel=self.channel,
-            timestamp=timestamp
+            timestamp=timestamp,
+            message_type='text'
         )
 
         response = self.patch_and_get_response(
             messageid=message.id,
-            text='Message Updated',
+            message_content='Message Updated',
             timestamp=timestamp - 1,
-            typing=False
+            typing=False,
+            message_type='text'
         )
 
         dbmessage = Message.objects.get(pk=message.id)
 
         self.assertEqual(response.status_code, 204)
 
-        self.assertEqual(dbmessage.text, 'Message Updated')
+        self.assertEqual(dbmessage.message_content, 'Message Updated')
         self.assertTrue(hasattr(dbmessage, 'datetime_sent'))
         self.assertEqual(dbmessage.datetime_sent, message.datetime_start)
         self.assertEqual(dbmessage.datetime_sent, dbmessage.datetime_start)
@@ -540,10 +564,11 @@ class MessageViewPATCHTests(ChatTests):
         """
         timestamp = 10 ** 11
         message = create_message(
-            text='Message',
+            message_content='Message',
             username='vitsalis',
             channel=self.channel,
-            timestamp=timestamp
+            timestamp=timestamp,
+            message_type='text'
         )
 
         qstring = urllib.urlencode({
@@ -561,7 +586,7 @@ class MessageViewPATCHTests(ChatTests):
 
         self.assertEqual(response.status_code, 400)
 
-        self.assertEqual(dbmessage.text, message.text)
+        self.assertEqual(dbmessage.message_content, message.message_content)
         self.assertIsNone(dbmessage.datetime_sent)
 
     def test_patch_message_without_datetime_sent(self):
@@ -572,14 +597,15 @@ class MessageViewPATCHTests(ChatTests):
         """
         timestamp = 10 ** 11
         message = create_message(
-            text='Message',
+            message_content='Message',
             username='vitsalis',
             channel=self.channel,
-            timestamp=timestamp
+            timestamp=timestamp,
+            message_type='text'
         )
 
         qstring = urllib.urlencode({
-            'text': 'Message Updated',
+            'message_content': 'Message Updated',
             'typing': False
         })
 
@@ -593,7 +619,7 @@ class MessageViewPATCHTests(ChatTests):
 
         self.assertEqual(response.status_code, 400)
 
-        self.assertEqual(dbmessage.text, message.text)
+        self.assertEqual(dbmessage.message_content, message.message_content)
         self.assertIsNone(dbmessage.datetime_sent)
 
 
@@ -607,10 +633,11 @@ class MessageViewDELETETests(ChatTests):
         """
         timestamp = 10 ** 11
         message = create_message(
-            text='Message',
+            message_content='Message',
             username='vitsalis',
             channel=self.channel,
-            timestamp=timestamp
+            timestamp=timestamp,
+            message_type='text'
         )
 
         response = self.privileged_operation(
@@ -631,10 +658,11 @@ class MessageViewDELETETests(ChatTests):
         """
         timestamp = 10 ** 11
         message = create_message(
-            text='Message',
+            message_content='Message',
             username='vitsalis',
             channel=self.channel,
-            timestamp=timestamp
+            timestamp=timestamp,
+            message_type='text'
         )
 
         response = self.privileged_operation(
@@ -703,10 +731,11 @@ class MessageModelTests(ChatTests):
         A message must be saved correctly in the database.
         """
         message = create_message(
-            text='Message',
+            message_content='Message',
             timestamp=10 ** 11,
             username='vitsalis',
-            channel=self.channel
+            channel=self.channel,
+            message_type='text'
         )
 
         messages = Message.objects.filter(pk=message.id)
@@ -716,7 +745,30 @@ class MessageModelTests(ChatTests):
 
         dbmessage = messages[0]
 
-        self.assertEqual(dbmessage.text, message.text)
+        self.assertEqual(dbmessage.message_content, message.message_content)
+        self.assertEqual(dbmessage.datetime_start, message.datetime_start)
+        self.assertEqual(dbmessage.username, message.username)
+        self.assertEqual(dbmessage.channel.id, message.channel.id)
+        self.assertTrue(dbmessage.typing)
+
+        link = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAG1BMVEX///8AAACdnZ3X19eZmZnq6ur7+/vOzs7x8fHjK9NyAAAARElEQVRoge3NiQmAMBAAsNrr4/4TC9YNlBNKskBKAT42W7317LgdS2THVSzeLu6xnCN7foy/YgAAAAAAAAAAAAAAgJcuaoEAp2NAe+UAAAAASUVORK5CYII='
+
+        message = create_message(
+            message_content=link,
+            timestamp=10 ** 11,
+            username='vitsalis',
+            channel=self.channel,
+            message_type='image'
+        )
+
+        messages = Message.objects.filter(pk=message.id)
+
+        self.assertTrue(messages.exists())
+        self.assertEqual(messages.count(), 1)
+
+        dbmessage = messages[0]
+
+        self.assertEqual(dbmessage.message_content, message.message_content)
         self.assertEqual(dbmessage.datetime_start, message.datetime_start)
         self.assertEqual(dbmessage.username, message.username)
         self.assertEqual(dbmessage.channel.id, message.channel.id)
