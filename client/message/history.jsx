@@ -6,6 +6,7 @@ const React = require('react/addons'),
 const History = React.createClass({
     _wrapper: null,
     _title: document.title,
+    _audio: new Audio('static/sounds/message_sound.mp3'),
     _scrollDown() {
         setTimeout(() => {
             this._wrapper.scrollTop = this._wrapper.scrollHeight;
@@ -88,6 +89,8 @@ const History = React.createClass({
                 this.setState({
                     unread: this.state.unread + 1
                 });
+
+                this._audio.play();
             }
         }
     },
