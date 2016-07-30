@@ -1,0 +1,124 @@
+#username-set input[type='text'], #username-set input[type='password']
+{
+    margin-top: 5px;
+    margin-left: 220px;
+    padding: 0px 10px;
+    display: block;
+    line-height: 30px;
+    width: 175px;
+    border-radius: 5px;
+    outline: none;
+}
+
+#username-set input[type='submit']
+{
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding: 7px 10px;
+    color: white;
+    background-color: #0084ff;
+    border: solid #0084ff;
+    border-radius: 5px;
+}
+
+.top {
+    border-bottom: 1px solid #cfcfcf;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+}
+
+.top h1 {
+    font-size: 22px;
+    margin-top: 7px;
+    margin-left: 20px;
+}
+
+.app {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.nicklist {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 20%;
+}
+
+#online-list {
+    margin: 10px 0 0 0;
+    font-size: 17px;
+    padding: 0;
+    height: 50px;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+#online-list span {
+    display: block;
+    margin-left: 45px;
+}
+
+#online-list li {
+    padding: 5px 10px;
+    height: 50px;
+    cursor: pointer;
+}
+
+#online-list li.active {
+    background-color: #0084ff;
+    color: white;
+    position: relative;
+}
+
+.chat {
+    position: absolute;
+    left: 20%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-left: 1px solid #8d8d8d;
+}
+
+#message input {
+    height: 100%;
+}
+
+.textarea {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #ddd;
+}
+
+.history {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+}
+
+.history-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    overflow-y: scroll;
+}
+
+form + a {
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 9px;
+}

@@ -1,0 +1,112 @@
+body{
+	background: #FFF;
+}
+
+.container .jumbotron{
+	border-radius: 0;
+	color: #046380;
+	margin: 0;
+}
+
+.account-details{
+	background: #444;
+	box-shadow: 0px 0px 5px #444;
+}
+
+.account-details h4{
+	margin: 0;
+	padding: 10px;
+	color: #CCC;
+}
+
+.account-details h4 span{
+	color: #A7A37E;
+}
+
+.content_area{
+	background: #F2F2F2;
+	padding-top: 10px;
+}
+
+.single_widget{
+	background: #CCC;
+	margin: 10px 0px;
+	border-radius: 6px;
+	box-shadow: 2px 2px 0px #888;
+}
+
+.single_widget h3{
+	color: #046380
+}
+
+.single_widget h4{
+	color: #A7A37E;
+	text-align: center;
+	padding-top: 5px;
+}
+
+.single_widget .table h4{
+	padding: 0;
+	margin: 0;
+}
+
+.single_widget .inner_area{
+	margin-top: 20px;
+	background: #F2F2F2;
+	border-radius: 6px;
+}
+
+.single_widget .table tr td:nth-child(1){
+	text-align: right;
+	width: 50%;
+}
+
+.single_widget .table tr td:nth-child(1) h4{
+	text-align: right;
+}
+
+.single_widget .table tr td:nth-child(2) h4{
+	text-align: left;
+}
+
+.inner_area.data_sheet{
+	border-radius: 0;
+	background: #EFECCA
+}
+
+.single_widget .data_sheet .table tr td{
+	text-align: left;
+	width: auto;
+}
+
+.single_widget .data_sheet .table tr th{
+	color: #046380
+}
+
+.single_widget .table.table-striped{
+	margin-bottom: 20px;
+}
+
+.single_widget .table-striped tr td{
+	padding: 15px;
+}
+
+.single_widget .table_title{
+	color: #046380;
+	text-align: left;
+}
+
+.text_field{
+	background: #F2F2F2;
+	border-radius: 0;
+	box-shadow: inset 0px 0px 5px #CCC;
+}
+
+.table.table-striped.form_table{
+	background: #FFF
+}
+
+.icons span{
+	padding: 5px;
+	color: #888
+}
