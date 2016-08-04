@@ -1,4 +1,5 @@
 {
+    "password": "apassword",
     "node": {
         "hostname": "front",
         "port": 8080
