@@ -272,7 +272,7 @@ message area, the user information area.
 
 ## Recent conversations
 
-The recent converstions list contains a list of recently used channels and
+The recent conversations list contains a list of recently used channels and
 recently accessed private message partners. Recent conversations are shown from
 most recent to least recent, one below the other. There is one currently active
 conversation at a time. That conversation may not always be shown at the top of
