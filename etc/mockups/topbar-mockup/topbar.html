@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Ting Mockup</title>
+        <link rel='stylesheet' href='style.css' />
+        <link rel='stylesheet' href='css/bootstrap.min.css' />
+        <meta http-equiv='content-type' content='text/html;charset=utf-8' />
+    </head>
+    <body>
+        <div class='top'>
+            <h1>Ting</h1>
+            <img src='avatar.png' alt='img' class='avatar' />
+            <div id='topbar'>
+                <span id='settings'>Ρυθμίσεις</span>
+                <span id='logout'>Έξοδος</span>
+            </div>
+        </div>
+
+        <div class='app'>
+            <div class='nicklist'>
+                <ul id='online-list'>
+                    <li class='active'><span>ting</span></li>
+                </ul>
+            </div>
+
+            <div class='history'>
+                <div class='history-wrapper'>
+                </div>
+            </div>
+
+            <div class='chat'>
+                <form id='message'>
+                    <div class='textarea'>
+                        <input type='text' class='form-control' placeholder='Γράψε ένα μήνυμα...'/>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script></body>
+        <script type='text/javascript'>
+            $(document).ready(function() {
+                $('img.avatar').click(function() {
+                    $('#topbar').toggle('slow');            
+                });
+            });
+        </script>
+    </body>
+</html>
