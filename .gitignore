@@ -3,6 +3,7 @@ bower_components/
 *.pyc
 *.swp
 *.log
+*.DS_Store
 config/local.json
 nohup.out
 client/dist/
