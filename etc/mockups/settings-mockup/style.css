@@ -1,0 +1,98 @@
+.top {
+    border-bottom: 1px solid #cfcfcf;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+}
+
+.top h1 {
+    font-size: 22px;
+    margin-top: 7px;
+    margin-left: 20px;
+}
+
+img.avatar {
+    position: absolute;
+    top: 10%;
+    right: 20px;
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+#settings {
+    position: absolute;
+    top: 40px;
+    left: 100px;
+    width: 90%;
+    height: 90%;
+}
+
+#icon-username {
+    position: absolute;
+    top: 30px;
+    left: 480px;
+}
+
+#icon {
+    position: absolute;
+    width: 100px;
+    height: 150px;
+    border: 1px solid black;
+}
+
+#icon img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100px;
+    width: 100px;
+}
+
+#icon span {
+    position: absolute;
+    top: 100px;
+    width: 100%;
+    padding: 5px 10px;
+    border-top: 1px solid black;
+}
+
+#icon-username h2 {
+    position: absolute;
+    top: -20px;
+    left: 120px;
+}
+
+#settings #form {
+    position: absolute;
+    top: 225px;
+    left: 240px;
+}
+
+#form label {
+    width: 300px;
+    margin: 0px 20px 30px -12px;
+    text-align: right;
+}
+
+#form select {
+    width: 174px;
+}
+
+#form p:nth-child(3) select {
+    width: 55.5px !important;
+}
+
+#settings button {
+    position: absolute;
+    bottom: 20px;
+    left: 495px;
+    color: white;
+    background-color: #0084ff;
+    border: 1px solid #0084ff;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
