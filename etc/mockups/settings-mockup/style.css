@@ -26,15 +26,20 @@ img.avatar {
 #settings {
     position: absolute;
     top: 40px;
-    left: 100px;
-    width: 90%;
+    left: 0px;
+    right: 0px;
+    width: 500px;
     height: 90%;
+    margin: auto;
 }
 
 #icon-username {
     position: absolute;
     top: 30px;
-    left: 480px;
+    left: 0px;
+    right: 0px;
+    width: 50%;
+    margin: auto;
 }
 
 #icon {
@@ -69,12 +74,15 @@ img.avatar {
 #settings #form {
     position: absolute;
     top: 225px;
-    left: 240px;
+    left: 0px;
+    right: 0px;
+    width: 90%;
+    margin: auto;
 }
 
 #form label {
-    width: 300px;
-    margin: 0px 20px 30px -12px;
+    width: 150px;
+    margin: 0px 20px 30px 0px;
     text-align: right;
 }
 
@@ -89,7 +97,10 @@ img.avatar {
 #settings button {
     position: absolute;
     bottom: 20px;
-    left: 495px;
+    left: 0px;
+    right: 0px;
+    width: 30%;
+    margin: auto;
     color: white;
     background-color: #0084ff;
     border: 1px solid #0084ff;
