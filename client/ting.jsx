@@ -8,7 +8,10 @@ const UserList = require('./userlist.jsx'),
       i18n = require('i18next-client'),
       io = require('socket.io-client'),
       config = require('./config.jsx'),
-      _ = require('lodash');
+      _ = require('lodash'),
+      Route = require('react-router-dom').Route,
+      BrowserRouter = require('react-router-dom').BrowserRouter,
+      Switch = require('react-router-dom').Switch;
 
 const Ting = React.createClass({
     _socket: null,
@@ -163,6 +166,11 @@ i18n.init(
         lng: 'el-GR'
     },
     () => {
-        React.render(<Ting />, document.getElementsByClassName('ting')[0]);
+        ReactDOM.render((
+            <BrowserRouter>
+                <Switch>
+                    <Route path='/' component={Ting} />
+                </Switch>
+            </BrowserRouter>), document.getElementsByClassName('ting')[0]);
     }   
 );
