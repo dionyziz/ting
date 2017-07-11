@@ -1,4 +1,4 @@
-const React = require('react/addons'),
+const React = require('react'),
       Avatar = require('../avatar.jsx'),
       MessageContent = require('./content.jsx');
 

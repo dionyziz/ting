@@ -1,6 +1,7 @@
-var React = require('react');
-var i18n = require('i18next-client');
-var classNames = require('classnames');
+var React = require('react'),
+    ReactDOM = require('react-dom'),
+    i18n = require('i18next-client'),
+    classNames = require('classnames');
 
 var LoginForm = React.createClass({
     getInitialState() {
@@ -47,7 +48,7 @@ var LoginForm = React.createClass({
         this._handleError(error);
     },
     onSuccess() {
-        $(React.findDOMNode(this.refs.usernameSetModal)).modal('hide');
+        $(ReactDOM.findDOMNode(this.refs.usernameSetModal)).modal('hide');
     },
     handleChange(event) {
         this._onUsernameChanged(event.target.value);
@@ -67,9 +68,9 @@ var LoginForm = React.createClass({
         this.props.onLoginIntention(this.state.username);
     },
     componentDidMount() {
-        $(React.findDOMNode(this.refs.usernameSetModal)).modal('show');
+        $(ReactDOM.findDOMNode(this.refs.usernameSetModal)).modal('show');
         setTimeout(() => {
-            React.findDOMNode(this.refs.username).focus();
+            ReactDOM.findDOMNode(this.refs.username).focus();
         }, 300);
     },
     render() {

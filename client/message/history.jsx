@@ -1,4 +1,5 @@
-const React = require('react/addons'),
+const React = require('react'),
+      ReactDOM = require('react-dom'),
       emoticons = require('emoticons'),
       Message = require('./view.jsx'),
       _ = require('lodash');
@@ -95,7 +96,7 @@ const History = React.createClass({
         }
     },
     componentDidMount() {
-        this._wrapper = React.findDOMNode(this.refs.wrapper);
+        this._wrapper = ReactDOM.findDOMNode(this.refs.wrapper);
 
         $.getJSON('node_modules/emoticons/support/skype/emoticons.json', function(definition) {
             emoticons.define(definition);

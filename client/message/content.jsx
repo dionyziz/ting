@@ -1,4 +1,4 @@
-const React = require('react/addons'),
+const React = require('react'),
       Text = require('./text.jsx'),
       Image = require('./image.jsx');
 
