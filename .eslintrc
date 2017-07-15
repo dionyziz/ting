@@ -27,11 +27,12 @@
         "jquery": true,
         "jest": true
     },
-    "extends": "eslint:recommended",
-    "ecmaFeatures": {
-        "jsx": true,
-        "experimentalObjectRestSpread": true
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
+    "extends": "eslint:recommended",
     "plugins": [
         "react",
         "require-path-exists"
