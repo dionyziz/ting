@@ -55,7 +55,7 @@ describe('Message', function() {
     });
 
     it('distinguishes messages that are being typed', function() {
-        const li = renderMessage(
+        var li = renderMessage(
             'hilbert',
              true,
              'Wir müssen wissen — wir werden wissen!',
