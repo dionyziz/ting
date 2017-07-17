@@ -1,4 +1,4 @@
-const React = require('react/addons'),
+const React = require('react'),
       escape = require('escape-html'),
       emoticons = require('emoticons'),
       autolinks = require('autolinks');

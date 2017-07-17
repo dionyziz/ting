@@ -1,5 +1,6 @@
-const React = require('react/addons');
-const TestUtils = React.addons.TestUtils;
+const React = require('react');
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-dom/test-utils');
 
 jest.dontMock('../view.jsx');
 
@@ -11,7 +12,7 @@ describe('Message', function() {
         const domNode = TestUtils.findRenderedDOMComponentWithTag(
             reactNode,
             node
-        ).getDOMNode();
+        );
 
         return domNode;
     }
@@ -37,8 +38,8 @@ describe('Message', function() {
         );
 
         expect(li.textContent).toContain('hilbert');
-        expect(React.findDOMNode(li).className).toContain('other');
-        expect(React.findDOMNode(li).className).not.toContain('typing');
+        expect(ReactDOM.findDOMNode(li).className).toContain('other');
+        expect(ReactDOM.findDOMNode(li).className).not.toContain('typing');
     });
 
     it('distinguishes your own messages', function() {
@@ -50,11 +51,11 @@ describe('Message', function() {
              'text'
         );
 
-        expect(React.findDOMNode(li).className).toContain('self');
+        expect(ReactDOM.findDOMNode(li).className).toContain('self');
     });
 
     it('distinguishes messages that are being typed', function() {
-        const li = renderMessage(
+        var li = renderMessage(
             'hilbert',
              true,
              'Wir müssen wissen — wir werden wissen!',
@@ -62,7 +63,7 @@ describe('Message', function() {
              'text'
         );
 
-        expect(React.findDOMNode(li).className).toContain('typing');
+        expect(ReactDOM.findDOMNode(li).className).toContain('typing');
 
         var link = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAG1BMVEX///8AAACdnZ3X19eZmZnq6ur7+/vOzs7x8fHjK9NyAAAARElEQVRoge3NiQmAMBAAsNrr4/4TC9YNlBNKskBKAT42W7317LgdS2THVSzeLu6xnCN7foy/YgAAAAAAAAAAAAAAgJcuaoEAp2NAe+UAAAAASUVORK5CYII='; 
 
@@ -74,6 +75,6 @@ describe('Message', function() {
              'text'
         );
 
-        expect(React.findDOMNode(li).className).toContain('typing');
+        expect(ReactDOM.findDOMNode(li).className).toContain('typing');
     });
 });

@@ -1,4 +1,5 @@
-const React = require('react/addons'),
+const React = require('react'),
+      ReactDOM = require('react-dom'),
       i18n = require('i18next-client');
 
 const MessageForm = React.createClass({
@@ -21,7 +22,7 @@ const MessageForm = React.createClass({
         if (message.trim().length > 0) {
             this.props.onMessageSubmit(message, 'text');
 
-            React.findDOMNode(this.refs.inputField).value = '';
+            ReactDOM.findDOMNode(this.refs.inputField).value = '';
         }
 
         this.setState({
@@ -29,7 +30,7 @@ const MessageForm = React.createClass({
         });
     },
     onLogin() {
-        React.findDOMNode(this.refs.inputField).focus();
+        ReactDOM.findDOMNode(this.refs.inputField).focus();
     },
     handleChange(event) {
         var message = event.target.value;

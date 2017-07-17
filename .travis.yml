@@ -1,5 +1,5 @@
 language: node_js
-node_js: "iojs-v3"
+node_js: "node"
 sudo: true
 before_script:
     - cd realtime; npm install; cd ..

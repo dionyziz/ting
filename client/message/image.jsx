@@ -1,4 +1,4 @@
-const React = require('react/addons');
+const React = require('react');
 
 const Image = React.createClass({
     render() {
