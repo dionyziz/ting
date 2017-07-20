@@ -5,18 +5,16 @@ const UserList = require('./userlist.jsx'),
       React = require('react'),
       ReactDOM = require('react-dom'),
       Analytics = require('./analytics.js'),
-      io = require('socket.io-client'),
-      config = require('./config.jsx'),
       _ = require('lodash'),
       TopBar = require('./topbar.jsx');
 
 const Ting = React.createClass({
-    _socket: null,
     onLogin(username, people) {
         this.refs.history.onLogin(username, people);
         this.refs.messageForm.onLogin(username, people);
         this.refs.userList.onLogin(username, people);
         this.refs.topBar.onLogin(username);
+        this.props.onLoginIntention(username, people);
 
         // currently `type` is always 'channel'
         $.getJSON('/api/messages/channel/' + this.state.channel, (messages) => {
@@ -36,54 +34,64 @@ const Ting = React.createClass({
 
         return {
             channel,
-            intendedUsername: null,
-            // TODO(dionyziz): race conditions and queues
             currentMessageId: null
+            // TODO(dionyziz): race conditions and queues
         };
     },
     componentWillMount() {
-        const URL = window.location.hostname + ':' + config.port;
-        this._socket = io.connect(URL, {secure: config.websocket.secure});
-
-        this._socket.on('login-response', ({success, people, error}) => {
-            if (!success) {
-                this.refs.loginForm.onError(error);
-            }
-            else {
-                this.refs.loginForm.onSuccess();
-
-                var peopleList = _.chain(people)
-                    .without(this.intendedUsername)
-                    .value();
-
-                this.onLogin(this.state.intendedUsername, peopleList);
-            }
-        });
-
-        this._socket.on('message', (data) => {
-            this.refs.history.onMessage(data);
-        });
-
-        this._socket.on('part', (username) => {
-            this.refs.userList.onPart(username);
-            this.refs.history.deleteTypingMessage(username);
-        });
-
-        this._socket.on(
-            'join',
-            (username) => this.refs.userList.onJoin(username)
-        );
-
-        this._socket.on('start-typing-response', (messageid) => {
-            this.setState({currentMessageId: messageid});
-            this.refs.messageForm.onStartTypingResponse(messageid);
-        });
-
-        this._socket.on('update-typing-messages', (messagesTyping) => {
-            this.refs.history.onUpdateTypingMessages(messagesTyping);
-        });
-
         Analytics.init();
+    },
+    componentDidMount() {
+        this.props.addListener('login-response', this.onLoginResponse);
+        this.props.addListener('message', this.onMessage);
+        this.props.addListener('part', this.onPart);
+        this.props.addListener('join', this.onJoin);
+        this.props.addListener('start-typing-response', this.onStartTypingResponse);
+        this.props.addListener('update-typing-messages', this.onUpdateTypingMessages);
+
+        if (this.props.username != null) {
+            Analytics.onLoginIntention(this.props.username);
+
+            this.onLogin(this.props.username, this.props.people);
+        }
+    },
+    componentWillUnmount() {
+        this.props.removeListener('login-response', this.onLoginResponse);
+        this.props.removeListener('message', this.onMessage);
+        this.props.removeListener('part', this.onPart);
+        this.props.removeListener('join', this.onJoin);
+        this.props.removeListener('start-typing-response', this.onStartTypingResponse);
+        this.props.removeListener('update-typing-messages', this.onUpdateTypingMessages);
+    },
+    onLoginResponse({success, people, error}) {
+        if (!success) {
+            this.refs.loginForm.onError(error);
+        }
+        else {
+            this.refs.loginForm.onSuccess();
+
+            var peopleList = _.chain(people)
+                .value();
+
+            this.onLogin(this.props.username, peopleList);
+        }
+    },
+    onMessage(data) {
+        this.refs.history.onMessage(data);
+    },
+    onPart(username) {
+        this.refs.userList.onPart(username);
+        this.refs.history.deleteTypingMessage(username);
+    },
+    onJoin(username) {
+        this.refs.userList.onJoin(username);
+    },
+    onStartTypingResponse(messageid) {
+        this.setState({currentMessageId: messageid});
+        this.refs.messageForm.onStartTypingResponse(messageid);
+    },
+    onUpdateTypingMessages(messagesTyping) {
+        this.refs.history.onUpdateTypingMessages(messagesTyping);
     },
     onMessageSubmit(message, messageType) {
         if (this.state.currentMessageId == null) {
@@ -98,7 +106,7 @@ const Ting = React.createClass({
             messageid: this.state.currentMessageId,
             message_type: messageType
         };
-        this._socket.emit('message', data);
+        this.props.socket.emit('message', data);
 
         Analytics.onMessageSubmit(message);
 
@@ -111,7 +119,7 @@ const Ting = React.createClass({
             message_content: message,
             message_type: messageType
         };
-        this._socket.emit('start-typing', data);
+        this.props.socket.emit('start-typing', data);
     },
     onTypingUpdate(message) {
         if (this.state.currentMessageId == null) {
@@ -123,13 +131,13 @@ const Ting = React.createClass({
             message_content: message,
             messageid: this.state.currentMessageId
         };
-        this._socket.emit('typing-update', data);
+        this.props.socket.emit('typing-update', data);
     },
     onLoginIntention(intendedUsername) {
-        this.setState({intendedUsername});
+        this.props.updateUsername(intendedUsername);
 
         Analytics.onLoginIntention(intendedUsername);
-        this._socket.emit('login', intendedUsername);
+        this.props.socket.emit('login', intendedUsername);
     },
     render() {
         return (
@@ -153,23 +161,11 @@ const Ting = React.createClass({
                     </div>
                 </div>
                 <LoginForm ref='loginForm'
+                           username={this.props.username}
                            onLoginIntention={this.onLoginIntention} />
             </div>
         );
     }
 });
 
-i18n.init(
-    { 
-        resGetPath:' locales/__lng__.json',
-        lng: 'el-GR'
-    },
-    () => {
-        ReactDOM.render((
-            <BrowserRouter>
-                <Switch>
-                    <Route path='/' component={Ting} />
-                </Switch>
-            </BrowserRouter>), document.getElementsByClassName('ting')[0]);
-    }   
-);
+module.exports = Ting;
