@@ -523,13 +523,36 @@ If the uploaded file is not a valid avatar, then the error message "Δοκίμα
 
 Next to the avatar, the username is displayed.
 
-Below the avatar and the username, there are five labels associated with their
-respective inputs. The inputs are prefilled with the settings the user has
-entered previously.
+Below the avatar and the username, there are several form elements. The first
+element concerns changing the user's password. The rest of the elements pertain
+to various settings and consist of a label and a respective input.  The inputs
+are prefilled with the settings the user has entered previously.
 
-The first label is "Password". The input is a text box. If the user has left
-this field empty, a warning text appears above the label and the field stating:
+The password changing section is a single button. If the user has not set a
+password, then the button is entitled "Ορισμός κωδικού". In that case, a
+warning text (in yellow or red) appears above the label and the field stating:
 "Διάλεξε έναν κωδικό ώστε να μην χάσεις την πρόσβαση στο λογαριασμό σου".
+When the button is clicked, a modal form appears. The modal form consists of
+two labels and their respective input fields entitled "Νέος κωδικός" and "Νέος
+κωδικός (ξανά)" and a button captioned "Ορισμός κωδικού". The form also has an
+X button on the top right allowing the user to cancel setting the password,
+which hides the modal form. Entering an unmatching password shows the warning
+text "Οι κωδικοί δεν ταιριάζουν" above the two passwords. If the user sets a
+password correctly, then the modal form disappears. In the underlying settings
+page, the warning text is now changed into a success text (in blue or green)
+above the password setting button, reading "Το όνομα XXX είναι πλέον δικό σου."
+where XXX is the username of the user. The button is then changed to read
+"Αλλαγή κωδικού".
+
+If the user has already set a password, then the button is entitled "Αλλαγή
+κωδικού". Clicking that button shows a similar modal form, except that now it
+has three elements consisting of a label and an input text each. They are
+captioned "Παλιός κωδικός", "Νέος κωδικός", "Νέος κωδικός (ξανά)". The form has
+a similar action button entitled "Αλλαγή κωδικού" and a similar X button as
+before. Mismatching passwords show the same error. An incorrect old password
+shows the error "Ο παλιός κωδικός σου δεν είναι σωστός." Changing the password
+successfully hides the form and shows a success message (in blue or green)
+above the password changing button, reading "Ο κωδικός σου άλλαξε."
 
 The next label is "E-mail" with a text box input.
 
