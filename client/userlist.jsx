@@ -1,5 +1,6 @@
 const React = require('react'),
-      Avatar = require('./avatar.jsx');
+      Avatar = require('./avatar.jsx'),
+      Update = require('immutability-helper');
 
 const UserList = React.createClass({
     getInitialState() {
@@ -13,7 +14,7 @@ const UserList = React.createClass({
     },
     onJoin(username) {
         if (username != this.state.myUsername) {
-            var newState = React.addons.update(
+            var newState = Update(
                 this.state, {
                     users: {
                         $push: [username]
