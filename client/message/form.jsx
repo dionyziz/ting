@@ -37,7 +37,7 @@ const MessageForm = React.createClass({
         this._typeLastMessage = 'text';
 
         if (message.trim().length > 0) {
-            if (this.state.message == '') {
+            if (this.state.message.trim() == '') {
                 this.props.onStartTyping(message, 'text');
             }
             else if (Date.now() - this._lastUpdate >= this._MIN_UPDATE_WHILE_TYPING) {
