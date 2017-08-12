@@ -22,7 +22,7 @@ const Ting = React.createClass({
 
         // currently `type` is always 'channel'
         $.getJSON('/api/messages/channel/' + this.state.channel, (messages) => {
-            const history = _.indexBy(messages, 'id');
+            const history = _.keyBy(messages, 'id');
 
             this.refs.history.onHistoricalMessagesAvailable(history);
         });
