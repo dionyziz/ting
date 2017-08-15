@@ -5,13 +5,10 @@ const UserList = require('./userlist.jsx'),
       React = require('react'),
       ReactDOM = require('react-dom'),
       Analytics = require('./analytics.js'),
-      i18n = require('i18next-client'),
       io = require('socket.io-client'),
       config = require('./config.jsx'),
       _ = require('lodash'),
-      Route = require('react-router-dom').Route,
-      BrowserRouter = require('react-router-dom').BrowserRouter,
-      Switch = require('react-router-dom').Switch;
+      TopBar = require('./topbar.jsx');
 
 const Ting = React.createClass({
     _socket: null,
@@ -19,6 +16,7 @@ const Ting = React.createClass({
         this.refs.history.onLogin(username, people);
         this.refs.messageForm.onLogin(username, people);
         this.refs.userList.onLogin(username, people);
+        this.refs.topBar.onLogin(username);
 
         // currently `type` is always 'channel'
         $.getJSON('/api/messages/channel/' + this.state.channel, (messages) => {
@@ -138,6 +136,7 @@ const Ting = React.createClass({
             <div>
                 <div className='top'>
                     <h1>Ting</h1>
+                    <TopBar ref='topBar' />
                 </div>
                 <div className='app'>
                     <div className='nicklist'>

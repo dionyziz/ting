@@ -249,6 +249,43 @@ ul {
     display: block;
     margin: 40px auto 0 auto;
 }
+.top .topbar {
+    position: absolute;
+    top: 10%;
+    right: 22px;
+}
+.topbar img.avatar {
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+.topbar button {
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+}
+.topbar #top-btn:hover, .topbar #top-btn:active {
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+}
+.topbar ul {
+    margin-top: 5px;
+    min-width: 20px;
+}
+.dropdown-menu:before {
+    position: absolute;
+    top: -7px;
+    right: 9px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #ccc;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    content: '';
+}
 .no-gutters {
     margin-left: 0;
     margin-right: 0;

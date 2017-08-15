@@ -12,6 +12,10 @@
     "messageInput": {
         "placeholder": "Γράψε ένα μήνυμα..."
     },
+    "topbarSet": {
+        "settings": "Ρυθμίσεις",
+        "logout": "Έξοδος"
+    },
     "settingsSet": {
         "changePic": "Αλλαγή της εικόνας μου",
         "password": "Κωδικός",
