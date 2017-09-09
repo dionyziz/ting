@@ -68,10 +68,12 @@ var LoginForm = React.createClass({
         this.props.onLoginIntention(this.state.username);
     },
     componentDidMount() {
-        $(ReactDOM.findDOMNode(this.refs.usernameSetModal)).modal('show');
-        setTimeout(() => {
-            ReactDOM.findDOMNode(this.refs.username).focus();
-        }, 300);
+        if (this.props.username == null) {
+            $(ReactDOM.findDOMNode(this.refs.usernameSetModal)).modal('show');
+            setTimeout(() => {
+                ReactDOM.findDOMNode(this.refs.username).focus();
+            }, 300);
+        }
     },
     render() {
         var alertClasses = classNames({

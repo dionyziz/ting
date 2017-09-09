@@ -11,5 +11,23 @@
     },
     "messageInput": {
         "placeholder": "Γράψε ένα μήνυμα..."
+    },
+    "topbarSet": {
+        "settings": "Ρυθμίσεις",
+        "logout": "Έξοδος"
+    },
+    "settingsSet": {
+        "changePic": "Αλλαγή της εικόνας μου",
+        "password": "Κωδικός",
+        "email": "E-mail",
+        "birthDate": "Ημερομηνία Γέννησης",
+        "sex": "Φύλο",
+        "region": "Περιοχή",
+        "save": "Αποθήκευση"
+    },
+    "gender": {
+        "boy": "Aγόρι",
+        "girl": "Κορίτσι",
+        "undefined": "-"
     }
 }

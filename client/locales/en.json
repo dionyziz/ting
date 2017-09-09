@@ -11,5 +11,23 @@
     },
     "messageInput": {
         "placeholder": "Type a message..."
+    },
+    "topbarSet": {
+        "settings": "Settings",
+        "logout": "Log out"
+    },
+    "settingsSet": {
+        "changePic": "Change my picture",
+        "password": "Password",
+        "email": "E-mail",
+        "birthDate": "Birth Date",
+        "sex": "Sex",
+        "region": "Region",
+        "save": "Save"
+    },
+    "gender": {
+        "boy": "Boy",
+        "girl": "Girl",
+        "undefined": "-"
     }
 }

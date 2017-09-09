@@ -1,1 +1,1 @@
-require('./ting.jsx');
+require('./app.jsx');
