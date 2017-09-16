@@ -3,6 +3,7 @@ const React = require('react'),
       emoticons = require('emoticons'),
       Message = require('./view.jsx'),
       _ = require('lodash'),
+      $ = require('jquery'),
       update = require('immutability-helper');
 
 const History = React.createClass({

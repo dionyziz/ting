@@ -13,9 +13,10 @@ Running Ting
 2. Set up a MySQL database
 3. Make a copy of `config/common.json` into `config/local.json` and add your
    settings.
-4. Install node package manager and the dependencies required to run Django 
-   installation by running `sudo apt-get install python-dev libmysqlclient-dev
-   libffi-dev python-pip npm`.
+4. Install NodeJS and the dependencies required to run Django installation by
+   running `sudo apt-get install python-dev libmysqlclient-dev libffi-dev
+   python-pip nodejs nodejs-legacy`. [Install
+   yarn](https://yarnpkg.com/lang/en/docs/install/).
 5. Make a virtual python environment using `virtualenv venv` on the API/ folder.
    We recommend this because the API will use its own copies of python and of the
    required dependencies, so you can update your libraries in your system
@@ -28,15 +29,13 @@ Running Ting
    Django server.
 8. Run the Django server using `python manage.py runserver` inside the `API`
    folder. If it asks you to run migrations, do it.
-9. Install bower by running `sudo npm install -g bower`.
-   Install the required dependencies for the node server and the client by
-   running `npm install` in client/ and realtime/. Then `bower install` in client/.
-   (Please note that some dependencies like bower or gulp may not be working through 
-   the absolute path so `PATH=$(npm bin):$PATH` should solve the problem.)
+9. Install the required dependencies for the node server and the client by
+   running `yarn install` in client/ and realtime/.
 10. Run the node service using `node server.js` or `forever start server.js` inside the
-   `realtime` folder.
-11. Build the client-side bundle with `npm run build` inside the `client`
-   folder. Or run `npm run watch` if you plan to edit the client-side source.
+    `realtime` folder.
+11. Build the client-side bundle with `yarn build` inside the `client`
+    folder. Or run `yarn build --watch` if you plan to edit the client-side
+    source.
 12. Set up nginx to statically serve the `client` folder.
 
 Contributing

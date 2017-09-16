@@ -6,6 +6,7 @@ const UserList = require('./userlist.jsx'),
       ReactDOM = require('react-dom'),
       Analytics = require('./analytics.js'),
       _ = require('lodash'),
+      $ = require('jquery'),
       TopBar = require('./topbar.jsx');
 
 const Ting = React.createClass({
