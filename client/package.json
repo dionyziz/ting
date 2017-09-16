@@ -4,7 +4,9 @@
   "description": "A chat platform",
   "main": "client.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
