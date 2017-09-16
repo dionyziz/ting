@@ -209,13 +209,6 @@ ul {
     flex-direction: row;
     justify-content: center;
 }
-#settings #icon-username:after {
-   content: ".";
-   visibility: hidden;
-   display: block;
-   height: 0;
-   clear: both;
-}
 #icon-username h2 {
     margin-left: 12px;
 }
