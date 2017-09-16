@@ -35,8 +35,8 @@ Running Ting
    the absolute path so `PATH=$(npm bin):$PATH` should solve the problem.)
 10. Run the node service using `node server.js` or `forever start server.js` inside the
    `realtime` folder.
-11. Build the client-side bundle with `gulp browserify` inside the `client`
-   folder. Or run `gulp watchify` if you plan to edit the client-side source.
+11. Build the client-side bundle with `npm run build` inside the `client`
+   folder. Or run `npm run watch` if you plan to edit the client-side source.
 12. Set up nginx to statically serve the `client` folder.
 
 Contributing
