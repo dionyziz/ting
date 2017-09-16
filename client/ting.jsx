@@ -9,6 +9,8 @@ const UserList = require('./userlist.jsx'),
       $ = require('jquery'),
       TopBar = require('./topbar.jsx');
 
+require('./css/index.css');
+
 const Ting = React.createClass({
     onLogin(username, people) {
         this.refs.history.onLogin(username, people);

@@ -4,6 +4,8 @@ const React = require('react'),
       NavLink = require('react-router-dom').NavLink,
       i18n = require('i18next-client');
 
+require('./css/settings.css');
+
 const Settings = React.createClass({
     getInitialState() {
         return {
