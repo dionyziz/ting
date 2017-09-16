@@ -11,6 +11,9 @@ const React = require('react'),
       Ting = require('./ting.jsx'),
       Settings = require('./settings.jsx');
 
+require('bootstrap');
+require('bootstrap/dist/css/bootstrap.css');
+
 const App = React.createClass({
     _socket: null,
     getInitialState() {

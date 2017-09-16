@@ -1,7 +1,8 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     i18n = require('i18next-client'),
-    classNames = require('classnames');
+    classNames = require('classnames'),
+    $ = require('jquery');
 
 var LoginForm = React.createClass({
     getInitialState() {
