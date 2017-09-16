@@ -95,8 +95,8 @@ const Ting = React.createClass({
     },
     onMessageSubmit(message, messageType) {
         if (this.state.currentMessageId == null) {
-            //console.log('Skipping message submit');
-            return;
+            //console.log('Don\'t have a message id yet.');
+            return false;
         }
 
         const data = {
@@ -111,6 +111,7 @@ const Ting = React.createClass({
         Analytics.onMessageSubmit(message);
 
         this.setState({currentMessageId: null});
+        return true;
     },
     onStartTyping(message, messageType) {
         var data = {

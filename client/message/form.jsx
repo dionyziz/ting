@@ -20,7 +20,9 @@ const MessageForm = React.createClass({
         var message = this.state.message;
 
         if (message.trim().length > 0) {
-            this.props.onMessageSubmit(message, 'text');
+            if (!this.props.onMessageSubmit(message, 'text')) {
+                return;
+            }
 
             ReactDOM.findDOMNode(this.refs.inputField).value = '';
         }

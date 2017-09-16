@@ -2,7 +2,8 @@ const React = require('react'),
       ReactDOM = require('react-dom'),
       emoticons = require('emoticons'),
       Message = require('./view.jsx'),
-      _ = require('lodash');
+      _ = require('lodash'),
+      update = require('immutability-helper');
 
 const History = React.createClass({
     _wrapper: null,
@@ -34,41 +35,51 @@ const History = React.createClass({
         };
     },
     deleteTypingMessage(username) {
-        var messages = this.state.messages;
+        this.setState((prevState) => {
+            let messages = prevState.messages;
 
-        for (var id in messages) {
-            if (messages[id].username == username && messages[id].typing) {
-                delete messages[id];
+            for (var id of Object.keys(messages)) {
+                if (messages[id].username == username && messages[id].typing) {
+                    messages = update(messages, {$unset: [id]});
+                }
             }
-        }
 
-        this.setState({messages});
+            return {messages};
+        });
     },
     onUpdateTypingMessages(messagesTyping) {
-        var messages = this.state.messages;
+        this.setState((prevState) => {
+            let messages = prevState.messages;
 
-        $.each(messagesTyping, (messageid, message) => {
-            if (message.message_content.trim().length == 0) {
-                delete messages[messageid];
-            }
-            else if (message.target == this.props.channel) {
-                if (messages[messageid]) {
-                    messages[messageid].message_content = message.message_content;
+            $.each(messagesTyping, (messageid, message) => {
+                if (message.message_content.trim().length == 0) {
+                    messages = update(messages, {$unset: [messageid]});
                 }
-                else {
-                    messages[messageid] = {
-                        message_content: message.message_content,
-                        username: message.username,
-                        target: message.target,
-                        id: messageid,
-                        typing: true,
-                        message_type: message.message_type
-                    };
+                else if (message.target == this.props.channel) {
+                    if (messages[messageid]) {
+                        messages = update(messages, {
+                            [messageid]: {$merge: {
+                                message_content: message.message_content
+                            }}
+                        });
+                    }
+                    else {
+                        messages = update(messages, {
+                            [messageid]: {$set: {
+                                message_content: message.message_content,
+                                username: message.username,
+                                target: message.target,
+                                id: messageid,
+                                typing: true,
+                                message_type: message.message_type
+                            }}
+                        });
+                    }
                 }
-            }
+            });
+
+            return {messages};
         });
-
-        this.setState({messages});
     },
     onHistoricalMessagesAvailable(messages) {
         this.setState({messages});
@@ -78,21 +89,26 @@ const History = React.createClass({
     },
     onMessage(data) {
         if (data.target == this.props.channel) {
-            this.setState((previousState, currentProps) => {
-                var messages = previousState.messages;
-                messages[data.messageid].message_content = data.message_content;
-                messages[data.messageid].typing = false;
+            this.setState((prevState, currentProps) => {
+                let messages = prevState.messages;
 
-                return {messages};
-            });
-
-            if (!this.state.active && data.username != this.state.myUsername) {
-                this.setState({
-                    unread: this.state.unread + 1
+                messages = update(messages, {
+                    [data.messageid]: {$merge: {
+                        message_content: data.message_content,
+                        typing: false
+                    }}
                 });
 
-                this._audio.play();
-            }
+                let unread = prevState.unread;
+                if (!prevState.active && data.username != prevState.myUsername) {
+                    unread = prevState.unread + 1;
+                    this._audio.play();
+                }
+                return {
+                    messages,
+                    unread
+                };
+            });
         }
     },
     componentDidMount() {
