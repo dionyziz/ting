@@ -1,0 +1,19 @@
+[Unit]
+Description=Ting Realtime Service
+Documentation=https://github.com/dionyziz/ting
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/ting.gr/html/realtime
+ExecStart=/usr/bin/node /var/www/ting.gr/html/realtime/server.js
+Restart=always
+# Restart service after 10 seconds if node service crashes
+RestartSec=10
+# Output to syslog
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=ting_realtime
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
