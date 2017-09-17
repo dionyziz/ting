@@ -1,0 +1,19 @@
+[Unit]
+Description=Ting API Service
+Documentation=https://github.com/dionyziz/ting
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/ting.gr/html/API
+ExecStart=/var/www/ting.gr/html/API/venv/bin/python manage.py runserver
+Restart=always
+# Restart service after 10 seconds if node service crashes
+RestartSec=10
+KillSignal=SIGQUIT
+# Output to syslog
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=ting_api
+
+[Install]
+WantedBy=multi-user.target
