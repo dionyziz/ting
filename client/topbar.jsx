@@ -3,19 +3,20 @@ const React = require('react'),
       Link = require('react-router-dom').Link,
       i18n = require('i18next-client');
 
-const TopBar = React.createClass({
-    getInitialState() {
-        return {
-            username: null
-        };
-    },
-    onLogin(username) {
+class TopBar extends React.Component {
+    state = {
+        username: null
+    };
+
+    onLogin = (username) => {
         this.setState({username});
-    },
-    onReload(e) {
+    };
+
+    onReload = (e) => {
         e.preventDefault();
         window.location.reload();
-    },
+    };
+
     render() {
         return (
             <div className='dropdown topbar'>
@@ -29,6 +30,6 @@ const TopBar = React.createClass({
             </div>
         );
     }
-});
+}
 
 module.exports = TopBar;

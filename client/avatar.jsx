@@ -1,9 +1,10 @@
 var React = require('react');
 
-var Avatar = React.createClass({
-    _getAvatar(username) {
+class Avatar extends React.Component {
+    _getAvatar = (username) => {
         return 'https://avatars.githubusercontent.com/' + username.toLowerCase();
-    },
+    };
+
     render() {
         if (this.props.username == null) {
             return null;
@@ -17,6 +18,6 @@ var Avatar = React.createClass({
                  className='avatar' />
         );
     }
-});
+}
 
 module.exports = Avatar;

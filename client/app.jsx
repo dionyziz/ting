@@ -14,30 +14,35 @@ const React = require('react'),
 require('bootstrap');
 require('bootstrap/dist/css/bootstrap.css');
 
-const App = React.createClass({
-    _socket: null,
-    getInitialState() {
-        return {
-            username: null,
-            people: [],
-        };
-    },
+class App extends React.Component {
+    state = {
+        username: null,
+        people: [],
+    };
+
+    _socket = null;
+
     componentWillMount() {
         const URL = window.location.hostname + ':' + config.port;
         this._socket = io.connect(URL, {secure: config.websocket.secure});
-    },
-    updateUsername(username) {
+    }
+
+    updateUsername = (username) => {
         this.setState({username});
-    },
-    onLoginIntention(username, people) {
+    };
+
+    onLoginIntention = (username, people) => {
         this.setState({username, people});
-    },
-    removeListener(listener, func) {
+    };
+
+    removeListener = (listener, func) => {
         this._socket.removeListener(listener, func);
-    },
-    addListener(listener, func) {
+    };
+
+    addListener = (listener, func) => {
         this._socket.on(listener, func);
-    },
+    };
+
     render() {
         return (
             <HashRouter>
@@ -58,7 +63,7 @@ const App = React.createClass({
             </HashRouter>
         );
     }
-});
+}
 
 i18n.init(
     {

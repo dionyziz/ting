@@ -2,7 +2,7 @@ const React = require('react'),
       Text = require('./text.jsx'),
       Image = require('./image.jsx');
 
-const MessageContent = React.createClass({
+class MessageContent extends React.Component {
     render() {
         var message_content = this.props.message_content;
         var messageType = this.props.messageType;
@@ -20,6 +20,6 @@ const MessageContent = React.createClass({
 
         return message_class;
     }
-});
+}
 
 module.exports = MessageContent;

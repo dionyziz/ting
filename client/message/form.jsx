@@ -2,19 +2,19 @@ const React = require('react'),
       ReactDOM = require('react-dom'),
       i18n = require('i18next-client');
 
-const MessageForm = React.createClass({
-    _MIN_UPDATE_WHILE_TYPING: 2000,
-    _MIN_UPDATE_WHEN_STOPPED: 500,
-    _lastUpdate: 0,
-    _lastUpdateTimeout: null,
-    _imageData: null,
-    _typeLastMessage: null,
-    getInitialState() {
-        return {
-            message: ''
-        };
-    },
-    handleSubmit(event) {
+class MessageForm extends React.Component {
+    state = {
+        message: ''
+    };
+
+    _MIN_UPDATE_WHILE_TYPING = 2000;
+    _MIN_UPDATE_WHEN_STOPPED = 500;
+    _lastUpdate = 0;
+    _lastUpdateTimeout = null;
+    _imageData = null;
+    _typeLastMessage = null;
+
+    handleSubmit = (event) => {
         event.preventDefault();
 
         var message = this.state.message;
@@ -30,11 +30,13 @@ const MessageForm = React.createClass({
         this.setState({
             message: ''
         });
-    },
-    onLogin() {
+    };
+
+    onLogin = () => {
         ReactDOM.findDOMNode(this.refs.inputField).focus();
-    },
-    handleChange(event) {
+    };
+
+    handleChange = (event) => {
         var message = event.target.value;
         this._typeLastMessage = 'text';
 
@@ -58,27 +60,32 @@ const MessageForm = React.createClass({
             this.props.onTypingUpdate(message);
         }
         this.setState({message});
-    },
-    onImageLoaded(event) {
+    };
+
+    onImageLoaded = (event) => {
         this._imageData = event.target.result;
         this.props.onStartTyping(this._imageData, 'image');
-    },
-    onStartTypingResponse(messageid) {
+    };
+
+    onStartTypingResponse = (messageid) => {
         if (this._typeLastMessage == 'image') {
             this.props.onMessageSubmit(this._imageData, 'image');
         }
-    },
-    loadImage(src) {
+    };
+
+    loadImage = (src) => {
         var reader = new FileReader();
         reader.onload = this.onImageLoaded;
         reader.readAsDataURL(src);
-    },
-    handleDrop(event) {
+    };
+
+    handleDrop = (event) => {
         event.preventDefault();
         this._typeLastMessage = 'image';
         var data = event.dataTransfer.files[0];
         this.loadImage(data);
-    },
+    };
+
     render() {
         return (
             <div className='textarea'>
@@ -95,6 +102,6 @@ const MessageForm = React.createClass({
             </div>
         );
     }
-});
+}
 
 module.exports = MessageForm;

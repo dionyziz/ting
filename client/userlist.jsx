@@ -2,17 +2,17 @@ const React = require('react'),
       Avatar = require('./avatar.jsx'),
       Update = require('immutability-helper');
 
-const UserList = React.createClass({
-    getInitialState() {
-        return {
-            users: [],
-            myUsername: null
-        };
-    },
-    onLogin(myUsername, users) {
+class UserList extends React.Component {
+    state = {
+        users: [],
+        myUsername: null
+    };
+
+    onLogin = (myUsername, users) => {
         this.setState({myUsername, users});
-    },
-    onJoin(username) {
+    };
+
+    onJoin = (username) => {
         if (username != this.state.myUsername) {
             var newState = Update(
                 this.state, {
@@ -23,15 +23,17 @@ const UserList = React.createClass({
             );
             this.setState(newState);
         }
-    },
-    onPart(username) {
+    };
+
+    onPart = (username) => {
         var newUsers = this.state.users.filter((name) => {
             return username != name;
         });
         this.setState({
             users: newUsers
         });
-    },
+    };
+
     render() {
         var userNodes = this.state.users.map((user) => {
             return (
@@ -46,9 +48,9 @@ const UserList = React.createClass({
             </ul>
         );
     }
-});
+}
 
-const User = React.createClass({
+class User extends React.Component {
     render() {
         return (
             <li>
@@ -57,6 +59,6 @@ const User = React.createClass({
             </li>
         );
     }
-});
+}
 
 module.exports = UserList;

@@ -1,7 +1,7 @@
 const React = require('react'),
       _ = require('lodash');
 
-const Select = React.createClass({
+class Select extends React.Component {
     render() {
         var elements = null,
             options = null;
@@ -33,6 +33,6 @@ const Select = React.createClass({
             </select>
         );
     }
-});
+}
 
 module.exports = Select;
