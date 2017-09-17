@@ -70,7 +70,7 @@ const History = React.createClass({
                                 message_content: message.message_content,
                                 username: message.username,
                                 target: message.target,
-                                id: messageid,
+                                id: parseInt(messageid),
                                 typing: true,
                                 message_type: message.message_type
                             }}
