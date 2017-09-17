@@ -107,7 +107,7 @@
     margin-left: 20px;
 }
 #username-set input {
-    margin-bottom: 10px;    
+    margin-bottom: 10px;
     margin-top: 10px;
 }
 #username-set input[type=text] {
@@ -200,56 +200,6 @@ ul {
 .chat ul li.typing div {
     animation: flash 2s infinite;
 }
-#settings {
-    width: 400px;
-    margin: 40px auto 0 auto;
-}
-#settings #icon-username {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-#settings #icon-username:after {
-   content: ".";
-   visibility: hidden;
-   display: block;
-   height: 0;
-   clear: both;
-}
-#icon-username h2 {
-    margin-left: 12px;
-}
-#settings .icon {
-    width: 100px;
-    height: 150px;
-    border: 1px solid black;
-    overflow: hidden;
-}
-.icon img {
-    height: 100px;
-    width: 100px;
-}
-.icon span {
-    padding: 4px 10px;
-    border-top: 1px solid black;
-    cursor: pointer;
-    display: block;
-}
-#settings #form {
-    margin-top: 50px;
-}
-#form .button {
-    text-decoration: none;
-}
-.button button {
-    color: white;
-    background-color: #0084ff;
-    border: 1px solid #0084ff;
-    padding: 10px 0;
-    width: 120px;
-    display: block;
-    margin: 40px auto 0 auto;
-}
 .top .topbar {
     position: absolute;
     top: 10%;
@@ -286,12 +236,4 @@ ul {
     border-left: 7px solid transparent;
     border-bottom-color: rgba(0, 0, 0, 0.2);
     content: '';
-}
-.no-gutters {
-    margin-left: 0;
-    margin-right: 0;
-}
-.no-gutters [class*='col-']:not(:first-child) {
-    padding-right: 5px;
-    padding-left: 0;
 }
