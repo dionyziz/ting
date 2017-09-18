@@ -1,6 +1,6 @@
 const React = require('react'),
       ReactDOM = require('react-dom'),
-      i18n = require('i18next-client');
+      i18n = require('i18next');
 
 class MessageForm extends React.Component {
     state = {

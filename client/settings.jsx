@@ -2,7 +2,7 @@ const React = require('react'),
       Avatar = require('./avatar.jsx'),
       Select = require('./select.jsx'),
       NavLink = require('react-router-dom').NavLink,
-      i18n = require('i18next-client');
+      i18n = require('i18next');
 
 require('./css/settings.css');
 

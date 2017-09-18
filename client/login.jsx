@@ -1,6 +1,6 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
-    i18n = require('i18next-client'),
+    i18n = require('i18next'),
     classNames = require('classnames'),
     $ = require('jquery');
 

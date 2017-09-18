@@ -2389,9 +2389,9 @@ https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
-i18next-client@^1.10.2:
-  version "1.11.5"
-  resolved "https://registry.yarnpkg.com/i18next-client/-/i18next-client-1.11.5.tgz#4d3e434929d7855d994296b9593849a1e1f1f7c3"
+i18next@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-9.0.0.tgz#a89ab0481b5b6b3964f55b12f03de9063d8f4500"
 
 iconv-lite@0.4.13:
   version "0.4.13"
