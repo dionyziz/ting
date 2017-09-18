@@ -6,16 +6,25 @@ const React = require('react'),
       $ = require('jquery'),
       update = require('immutability-helper');
 
-const History = React.createClass({
-    _wrapper: null,
-    _title: document.title,
-    _audio: new Audio('static/sounds/message_sound.mp3'),
-    _scrollDown() {
+class History extends React.Component {
+    state = {
+        messages: {},
+        unread: 0,
+        active: true,
+        myUsername: null
+    };
+
+    _wrapper = null;
+    _title = document.title;
+    _audio = new Audio('static/sounds/message_sound.mp3');
+
+    _scrollDown = () => {
         setTimeout(() => {
             this._wrapper.scrollTop = this._wrapper.scrollHeight;
         }, 30);
-    },
-    _updateTitle() {
+    };
+
+    _updateTitle = () => {
         var titlePrefix;
 
         if (this.state.active || this.state.unread == 0) {
@@ -26,16 +35,9 @@ const History = React.createClass({
         }
 
         document.title = titlePrefix + this._title;
-    },
-    getInitialState() {
-        return {
-            messages: {},
-            unread: 0,
-            active: true,
-            myUsername: null
-        };
-    },
-    deleteTypingMessage(username) {
+    };
+
+    deleteTypingMessage = (username) => {
         this.setState((prevState) => {
             let messages = prevState.messages;
 
@@ -47,8 +49,9 @@ const History = React.createClass({
 
             return {messages};
         });
-    },
-    onUpdateTypingMessages(messagesTyping) {
+    };
+
+    onUpdateTypingMessages = (messagesTyping) => {
         this.setState((prevState) => {
             let messages = prevState.messages;
 
@@ -81,14 +84,17 @@ const History = React.createClass({
 
             return {messages};
         });
-    },
-    onHistoricalMessagesAvailable(messages) {
+    };
+
+    onHistoricalMessagesAvailable = (messages) => {
         this.setState({messages});
-    },
-    onLogin(myUsername) {
+    };
+
+    onLogin = (myUsername) => {
         this.setState({myUsername});
-    },
-    onMessage(data) {
+    };
+
+    onMessage = (data) => {
         if (data.target == this.props.channel) {
             this.setState((prevState, currentProps) => {
                 let messages = prevState.messages;
@@ -111,7 +117,8 @@ const History = React.createClass({
                 };
             });
         }
-    },
+    };
+
     componentDidMount() {
         this._wrapper = ReactDOM.findDOMNode(this.refs.wrapper);
 
@@ -132,7 +139,8 @@ const History = React.createClass({
                 });
             }
         });
-    },
+    }
+
     render() {
         const messageNodes = _.chain(this.state.messages)
             .values()
@@ -158,11 +166,12 @@ const History = React.createClass({
                 </div>
             </div>
         );
-    },
+    }
+
     componentDidUpdate() {
         this._updateTitle();
         this._scrollDown();
     }
-});
+}
 
 module.exports = History;

@@ -3,8 +3,8 @@ const React = require('react'),
       emoticons = require('emoticons'),
       autolinks = require('autolinks');
 
-const Text = React.createClass({
-    _formatMessage(message) {
+class Text extends React.Component {
+    _formatMessage = (message) => {
         var html = escape(message);
 
         html = emoticons.replace(html);
@@ -18,7 +18,8 @@ const Text = React.createClass({
                         </a>`;
             })
         };
-    },
+    };
+
     render() {
         var message_content = this.props.message_content;
 
@@ -27,6 +28,6 @@ const Text = React.createClass({
             </div>
         );
     }
-});
+}
 
 module.exports = Text;

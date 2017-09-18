@@ -6,25 +6,27 @@ const React = require('react'),
 
 require('./css/settings.css');
 
-const Settings = React.createClass({
-    getInitialState() {
-        return {
-            sex: [i18n.t('gender.boy'), i18n.t('gender.girl'), i18n.t('gender.undefined')],
-            cities: ['Αθήνα', 'Θεσσαλονίκη']
-        };
-    },
-    handleKeyDown(e) {
+class Settings extends React.Component {
+    state = {
+        sex: [i18n.t('gender.boy'), i18n.t('gender.girl'), i18n.t('gender.undefined')],
+        cities: ['Αθήνα', 'Θεσσαλονίκη']
+    };
+
+    handleKeyDown = (e) => {
         if (e.keyCode == 27) {
             e.preventDefault();
             this.props.history.push('/');
         }
-    },
+    };
+
     componentWillMount() {
         document.addEventListener('keydown', this.handleKeyDown);
-    },
-    componentWillUnmount: function() {
+    }
+
+    componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeyDown);
-    },
+    }
+
     render() {
         var currentYear = new Date().getFullYear();
 
@@ -87,6 +89,6 @@ const Settings = React.createClass({
             </div>
         );
     }
-});
+}
 
 module.exports = Settings;

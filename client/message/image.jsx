@@ -1,6 +1,6 @@
 const React = require('react');
 
-const Image = React.createClass({
+class Image extends React.Component {
     render() {
         var message_content = this.props.message_content;
 
@@ -8,6 +8,6 @@ const Image = React.createClass({
             <img src={message_content} alt='image' />
         );
     }
-});
+}
 
 module.exports = Image;

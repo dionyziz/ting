@@ -4,16 +4,15 @@ var React = require('react'),
     classNames = require('classnames'),
     $ = require('jquery');
 
-var LoginForm = React.createClass({
-    getInitialState() {
-        return {
-            validationState: true,
-            errorStr: '',
-            username: '',
-            changed: false
-        };
-    },
-    _validate(username) {
+class LoginForm extends React.Component {
+    state = {
+        validationState: true,
+        errorStr: '',
+        username: '',
+        changed: false
+    };
+
+    _validate = (username) => {
         var rex = /^[ά-ώα-ωa-z0-9]+$/i;
 
         if (username == '') {
@@ -26,14 +25,16 @@ var LoginForm = React.createClass({
             return 'chars';
         } 
         return true;
-    },
-    _handleError(validationState) {
+    };
+
+    _handleError = (validationState) => {
         this.setState({
             validationState: validationState,
             errorStr: i18n.t('usernameSet.errors.' + validationState)
         });
-    },
-    _onUsernameChanged(username) {
+    };
+
+    _onUsernameChanged = (username) => {
         var validationState = this._validate(username);
 
         this.setState({username});
@@ -44,17 +45,21 @@ var LoginForm = React.createClass({
         }
 
         this._handleError(validationState);
-    },
-    onError(error) {
+    };
+
+    onError = (error) => {
         this._handleError(error);
-    },
-    onSuccess() {
+    };
+
+    onSuccess = () => {
         $(ReactDOM.findDOMNode(this.refs.usernameSetModal)).modal('hide');
-    },
-    handleChange(event) {
+    };
+
+    handleChange = (event) => {
         this._onUsernameChanged(event.target.value);
-    },
-    handleSubmit(event) {
+    };
+
+    handleSubmit = (event) => {
         event.preventDefault();
 
         if (!this.state.changed) {
@@ -67,7 +72,8 @@ var LoginForm = React.createClass({
         }
 
         this.props.onLoginIntention(this.state.username);
-    },
+    };
+
     componentDidMount() {
         if (this.props.username == null) {
             $(ReactDOM.findDOMNode(this.refs.usernameSetModal)).modal('show');
@@ -75,7 +81,8 @@ var LoginForm = React.createClass({
                 ReactDOM.findDOMNode(this.refs.username).focus();
             }, 300);
         }
-    },
+    }
+
     render() {
         var alertClasses = classNames({
             'alert': true,
@@ -117,6 +124,6 @@ var LoginForm = React.createClass({
             </div>
         );
     }
-});
+}
 
 module.exports = LoginForm;

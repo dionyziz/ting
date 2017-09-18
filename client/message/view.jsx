@@ -2,7 +2,7 @@ const React = require('react'),
       Avatar = require('../avatar.jsx'),
       MessageContent = require('./content.jsx');
 
-const Message = React.createClass({
+class Message extends React.Component {
     render() {
         var className, message_content = this.props.message_content;
 
@@ -30,6 +30,6 @@ const Message = React.createClass({
             </li>
         );
     }
-});
+}
 
 module.exports = Message;
