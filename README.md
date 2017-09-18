@@ -54,6 +54,7 @@ Authors
 Alphabetically.
 
 * Aleksis Brezas
+* Antonis Skarlatos
 * Carolina Alexiou
 * Dimitris Lamprinos
 * Dionysis Zindros
