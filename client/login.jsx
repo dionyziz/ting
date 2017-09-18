@@ -30,7 +30,8 @@ class LoginForm extends React.Component {
     _handleError = (validationState) => {
         this.setState({
             validationState: validationState,
-            errorStr: i18n.t('usernameSet.errors.' + validationState)
+            errorStr: validationState === true ?
+                null : i18n.t('usernameSet.errors.' + validationState)
         });
     };
 
