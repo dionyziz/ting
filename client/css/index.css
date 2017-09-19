@@ -94,6 +94,10 @@
 .chat ul .typing div {
     opacity: 0.5;
 }
+.chat .content_image {
+    width: 100%;
+    border-radius: 8px;
+}
 #message {
     height: 100%;
 }
