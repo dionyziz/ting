@@ -1,7 +1,7 @@
 const React = require('react'),
       Avatar = require('./avatar.jsx'),
       Link = require('react-router-dom').Link,
-      i18n = require('i18next-client');
+      i18n = require('i18next');
 
 class TopBar extends React.Component {
     state = {

@@ -1,6 +1,6 @@
 const React = require('react'),
       ReactDOM = require('react-dom'),
-      i18n = require('i18next-client'),
+      i18n = require('i18next'),
       io = require('socket.io-client'),
       _ = require('lodash'),
       config = require('./config.jsx'),
@@ -67,8 +67,16 @@ class App extends React.Component {
 
 i18n.init(
     {
-        resGetPath:' locales/__lng__.json',
-        lng: 'el-GR'
+        lng: 'el',
+        //debug: true,
+        resources: {
+            en: {
+                translation: require('./locales/en.json'),
+            },
+            el: {
+                translation: require('./locales/el.json'),
+            }
+        }
     },
     () => {
         ReactDOM.render(<App />, document.getElementsByClassName('ting')[0]);

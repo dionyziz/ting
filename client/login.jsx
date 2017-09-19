@@ -1,6 +1,6 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
-    i18n = require('i18next-client'),
+    i18n = require('i18next'),
     classNames = require('classnames'),
     $ = require('jquery');
 
@@ -30,7 +30,8 @@ class LoginForm extends React.Component {
     _handleError = (validationState) => {
         this.setState({
             validationState: validationState,
-            errorStr: i18n.t('usernameSet.errors.' + validationState)
+            errorStr: validationState === true ?
+                null : i18n.t('usernameSet.errors.' + validationState)
         });
     };
 
