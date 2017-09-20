@@ -5,7 +5,9 @@ class Image extends React.Component {
         var message_content = this.props.message_content;
 
         return (
-            <img src={message_content} alt='image' />
+            <div>
+                <img className='content_image' src={message_content} alt='image' />
+            </div>
         );
     }
 }
