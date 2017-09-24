@@ -126,7 +126,8 @@ then associated with that user. The user's credentials are then stored on the
 machine they used to login. The next time the user accesses ting, the
 credentials are used to skip the Login screen. Once a username becomes
 reserved, no other user is allowed to use it, even if the user is not currently
-online.
+online. If the user does not use ting for two weeks and has not set a password
+then the username stops being reserved.
 
 When the user logs in with an unreserved username, they are assigned a random
 avatar from a predefined set of avatars. They can later modify this avatar from
